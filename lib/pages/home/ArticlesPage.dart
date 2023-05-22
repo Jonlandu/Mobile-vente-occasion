@@ -39,14 +39,28 @@ class _ArticlesPageState extends State<ArticlesPage> {
     return AppBar(
       leadingWidth: 0,
       leading: SizedBox(),
-      title: Center(
-        child: Text(
-          "Accueil",
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 40,
+      title: Row(
+        children: [
+          Flexible(
+            child: Row(
+              children: [
+                Icon(
+                  Icons.shopping_cart_rounded,
+                  color: Colors.black,
+                ),
+                Center(
+                  child: Text(
+                    "TekaSombaShop",
+                    style: TextStyle(
+                      color: Colors.orange,
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
+        ],
       ),
       backgroundColor: Colors.transparent,
       elevation: 0,
@@ -59,25 +73,22 @@ class _ArticlesPageState extends State<ArticlesPage> {
 
     print("articleCtrl.isHttpException ${articleCtrl.isHttpException}");
 
-    return Stack(
-      children: [
-        SingleChildScrollView(
-            child: Column(
-          children: [
-            ArticlesSearchesWidget(),
-            (categorieCtrl.isHttpException == true)
-                ? Center(
-                    child: NetworkErrorExceptionCategoriesWidget(),
-                  )
-                : CategoriesWidget(categories: categorieCtrl.categories),
 
-            (articleCtrl.isHttpException == true)
-                ? Center(
-                    child: NetworkErrorExceptionArticlesWidget(),
-                  )
-                : ArticlesListWidget(articles: articleCtrl.articles),
-          ],
-        )),
+
+    return Column(
+      children: [
+    ArticlesSearchesWidget(),
+    (categorieCtrl.isHttpException == true)
+        ? Center(
+            child: NetworkErrorExceptionCategoriesWidget(),
+          )
+        : CategoriesWidget(categories: categorieCtrl.categories),
+    Expanded(child:
+    (articleCtrl.isHttpException == true)
+        ? Center(
+            child: NetworkErrorExceptionArticlesWidget(),
+          )
+        : ArticlesListWidget(articles: articleCtrl.articles)),
       ],
     );
   }

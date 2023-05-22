@@ -26,10 +26,10 @@ class CategoriesWidget extends StatelessWidget {
                 onTap: () {
                 },
                 child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10),
+                    margin: EdgeInsets.symmetric(horizontal: 5),
                     padding:
-                        EdgeInsets.symmetric(vertical: 7, horizontal: 7),
-                    width: 100,
+                        EdgeInsets.symmetric(vertical: 7, horizontal: 1),
+                    width: 50,
                     decoration: BoxDecoration(
                       color: Colors.black12,
                       shape: BoxShape.circle,

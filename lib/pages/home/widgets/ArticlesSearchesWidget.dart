@@ -23,7 +23,7 @@ class ArticlesSearchesWidget extends StatelessWidget {
                     height: 50,
                     width: 200,
                     child: TextFormField(
-                      textAlign: TextAlign.center,
+                      //textAlign: TextAlign.center,
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: "Recherche",
