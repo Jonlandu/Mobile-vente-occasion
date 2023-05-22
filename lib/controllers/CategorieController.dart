@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import '../models/CategorieModel.dart';
-import '../utils/Constantes.dart';
+import '../utils/Endpoints.dart';
 import '../utils/Request.dart';
 import '../utils/StockageKeys.dart';
 
@@ -14,7 +14,7 @@ class CategorieController with ChangeNotifier {
   CategorieController({this.stockage});
 
   void recuperCategorieAPI() async {
-    var url ="${Constantes.categoriesEndpoint}";
+    var url ="${Endpoints.categoriesEndpoint}";
     loading = true;
     notifyListeners();
 

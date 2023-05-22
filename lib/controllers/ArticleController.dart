@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:squelette_mobile_parcours/models/ArticleModel.dart';
-import '../utils/Constantes.dart';
+import '../utils/Endpoints.dart';
 import '../utils/Request.dart';
 import '../utils/StockageKeys.dart';
 
@@ -14,7 +14,7 @@ class ArticleController with ChangeNotifier {
   ArticleController({this.stockage});
 
   void recuperArticlesAPI() async {
-    var url ="${Constantes.articlesEndpoint}";
+    var url ="${Endpoints.articlesEndpoint}";
     loading = true;
     notifyListeners();
 
