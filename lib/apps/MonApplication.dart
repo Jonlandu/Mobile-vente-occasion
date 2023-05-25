@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:squelette_mobile_parcours/controllers/UserCtrl.dart';
 import '../controllers/ArticleController.dart';
 import '../controllers/CategorieController.dart';
 import '../utils/RoutesManager.dart';
@@ -15,11 +16,12 @@ class MonApplication extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => ArticleController(stockage: box)),
         ChangeNotifierProvider(create: (_) => CategorieController(stockage: box)),
+        ChangeNotifierProvider(create: (_) => UserCtrl(stockage: box)),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         onGenerateRoute: RoutesManager.route,
-        initialRoute: Routes.ArticlesPageRoutes,
+        initialRoute: Routes.HomePagePageRoutes,
       ),
     );
   }
