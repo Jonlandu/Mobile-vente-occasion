@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:squelette_mobile_parcours/pages/HomePage.dart';
 import 'package:squelette_mobile_parcours/pages/home/ArticlesPage.dart';
 
 import 'Routes.dart';
@@ -11,7 +12,7 @@ class RoutesManager {
         return MaterialPageRoute(builder: (_) => ArticlesPage());
 
       default:
-        return MaterialPageRoute(builder: (_) => ArticlesPage());
+        return MaterialPageRoute(builder: (_) => HomePage());
     }
   }
 }
