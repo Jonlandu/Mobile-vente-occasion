@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:squelette_mobile_parcours/Controllers/AuthentificationCtrl.dart';
 import 'package:squelette_mobile_parcours/controllers/UserCtrl.dart';
+import 'package:squelette_mobile_parcours/utils/StockageKeys.dart';
 import '../controllers/ArticleController.dart';
 import '../controllers/CategorieController.dart';
 import '../utils/RoutesManager.dart';
@@ -9,19 +11,21 @@ import 'package:get_storage/get_storage.dart';
 
 class MonApplication extends StatelessWidget {
 
-  final box = GetStorage();
+  var box = GetStorage();
   @override
   Widget build(BuildContext context) {
+    var user = box.read(StockageKeys.tokenyKey);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ArticleController(stockage: box)),
         ChangeNotifierProvider(create: (_) => CategorieController(stockage: box)),
         ChangeNotifierProvider(create: (_) => UserCtrl(stockage: box)),
+        ChangeNotifierProvider(create: (_) => AuthentificationCtrl(stockage: box)),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         onGenerateRoute: RoutesManager.route,
-        initialRoute: Routes.HomePagePageRoutes,
+        initialRoute: user!=null? Routes.HomePagePageRoutes: Routes.LoginPageRoutes,
       ),
     );
   }
