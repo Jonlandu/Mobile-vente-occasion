@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-Widget NetworkErrorExceptionArticlesWidget() {
+Widget NetworkErrorExceptionType2Widget() {
   return Container(
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,

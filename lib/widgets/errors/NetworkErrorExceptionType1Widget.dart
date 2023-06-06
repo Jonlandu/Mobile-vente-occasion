@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-Widget NetworkErrorExceptionCategoriesWidget() {
+Widget NetworkErrorExceptionType1Widget() {
   return Container(
     height: 40,
     margin: EdgeInsets.symmetric(vertical: 15),
