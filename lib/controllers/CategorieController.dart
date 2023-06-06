@@ -19,7 +19,7 @@ class CategorieController with ChangeNotifier {
     notifyListeners();
 
     var reponse = await getData(url);
-    //print("Résultat de la réccupération ${reponse}");
+    print("Résultat de la réccupération ${reponse}");
 
     if(reponse!=null){
       categories=reponse["data"].map<CategorieModel>((e) => CategorieModel.fromJson(e)).toList();
