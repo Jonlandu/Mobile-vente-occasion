@@ -1,17 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:squelette_mobile_parcours/models/ArticleModel.dart';
+import 'package:squelette_mobile_parcours/pages/home/ArticlesPage.dart';
+import '../pages/createArticle/CreateArticleSellPage.dart';
+import '../pages/detailsArticle/ArticlesDetailsPage.dart';
 import 'package:squelette_mobile_parcours/pages/DashboardPage.dart';
 import 'package:squelette_mobile_parcours/pages/HomePage.dart';
 import 'package:squelette_mobile_parcours/pages/LoginPage.dart';
-import 'package:squelette_mobile_parcours/pages/home/ArticlesPage.dart';
 
 import 'Routes.dart';
 
 class RoutesManager {
   static Route route(RouteSettings r) {
     switch (r.name) {
-      case Routes.TemplateRoutes:
-        //var args=r.arguments as String?;
+      case Routes.ArticlesPageRoutes:
         return MaterialPageRoute(builder: (_) => ArticlesPage());
+
+      case Routes.ArticlesDetailsPageRoutes:
+        var args=r.arguments as Map?;
+        var articlechoosed = {};
+        var articleData=ArticleModel.fromJson(args ?? articlechoosed);
+        return MaterialPageRoute(builder: (_)=> ArticlesDetailsPage(article: articleData));
+
+      case Routes.CreateArticleSellPageRoutes:
+        return MaterialPageRoute(builder: (_)=> CreateArticleSellPage());
+
+
       case Routes.DashboardPageRoutes:
       //var args=r.arguments as String?;
         return MaterialPageRoute(builder: (_) => DashboardPage());
