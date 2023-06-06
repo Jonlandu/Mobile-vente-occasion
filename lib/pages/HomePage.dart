@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:squelette_mobile_parcours/pages/MessagePage.dart';
-import 'package:squelette_mobile_parcours/pages/VendrePage.dart';
 
 import 'ProfilPage.dart';
+import 'createArticle/CreateArticleSellPage.dart';
 import 'home/ArticlesPage.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,11 +20,11 @@ class _HomePageState extends State<HomePage> {
 
   final pages=[
     ArticlesPage(),
-    VendrePage(),
+    CreateArticleSellPage(),
     MessagePage(),
     ProfilPage()
   ];
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(body:pages[_currentIndex], bottomNavigationBar: _bottomNav(),);
