@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
-Widget ButtonFloat(){
+Widget ButtonFloat(BuildContext context,String nomRoute){
   return SpeedDial(
     backgroundColor: Colors.orange,
     gradientBoxShape: BoxShape.circle,
@@ -16,7 +16,9 @@ Widget ButtonFloat(){
       SpeedDialChild(
         child: Icon(Icons.add),
         label: "Publier une vente",
-        onTap: ()=>print("=============Button vente"),
+        onTap: (){
+          Navigator.pushNamed(context, nomRoute);
+        },
       ),
     ],
     onOpen: ()=>print("=================== Connecter ou pas "),

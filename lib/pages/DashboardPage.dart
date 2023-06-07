@@ -22,7 +22,7 @@ class _DashboardPageState extends State<DashboardPage> {
   Widget build(BuildContext context) {
     var token = box.read(StockageKeys.tokenyKey);
     return token!=null? Scaffold(
-      floatingActionButton: ButtonFloat(),
+      floatingActionButton: ButtonFloat(context, Routes.CreateArticleSellPageRoutes),
       extendBodyBehindAppBar: true,
       body: _body(),
     ): Scaffold(
