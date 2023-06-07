@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:squelette_mobile_parcours/pages/DashboardPage.dart';
 import 'package:squelette_mobile_parcours/pages/MessagePage.dart';
-import 'package:squelette_mobile_parcours/pages/VendrePage.dart';
 
 import 'ProfilPage.dart';
 import 'home/ArticlesPage.dart';
-
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -20,7 +19,7 @@ class _HomePageState extends State<HomePage> {
 
   final pages=[
     ArticlesPage(),
-    VendrePage(),
+    DashboardPage(),
     MessagePage(),
     ProfilPage()
   ];
@@ -43,8 +42,8 @@ class _HomePageState extends State<HomePage> {
 
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.add_circle_outline_outlined),
-          label: 'Vendre',
+          icon: Icon(Icons.analytics_outlined),
+          label: 'Dashboard',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.chat),

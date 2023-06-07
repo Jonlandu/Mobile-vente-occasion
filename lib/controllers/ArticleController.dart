@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:squelette_mobile_parcours/models/ArticleModel.dart';
 import '../utils/Endpoints.dart';
-import '../utils/Request.dart';
 import '../utils/StockageKeys.dart';
+import '../utils/requette.dart';
 
 class ArticleController with ChangeNotifier {
   GetStorage? stockage;

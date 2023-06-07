@@ -12,7 +12,7 @@ class HttpResponse {
       {this.data, required this.status, this.errorMsg, this.isException});
 }
 
-Future<HttpResponse> postData(String api_url, {Map? data}) async {
+Future<HttpResponse> postData(String api_url, Map data) async {
   try {
     var url = Uri.parse("${Constantes.BASE_URL}$api_url");
     String dataStr = json.encode(data);
