@@ -10,6 +10,17 @@ class UserCtrl with ChangeNotifier {
   bool loading = false;
   bool logout=false;
   GetStorage? stockage;
+  bool _isFirstTimeBienvenue=false;
+
+
+  bool get isFirstTimeBienvenue {
+    return stockage?.read<bool>(StockageKeys.is_first_time) ?? _isFirstTimeBienvenue;
+  }
+
+  set isFirstTimeBienvenue(bool value) {
+    _isFirstTimeBienvenue = value;
+    stockage?.write(StockageKeys.is_first_time, value);
+  }
 
   UserCtrl({this.stockage});
 
