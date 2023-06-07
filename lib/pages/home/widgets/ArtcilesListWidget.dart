@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:squelette_mobile_parcours/utils/Constantes.dart';
 import '../../../models/ArticleModel.dart';
+import '../../../utils/Routes.dart';
 
 class ArticlesListWidget extends StatelessWidget {
   final List <ArticleModel> articles;
@@ -12,7 +13,7 @@ class ArticlesListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
 
     if(articles.length==0){
-      return Center(child: Text("Liste vide"),);
+      return Center(child: Text("Aucune donnée trouvé !"),);
     }
     return GridView.builder(
         physics: ClampingScrollPhysics(),
@@ -44,12 +45,15 @@ class ArticlesListWidget extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, "");
+                    print(article);
+                    Navigator.pushNamed(context, Routes.ArticlesDetailsPageRoutes,
+                        arguments: article.toJson());
                   },
                   child: Container(
                     margin: EdgeInsets.all(10),
                     child: CachedNetworkImage(
-                      imageUrl: "${Constantes.BASE_URL}/${article.image}",
+                      imageUrl: "${Constantes.BASE_URL}/${article.images ?? ""}",
+                      //imageUrl: "",
                       placeholder: (context, url) =>
                           Center(child: CircularProgressIndicator()),
                       errorWidget: (context, url, error) =>
@@ -81,7 +85,7 @@ class ArticlesListWidget extends StatelessWidget {
                           Column(
                             children: [
                               Text(
-                                  "Catégories : ${article.title ?? ""} ",
+                                "Catégories : ${article.title ?? ""} ",
                                 style: TextStyle(
                                   fontSize: 6,
                                   color: Colors.black,
@@ -142,7 +146,7 @@ class ArticlesListWidget extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Text(
-                                "${article.price ?? ""} Fc",
+                                "${article.price ?? ""} ${article.devise ?? ""}",
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
@@ -210,7 +214,8 @@ class ArticlesListWidget extends StatelessWidget {
                             size: 11,
                           ),
                           Text(
-                            "Publie 04-05-2023",
+                            //"Publie 04-05-2023",
+                            "Publie ${article.createdAt}",
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             style: TextStyle(

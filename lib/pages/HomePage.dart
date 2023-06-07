@@ -3,6 +3,7 @@ import 'package:squelette_mobile_parcours/pages/DashboardPage.dart';
 import 'package:squelette_mobile_parcours/pages/MessagePage.dart';
 
 import 'ProfilPage.dart';
+import 'createArticle/CreateArticleSellPage.dart';
 import 'home/ArticlesPage.dart';
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -23,7 +24,7 @@ class _HomePageState extends State<HomePage> {
     MessagePage(),
     ProfilPage()
   ];
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(body:pages[_currentIndex], bottomNavigationBar: _bottomNav(),);
