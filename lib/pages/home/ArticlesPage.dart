@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:squelette_mobile_parcours/controllers/ArticleController.dart';
 import 'package:squelette_mobile_parcours/pages/home/widgets/CategoriesWidget.dart';
 import 'package:squelette_mobile_parcours/pages/home/widgets/ArtcilesListWidget.dart';
-import 'package:squelette_mobile_parcours/pages/home/widgets/NetworkErrorExceptionArticlesWidget.dart';
-import 'package:squelette_mobile_parcours/pages/home/widgets/NetworkErrorExceptionCategoriesWidget.dart';
+import '../../widgets/errors/NetworkErrorExceptionType1Widget.dart';
+import '../../widgets/errors/NetworkErrorExceptionType2Widget.dart';
 import 'widgets/ArticlesSearchesWidget.dart';
 
 class ArticlesPage extends StatefulWidget {
@@ -53,7 +53,7 @@ class _ArticlesPageState extends State<ArticlesPage> {
                     "TekaSombaShop",
                     style: TextStyle(
                       color: Colors.orange,
-                      fontSize: 20,
+                      fontSize: 16,
                     ),
                   ),
                 ),
@@ -71,24 +71,20 @@ class _ArticlesPageState extends State<ArticlesPage> {
     var articleCtrl = context.watch<ArticleController>();
     var categorieCtrl = context.watch<CategorieController>();
 
-    print("articleCtrl.isHttpException ${articleCtrl.isHttpException}");
-
-
-
     return Column(
       children: [
-    ArticlesSearchesWidget(),
-    (categorieCtrl.isHttpException == true)
-        ? Center(
-            child: NetworkErrorExceptionCategoriesWidget(),
-          )
-        : CategoriesWidget(categories: categorieCtrl.categories),
-    Expanded(child:
-    (articleCtrl.isHttpException == true)
-        ? Center(
-            child: NetworkErrorExceptionArticlesWidget(),
-          )
-        : ArticlesListWidget(articles: articleCtrl.articles)),
+        ArticlesSearchesWidget(),
+        (categorieCtrl.isHttpException == true)
+            ? Center(
+          child: NetworkErrorExceptionType1Widget(),
+        )
+            : CategoriesWidget(categories: categorieCtrl.categories),
+        Expanded(child:
+        (articleCtrl.isHttpException == true)
+            ? Center(
+          child: NetworkErrorExceptionType2Widget(),
+        )
+            : ArticlesListWidget(articles: articleCtrl.articles)),
       ],
     );
   }
