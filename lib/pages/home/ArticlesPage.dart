@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:squelette_mobile_parcours/controllers/CategorieController.dart';
 import 'package:provider/provider.dart';
 import 'package:squelette_mobile_parcours/controllers/ArticleController.dart';
 import 'package:squelette_mobile_parcours/pages/home/widgets/CategoriesWidget.dart';
 import 'package:squelette_mobile_parcours/pages/home/widgets/ArtcilesListWidget.dart';
+import 'package:squelette_mobile_parcours/utils/Routes.dart';
+import 'package:squelette_mobile_parcours/widgets/ButtonFloat.dart';
+import '../../utils/StockageKeys.dart';
+
 import '../../widgets/errors/NetworkErrorExceptionType1Widget.dart';
 import '../../widgets/errors/NetworkErrorExceptionType2Widget.dart';
+
 import 'widgets/ArticlesSearchesWidget.dart';
 
 class ArticlesPage extends StatefulWidget {
@@ -16,6 +22,7 @@ class ArticlesPage extends StatefulWidget {
 }
 
 class _ArticlesPageState extends State<ArticlesPage> {
+  GetStorage box = GetStorage();
   @override
   void initState() {
     super.initState();
@@ -29,7 +36,12 @@ class _ArticlesPageState extends State<ArticlesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    var token = box.read(StockageKeys.tokenyKey);
+    return token!=null? Scaffold(
+      appBar: _appBar(),
+      body: _body(),
+      floatingActionButton: ButtonFloat(context, Routes.CreateArticleSellPageRoutes),
+    ): Scaffold(
       appBar: _appBar(),
       body: _body(),
     );

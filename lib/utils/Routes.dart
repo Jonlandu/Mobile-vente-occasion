@@ -10,6 +10,8 @@ class Routes {
   static const String ListeDiscussionPageRoutes="/listDisc";
   static const String ListeArticleRoutes="/article";
   static const String LoginPageRoutes = "/login";
+  static const String BienvenuePageRoutes = "/bienvenu";
+  static const String PreferencePagePageRoutes = "/preference";
 
 
 }

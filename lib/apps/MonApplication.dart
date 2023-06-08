@@ -7,6 +7,7 @@ import 'package:squelette_mobile_parcours/utils/StockageKeys.dart';
 
 import '../controllers/ArticleController.dart';
 import '../controllers/CategorieController.dart';
+import '../controllers/UserCtrl.dart';
 import '../utils/RoutesManager.dart';
 import 'package:provider/provider.dart';
 import '../utils/Routes.dart';
@@ -33,7 +34,7 @@ class MonApplication extends StatelessWidget {
         navigatorKey: alice.getNavigatorKey(),
         debugShowCheckedModeBanner: false,
         onGenerateRoute: RoutesManager.route,
-        initialRoute: Routes.DiscussionPageRoutes,
+        initialRoute: Routes.BienvenuePageRoutes,
       ),
     );
   }

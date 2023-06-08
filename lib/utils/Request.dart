@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 import '../apps/MonApplication.dart';
@@ -22,15 +23,16 @@ void printWrapped(String text) {
 
 Future<dynamic> getData(String url_api, {String? token}) async {
   try {
-    var url = Uri.parse('${Constantes.BASE_URL}$url_api');
-    var tkn = token ?? Constantes.DefaultToken;
-    var reponse = await http.get(url, headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer $tkn"
-    }).timeout(Duration(seconds: 5));
 
-    if (reponse.statusCode == 200) {
-      return jsonDecode(reponse.body);
+    var url = Uri.parse("${Constantes.BASE_URL}$url_api");
+    print("Données de l'URL : ${url}");
+    var reponse = await http.get(url, headers: {"Authorization":"Bearer ${token??Constantes.defaultToken}"}).timeout(Duration(seconds: 5));
+    print(reponse.runtimeType);
+    print(reponse.body.runtimeType);
+    log(reponse.body);
+    print(reponse.statusCode);
+    if(reponse.statusCode==200){
+      return json.decode(reponse.body);
     }
     return null;
   } catch (e, trace) {
