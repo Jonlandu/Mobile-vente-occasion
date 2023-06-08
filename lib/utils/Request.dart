@@ -19,11 +19,11 @@ void printWrapped(String text) {
   pattern.allMatches(text).forEach((match) => print(match.group(0)));
 }
 
-Future<dynamic> getData(String url_api) async {
+Future<dynamic> getData(String url_api, {String? token}) async {
   try {
     var url = Uri.parse("${Constantes.BASE_URL}$url_api");
     print("Données de l'URL : ${url}");
-    var reponse = await http.get(url).timeout(Duration(seconds: 5));
+    var reponse = await http.get(url, headers: {"Authorization":"Bearer ${token??Constantes.defaultToken}"}).timeout(Duration(seconds: 5));
     print(reponse.runtimeType);
     print(reponse.body.runtimeType);
     log(reponse.body);

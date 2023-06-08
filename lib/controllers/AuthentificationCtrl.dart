@@ -2,9 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:squelette_mobile_parcours/utils/Constantes.dart';
+import 'package:squelette_mobile_parcours/utils/Endpoints.dart';
+import 'package:squelette_mobile_parcours/utils/StockageKeys.dart';
 import '../Models/AuthentificationModel.dart';
-import '../utils/requetes.dart';
 import 'package:get_storage/get_storage.dart';
+
+import '../utils/Request.dart';
 
 
 
@@ -22,13 +25,13 @@ class AuthentificationCtrl with ChangeNotifier {
 
 
   Future<HttpResponse>login(Map data) async{
-    var url="${Constantes.authentificationEndpoint}";
+    var url="${Endpoints.authentication}";
     HttpResponse response = await postData(url, data);
     if(response.status){
       // if(response!= null/){
       user=AuthentificationModel.fromJson(response.data?['user'] ?? {});
       stockage?.write("user", response.data?["data"] ?? {});
-      stockage?.write("TOKEN", response.data?["TOKEN"]?? "");
+      stockage?.write(StockageKeys.tokenyKey, response.data?["token"]?? "");
       notifyListeners();
     }
     print(response.data);
@@ -39,7 +42,7 @@ class AuthentificationCtrl with ChangeNotifier {
 
   //recuperer api
   void recuperDataAPI() async{
-    var url=Uri.parse("${Constantes.BASE_URL}${Constantes.authentificationEndpoint}");
+    var url=Uri.parse("${Constantes.BASE_URL}${Endpoints.authentication}");
     loading=true;
     notifyListeners();
     var reponse= await http.get(url);
