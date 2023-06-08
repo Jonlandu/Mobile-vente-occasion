@@ -624,7 +624,7 @@ class _CreateArticleSellPageState extends State<CreateArticleSellPage> {
     print(response.status);
     if (response.status) {
       await Future.delayed(Duration(seconds: 2));
-      Navigator.pop(context);
+      Navigator.popAndPushNamed(context, Routes.HomePagePageRoutes);
     } else {
       var msg =
       response.isException == true ? response.errorMsg : (response.data?['message'] ?? "");

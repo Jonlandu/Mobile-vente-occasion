@@ -52,8 +52,7 @@ class ArticlesListWidget extends StatelessWidget {
                   child: Container(
                     margin: EdgeInsets.all(10),
                     child: CachedNetworkImage(
-                      imageUrl: "${Constantes.BASE_URL}/${article.images ?? ""}",
-                      //imageUrl: "",
+                      imageUrl: "${Constantes.BASE_URL}${article.images[0].imagePath ?? ""}",
                       placeholder: (context, url) =>
                           Center(child: CircularProgressIndicator()),
                       errorWidget: (context, url, error) =>
@@ -104,7 +103,7 @@ class ArticlesListWidget extends StatelessWidget {
                             size: 15,
                           ),
                           Text(
-                            "${article.interrese ?? null} intéressé(s)",
+                            "${article.interrese ?? ""} intéressé(s)",
                             style: TextStyle(
                               fontSize: 6,
                               color: Colors.black,

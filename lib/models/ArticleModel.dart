@@ -21,7 +21,7 @@ class ArticleModel {
   int? price;
   String? devise;
   int? negociation;
-  List<Image>? images;
+  List<Image> images;
   String? content;
   String? abus_id;
   DateTime? createdAt;
@@ -39,7 +39,7 @@ class ArticleModel {
     this.price,
     this.devise,
     this.negociation,
-    this.images,
+    this.images=const [],
     this.content,
     this.abus_id,
     this.createdAt,
@@ -77,7 +77,7 @@ class ArticleModel {
     "price": price,
     "devise": devise,
     "negociation" : negociation,
-    "images": images == null ? [] : List<dynamic>.from(images!.map((x) => x.toJson())),
+    "images": images == "" ? [] : List<dynamic>.from(images.map((x) => x.toJson())),
     "content": content,
     "abus_id": abus_id,
     "created_at": createdAt?.toIso8601String(),

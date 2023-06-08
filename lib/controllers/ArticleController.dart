@@ -24,9 +24,7 @@ class ArticleController with ChangeNotifier {
     if(reponse!=null){
       print(reponse['data']);
       articles=reponse["data"].map<ArticleModel>((e) => ArticleModel.fromJson(e)).toList();
-      stockage?.write(StockageKeys.articlesKey, reponse);
       isHttpException = false;
-      print("Résultat : ${articles.length}");
     }else{
       isHttpException = true;
       var datastockee = stockage?.read(StockageKeys.articlesKey);
@@ -43,7 +41,6 @@ class ArticleController with ChangeNotifier {
     String? token=stockage?.read(StockageKeys.tokenyKey);
     HttpResponse reponse = await postData(url, data, token: token);
 
-    print('++++++++++++++++++++++++${reponse.data}');
     if(reponse.status){
       var article = ArticleModel.fromJson(reponse.data?['article'] ?? {});
       articles.add(article);
@@ -73,21 +70,4 @@ class ArticleController with ChangeNotifier {
     loading = false;
     notifyListeners();
   }
-}
-
-
-void main() {
-  var test = ArticleController();
-  Map dataNewSellArticle = {
-    "title": "Reussi les gars",
-    "price": 2500000,
-    "country": "RD.Congo",
-    "city": "Kinshasa",
-    "content": " ur acheter car le stock est limité !!!!!!",
-    "keyword": "rangerover",
-    "negociation": true,
-    "devise": "FC"
-      };
-  test.envoieDataArticleCree(dataNewSellArticle);
-  //test.recuperArticlesAPI();
 }
