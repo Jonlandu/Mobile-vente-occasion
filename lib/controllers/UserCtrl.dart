@@ -8,7 +8,6 @@ import '../utils/Request.dart';
 class UserCtrl with ChangeNotifier {
   UserModel? user;
   bool loading = false;
-  bool logout=false;
   GetStorage? stockage;
   bool _isFirstTimeBienvenue=false;
 
@@ -26,7 +25,7 @@ class UserCtrl with ChangeNotifier {
 
 
   void recuperDataAPI() async {
-    var token=stockage?.read(StockageKeys.tokenyKey) ;
+    var token=stockage?.read(StockageKeys.tokenKey) ;
     var url =Endpoints.detailUserEndpoint;
     loading = true;
     notifyListeners();
