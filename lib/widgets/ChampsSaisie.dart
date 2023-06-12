@@ -13,14 +13,15 @@ Widget ChampSaisie(
       validator: (String? value) {
         if(!required) return null;
         if ( value == null || value.isEmpty) {
-          return "Champs obligatoire";
+          return "$label est obligatoire";
         }
         return null;
       },
       decoration: InputDecoration(
           labelText: label,
-          hintText: "Veuillez saisir vos coordonnées",
+          hintText: "Veuillez saisir votre $label",
           border: _bordure(Colors.orange),
+          fillColor: Colors.grey.shade200,
           focusedBorder: _bordure(Colors.grey),
           enabledBorder: _bordure(Colors.grey)));
 }
@@ -28,5 +29,5 @@ Widget ChampSaisie(
 OutlineInputBorder _bordure(MaterialColor _color) {
   return OutlineInputBorder(
       borderSide: BorderSide(width: 2, color: _color),
-      borderRadius: BorderRadius.all(Radius.circular(14)));
+     );
 }
