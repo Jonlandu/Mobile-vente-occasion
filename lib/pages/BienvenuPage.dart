@@ -27,7 +27,7 @@ class _BienvenuPageState extends State<BienvenuPage> {
   }
 
   _naviguerVersPreferencePage(){
-    Navigator.popAndPushNamed(context, Routes.PreferencePagePageRoutes);
+    Navigator.popAndPushNamed(context, Routes.PreferencePageRoutes);
   }
 
   @override
@@ -93,25 +93,30 @@ class _BienvenuPageState extends State<BienvenuPage> {
                   height: 480,
                 ),
                 Text(
-                  'Vendez vos articles d\'occasion sur notre App',
+                  'Bienvenue dans notre App \n  Tekasomba shop \n \n Découvrez une sélection unique d\'articles d\'occasion à des prix abordables',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 24.0,
+                    fontSize: 18,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                const Text(
-                  'Vendez vos articles d\'occasion en toute sécurité !',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.black26,
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w600,
+                Expanded(
+                  child: Text(
+                    'Trouvez votre prochain trésor parmi nos offres exclusives et faites des économies tout en préservant l\'environnement',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.black26,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
+                ),
+                const SizedBox(
+                  height: 20,
                 ),
               ],
             ),
@@ -128,26 +133,28 @@ class _BienvenuPageState extends State<BienvenuPage> {
                   height: 480,
                 ),
                 Text(
-                  'You’ve reached your destination.',
+                  'Chassez les bonnes affaires ! Trouvez des articles de seconde main de qualité à des prix imbattables.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 24.0,
+                    fontSize: 18,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                const Text(
-                  'Sliding with animation',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.black26,
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w600,
-                  ),
+                 Expanded(
+                   child: Text(
+                    'Faites des économies tout en contribuant à la réduction des déchets et à la préservation de notre planète.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.black26,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
                 ),
+                 ),
               ],
             ),
           ),
@@ -163,11 +170,11 @@ class _BienvenuPageState extends State<BienvenuPage> {
                   height: 480,
                 ),
                 Text(
-                  'Start now!',
+                  'Trouvez tout ce dont vous avez besoin! Une grande variété d\'articles de qualité à des prix abordables.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 24.0,
+                    fontSize: 18,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -175,11 +182,11 @@ class _BienvenuPageState extends State<BienvenuPage> {
                   height: 20,
                 ),
                 const Text(
-                  'Where everything is possible and customize your onboarding.',
+                  'Nous proposons une grande variété d\'articles de qualité, des vêtements et des chaussures aux meubles et aux appareils électroniques',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black26,
-                    fontSize: 18.0,
+                    fontSize: 14,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
