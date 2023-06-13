@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:squelette_mobile_parcours/controllers/UserCtrl.dart';
 import 'package:squelette_mobile_parcours/utils/Constantes.dart';
 
+import '../controllers/AuthentificationCtrl.dart';
 import '../utils/Routes.dart';
 import '../utils/StockageKeys.dart';
 import '../widgets/Appbar.dart';
@@ -37,12 +38,12 @@ class _ProfilPageState extends State<ProfilPage> {
 
   @override
   Widget build(BuildContext context) {
-    var token = box.read(StockageKeys.tokenyKey);
+    var token = box.read(StockageKeys.tokenKey);
     return token != null ? Scaffold(
       body: _body(),
       appBar: appBar('Profile'),
     ) : Scaffold(
-      body: _connectezVous(),
+      body: _noconnect(),
     );
   }
 
@@ -70,9 +71,7 @@ class _ProfilPageState extends State<ProfilPage> {
                 "${Constantes.BASE_URL}${userCtrl.user?.image}",
                 errorBuilder: (BuildContext context, Object exception,
                     StackTrace? stackTrace) {
-                  return Image.asset('assets/error.jpg', fit: BoxFit.cover,
-                    width: 200,
-                    height: 200,);
+                  return Icon(Icons.account_circle);
                 },
                 fit: BoxFit.cover,
                 width: 200,
@@ -122,7 +121,25 @@ class _ProfilPageState extends State<ProfilPage> {
               padding: EdgeInsets.all(10),
               shrinkWrap: true,
               children: [
-                ListTile(
+                box.read(StockageKeys.tokenKey) != null ? ListTile(
+                  title: Text('Mes publications et statistique',
+                      style: TextStyle(
+                        fontSize: 14,
+                      )),
+                  leading: Icon(
+                    Icons.analytics_outlined,
+                    color: Colors.black,
+                    size: 25,
+                  ),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.black,
+                    size: 20,
+                  ),
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.DashboardPageRoutes);
+                  },
+                ):ListTile(
                   title: Text('Mes publications',
                       style: TextStyle(
                         fontSize: 14,
@@ -130,7 +147,7 @@ class _ProfilPageState extends State<ProfilPage> {
                   leading: Icon(
                     Icons.public,
                     color: Colors.black,
-                    size: 35,
+                    size: 25,
                   ),
                   trailing: Icon(
                     Icons.arrow_forward_ios,
@@ -149,7 +166,7 @@ class _ProfilPageState extends State<ProfilPage> {
                   leading: Icon(
                     Icons.favorite,
                     color: Colors.black,
-                    size: 35,
+                    size: 25,
                   ),
                   trailing: Icon(
                     Icons.arrow_forward_ios,
@@ -168,17 +185,15 @@ class _ProfilPageState extends State<ProfilPage> {
                   leading: Icon(
                     Icons.notifications_active,
                     color: Colors.black,
-                    size: 35,
+                    size: 25,
                   ),
                   trailing: badges.Badge(
+                    badgeStyle: badges.BadgeStyle(
+                        badgeColor: Colors.orange
+                    ),
                     badgeContent: Text(
                       "6", style: TextStyle(color: Colors.white),),
                   ),
-                  /*Icon(
-                Icons.notifications_paused_rounded,
-                color: Colors.black,
-                size: 20,
-              ),*/
                   onTap: () {},
                 ),
                 ListTile(
@@ -190,7 +205,7 @@ class _ProfilPageState extends State<ProfilPage> {
                   leading: Icon(
                     Icons.email,
                     color: Colors.black,
-                    size: 35,
+                    size: 25,
                   ),
                   onTap: () {},
                 ),
@@ -206,7 +221,7 @@ class _ProfilPageState extends State<ProfilPage> {
                   leading: Icon(
                     Icons.phone,
                     color: Colors.black,
-                    size: 35,
+                    size: 25,
                   ),
                   onTap: () {},
                 ),
@@ -220,7 +235,7 @@ class _ProfilPageState extends State<ProfilPage> {
                   leading: Icon(
                     Icons.help,
                     color: Colors.black,
-                    size: 35,
+                    size: 25,
                   ),
                   trailing: Icon(
                     Icons.arrow_forward_ios,
@@ -239,67 +254,135 @@ class _ProfilPageState extends State<ProfilPage> {
                   leading: Icon(
                     Icons.login,
                     color: Colors.black,
-                    size: 35,
+                    size: 25,
                   ),
                   trailing: Icon(
                     Icons.arrow_forward_ios,
                     color: Colors.black,
                     size: 20,
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    ouvrirDialog(context);
+                  },
                 ),
-                SizedBox(
-                  height: 120,
-                ),
-                Container(
-                  padding: EdgeInsets.only(left: 10, right: 10),
-                  width: 343,
-                  height: 52,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      //other=Colors.orange;
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 70),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Icon(Icons.update),
-                          ),
-                          Text(
-                            'Mettre à jour le profile',
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                        ],
-                      ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: other,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12))),
+                /*Container(
+          padding: EdgeInsets.only(left: 30, right: 30),
+          child: ElevatedButton(
+            onPressed: () {
+              //other=Colors.orange;
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(left: 70),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: Icon(Icons.update),
                   ),
-                ),
+                  Text(
+                    'Mettre à jour le profile',
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                ],
+              ),
+            ),
+            style: ElevatedButton.styleFrom(
+                backgroundColor: other,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12))),
+          ),
+        ),*/
               ]),
         ),
-        /*Boutton(343, 52, "Mettre à jour son profil", Colors.black),*/
       ],
     );
   }
 
-  Widget _connectezVous() {
-    return TextButton(
-        onPressed: () {
-          Navigator.popAndPushNamed(context, Routes.LoginPageRoutes);
-        }, child: Center(
-          child: Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.rectangle
+  ouvrirDialog(context) async {
+    bool? resulat = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        var auth = context.watch<AuthentificationCtrl>();
+        return AlertDialog(
+          title: Text("Déconnexion"),
+          content: new Text("Voulez-vous vraiment vous déconnectez  ?"),
+          actions: <Widget>[
+            TextButton(
+              child: new Text(
+                "Annuler",
+                style: TextStyle(color: Colors.grey),
+              ),
+              onPressed: () {
+                Navigator.pop(context, false);
+              },
             ),
-      child: Text('''
-Veillez vous connecter pour voir cette page ! 
-                            CLIQUEZ ICI''', style: TextStyle(color: Colors.black),),
-    ),
-        ));
+            new TextButton(
+              child: new Text(
+                "Confirmer", style: TextStyle(color: Colors.orange),),
+              onPressed: () {
+                Navigator.pop(context, true);
+                auth.logout({});
+                box.remove(StockageKeys.tokenKey);
+                Navigator.popAndPushNamed(context, Routes.HomePagePageRoutes);
+              },
+            ),
+          ],
+        );
+      },
+    );
+
+    if (resulat != null) {
+      var message = !resulat ? "Déconnexion annulée" : "Déconnexion";
+      showSnackBar(context, message);
+    }
+  }
+
+  showSnackBar(context, String message) {
+    final scaffold = ScaffoldMessenger.of(context);
+    scaffold.showSnackBar(SnackBar(
+      content: Text(message),
+      action:
+      SnackBarAction(label: 'OK',
+          textColor: Colors.orange,
+          onPressed: scaffold.hideCurrentSnackBar),
+    ));
+  }
+
+  Widget _noconnect(){
+    return Stack(
+      children: [
+        Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset("assets/empty.gif"),
+              SizedBox(height: 20.0),
+              SizedBox(height: 10.0),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.popAndPushNamed(context, Routes.LoginPageRoutes);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.zero,
+                  ),
+                ),
+                child: Text('Se connecter'),
+              ),
+            ],
+          ),
+        ),
+        Positioned(
+          bottom: 20,
+          right: 20,
+          child: Image.asset(
+            "assets/app_icon2.png",
+            width: 25,
+            height: 25,
+          ),
+        ),
+      ],
+    );
   }
 }

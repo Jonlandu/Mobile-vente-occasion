@@ -23,6 +23,22 @@ class AuthentificationCtrl with ChangeNotifier {
   bool loading = false;//gestion de cas d'erreur
 
 
+  Future<HttpResponse> logout(Map data) async{
+    var url="${Endpoints.logout}";
+    var tkn = stockage?.read(StockageKeys.tokenKey);
+    HttpResponse response = await postData(url, data, token: tkn);
+    if(response.status){
+      // if(response!= null/){
+      //user=AuthentificationModel.fromJson(response.data?['user'] ?? {});
+      //stockage?.write("user", response.data?["data"] ?? {});
+      //stockage?.write(StockageKeys.tokenyKey, response.data?["token"]?? "");
+      notifyListeners();
+    }
+    print(response.data);
+    return response;
+
+
+  }
 
   Future<HttpResponse>login(Map data) async{
     var url="${Endpoints.authentication}";
@@ -30,14 +46,26 @@ class AuthentificationCtrl with ChangeNotifier {
     if(response.status){
       // if(response!= null/){
       user=AuthentificationModel.fromJson(response.data?['user'] ?? {});
-      stockage?.write("user", response.data?["data"] ?? {});
-      stockage?.write(StockageKeys.tokenyKey, response.data?["token"]?? "");
+      //stockage?.write("user", response.data?["data"] ?? {});
+      stockage?.write(StockageKeys.tokenKey, response.data?["token"]?? "");
       notifyListeners();
     }
     print(response.data);
     return response;
 
 
+  }
+
+  Future<HttpResponse> register(Map data) async{
+    var url = "${Endpoints.register}";
+    HttpResponse response = await postData(url, data);
+    if (response.status){
+    stockage?.write(StockageKeys.tokenKey, response.data?["token"]) ;
+      notifyListeners();
+      print("=============================== DATA USER ${response.data}");
+      print("=============================== TOKEN USER ${token}");
+    }
+    return response;
   }
 
   //recuperer api
@@ -55,4 +83,16 @@ class AuthentificationCtrl with ChangeNotifier {
 
   }
 
+}
+
+void main(){
+  Map data = {
+    'name': "Exaucé",
+    'email': "exauce@gmail.com",
+    'telephone': "+243898989898",
+    'password': "123456789",
+    'password_confirmation': "123456789"
+  };
+  var test = AuthentificationCtrl();
+  test.login(data);
 }

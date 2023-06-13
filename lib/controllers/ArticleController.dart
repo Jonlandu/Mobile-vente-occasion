@@ -40,7 +40,9 @@ class ArticleController with ChangeNotifier {
 
   Future<HttpResponse> envoieDataArticleCree(Map data,List<File> images) async {
     var url = "${Endpoints.createPublicationEndpoint}";
-    var token = stockage?.read(StockageKeys.tokenyKey);
+
+    String? token=stockage?.read(StockageKeys.tokenKey);
+
     HttpResponse reponse = await postData(url, data, token: token);
 
     if (reponse.status) {

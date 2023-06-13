@@ -1,7 +1,7 @@
 import 'package:alice/alice.dart';
 import 'package:flutter/material.dart';
-import 'package:squelette_mobile_parcours/Controllers/AuthentificationCtrl.dart';
 import '../controllers/ArticleController.dart';
+import '../controllers/AuthentificationCtrl.dart';
 import '../controllers/CategorieController.dart';
 import '../controllers/UserCtrl.dart';
 import '../utils/RoutesManager.dart';

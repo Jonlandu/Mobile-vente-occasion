@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import '../apps/MonApplication.dart';
 import 'Constantes.dart';
@@ -29,9 +30,9 @@ Future<dynamic> getData(String url_api, {String? token}) async {
   try {
     var url = Uri.parse("${Constantes.BASE_URL}$url_api");
     print("Données de l'URL : ${url}");
-    var reponse = await http.get(url, headers: {
-      "Authorization": "Bearer ${token ?? Constantes.defaultToken}"
-    }).timeout(Duration(seconds: 5));
+
+    var reponse = await http.get(url, headers: {"Authorization":"Bearer ${token??Constantes.defaultToken}"}).timeout(Duration(seconds: 2));
+
     print(reponse.runtimeType);
     print(reponse.body.runtimeType);
     log(reponse.body);
@@ -57,8 +58,10 @@ Future<HttpResponse> postData(String api_url, Map data, {String? token}) async {
     var response = await http.post(url, body: dataStr, headers: {
       "Content-Type": "application/json",
       "Authorization": "Bearer $_tkn"
-    }).timeout(Duration(seconds: 5));
-    alice.onHttpResponse(response);
+    }).timeout(Duration(seconds: 2));
+    if(!kReleaseMode){
+      alice.onHttpResponse(response);
+    }
 
     var successList = [200, 201];
     var msg = json.decode(response.body);

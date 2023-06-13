@@ -8,6 +8,7 @@ class Routes {
   static const String ProfilPagePageRoutes = "/profil";
   static const String LoginPageRoutes = "/login";
   static const String BienvenuePageRoutes = "/bienvenu";
-  static const String PreferencePagePageRoutes = "/preference";
+  static const String PreferencePageRoutes = "/preference";
+  static const String RegisterPageRoutes = "/register";
 
 }
