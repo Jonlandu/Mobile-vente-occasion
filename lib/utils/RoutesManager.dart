@@ -7,7 +7,6 @@ import 'package:squelette_mobile_parcours/pages/DashboardPage.dart';
 import 'package:squelette_mobile_parcours/pages/PreferencePage.dart';
 import 'package:squelette_mobile_parcours/pages/HomePage.dart';
 import 'package:squelette_mobile_parcours/pages/LoginPage.dart';
-import 'package:squelette_mobile_parcours/pages/home/ArticlesPage.dart';
 import 'package:squelette_mobile_parcours/pages/BienvenuPage.dart';
 
 import 'Routes.dart';
@@ -25,7 +24,7 @@ class RoutesManager {
         return MaterialPageRoute(builder: (_)=> ArticlesDetailsPage(article: articleData));
 
       case Routes.CreateArticleSellPageRoutes:
-        return MaterialPageRoute(builder: (_)=> CreateArticleSellPage());
+        return MaterialPageRoute(builder: (_)=> CreateArticleSellPage(categories: [],));
 
 
       case Routes.DashboardPageRoutes:

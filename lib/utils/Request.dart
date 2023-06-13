@@ -4,13 +4,19 @@ import 'package:http/http.dart' as http;
 import '../apps/MonApplication.dart';
 import 'Constantes.dart';
 
-class HttpResponse{
+class HttpResponse {
   bool status;
-  Map?  data;
+  Map? data;
   String? errorMsg;
   bool? isError;
   bool? isException;
-  HttpResponse({this.data, required this.status, this.errorMsg, this.isError, this.isException});
+
+  HttpResponse(
+      {this.data,
+      required this.status,
+      this.errorMsg,
+      this.isError,
+      this.isException});
 }
 
 void printWrapped(String text) {
@@ -23,12 +29,14 @@ Future<dynamic> getData(String url_api, {String? token}) async {
   try {
     var url = Uri.parse("${Constantes.BASE_URL}$url_api");
     print("Données de l'URL : ${url}");
-    var reponse = await http.get(url, headers: {"Authorization":"Bearer ${token??Constantes.defaultToken}"}).timeout(Duration(seconds: 5));
+    var reponse = await http.get(url, headers: {
+      "Authorization": "Bearer ${token ?? Constantes.defaultToken}"
+    }).timeout(Duration(seconds: 5));
     print(reponse.runtimeType);
     print(reponse.body.runtimeType);
     log(reponse.body);
     print(reponse.statusCode);
-    if(reponse.statusCode==200){
+    if (reponse.statusCode == 200) {
       return json.decode(reponse.body);
     }
     return null;
@@ -39,14 +47,12 @@ Future<dynamic> getData(String url_api, {String? token}) async {
   }
 }
 
-Future<HttpResponse> postData(String api_url, Map data,  {String? token}) async {
+Future<HttpResponse> postData(String api_url, Map data, {String? token}) async {
   try {
     var url = Uri.parse("${Constantes.BASE_URL}$api_url");
     print("url===== $url");
     String dataStr = json.encode(data);
-    // var _tkn = token ?? Constantes.defaultToken;
-    var _tkn = Constantes.defaultToken;
-    print("_tkn===== $_tkn");
+    var _tkn = token ?? Constantes.defaultToken;
 
     var response = await http.post(url, body: dataStr, headers: {
       "Content-Type": "application/json",
@@ -70,5 +76,30 @@ Future<HttpResponse> postData(String api_url, Map data,  {String? token}) async 
         status: false,
         errorMsg: "Erreur inattendue, Problème de connexion",
         isException: true); // {"status": st, "msg": msg};
+  }
+}
+
+Future<dynamic> postDataWithFile(String endpoint,List<String> filenames, {String? token}) async {
+  var url =  Uri.parse(
+      "${Constantes.BASE_URL}$endpoint");
+  print("C'est le print de l'url ${url}");
+
+
+  var request = http.MultipartRequest(
+      'POST', url
+     );
+  String _tkn = token ?? Constantes.defaultToken;
+  print("Le PRINT DU TOKEN ${_tkn}");
+  request.headers.addAll({'Authorization': 'Bearer $_tkn'});
+  for (var f in filenames) {
+    request.files.add(await http.MultipartFile.fromPath('image', f));
+  }
+
+  var res = await request.send();
+  var response = await http.Response.fromStream(res);
+  alice.onHttpResponse(response);
+  print("C'est le print de l'url ${res}");
+  if (res.statusCode==200) {
+    await res.stream.bytesToString().then((value) => jsonDecode(value));
   }
 }

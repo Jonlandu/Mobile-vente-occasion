@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget EntryField({
+Widget EntryFieldBloqued({
   String label = "",
   required TextEditingController? ctrl,
   TextInputType type = TextInputType.text,
@@ -9,19 +9,16 @@ Widget EntryField({
   return TextFormField(
       controller: ctrl,
       keyboardType: type,
-      validator: (value) {
-        if (!required) return null;
-        if (value == null || value.isEmpty) {
-          return "Champs obligatoire";
-        }
-        return null;
-      },
       decoration: InputDecoration(
-          labelText: label,
-          hintText: "Saisir...",
-          border: _bordure(Colors.grey),
-          focusedBorder: _bordure(Colors.orange),
-          enabledBorder: _bordure(Colors.grey)));
+        border : _bordure(Colors.grey),
+          enabledBorder: _bordure(Colors.grey),
+    labelText: '',
+    disabledBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.grey),
+    ),
+  ),
+    enabled: false,
+  );
 }
 
 OutlineInputBorder _bordure(MaterialColor _color) {
