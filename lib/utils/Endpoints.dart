@@ -6,7 +6,7 @@ class Endpoints {
   static const String categoriesEndpoint = "/api/categories";
   static const String annoncesSimilaireEndpoint = "/annoncesSimilairesApi.php";
   static const String createPublicationEndpoint = "/api/articles";
-  static const String createImagesPublicationEndpoint = "/api/articles/{id}/images";
+  static const String createImagesPublicationEndpoint = "/api/articles/{id}/images/";
   static const String deleteArticle = "/api/articles";
   static const String userToken="token";
   static const String detailUserEndpoint = "/api/singleUser";

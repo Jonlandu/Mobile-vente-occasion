@@ -6,7 +6,6 @@ import '../../utils/Constantes.dart';
 import '../../utils/Endpoints.dart';
 import '../../utils/Routes.dart';
 import '../../widgets/errors/NetworkErrorExceptionType1Widget.dart';
-import '../deleteArticle/DeleteArticlePage.dart';
 import 'package:http/http.dart' as http;
 import 'widgets/AnnoncesSimilaireWidget.dart';
 import 'widgets/DetailsArticlesImagesWidget.dart';
@@ -65,7 +64,7 @@ class _ArticlesDetailsPageState extends State<ArticlesDetailsPage> {
                 children: [
                   Icon(
                     Icons.edit,
-                    color: Colors.red,
+                    color: Colors.orange,
                   ),
                   const SizedBox(
                     width: 7,
@@ -80,8 +79,7 @@ class _ArticlesDetailsPageState extends State<ArticlesDetailsPage> {
                     children: [
                       InkWell(
                         onTap: () {
-                          //deleteArticle();
-                          Navigator.popAndPushNamed(context, Routes.HomePagePageRoutes);
+                          //ouvrirDialog(context);
                         },
                         child: Icon(
                           Icons.delete,
@@ -146,8 +144,6 @@ class _ArticlesDetailsPageState extends State<ArticlesDetailsPage> {
     }
   }*/
   /*ArticleModel articleId = widget.article.id;
-  bool _isDeleting = false;
-  var url = Uri.parse("${Constantes.BASE_URL}${Endpoints.deleteArticle}${articleId}");
 
   Future<void> deleteArticle() async {
     setState(() {
@@ -177,5 +173,56 @@ class _ArticlesDetailsPageState extends State<ArticlesDetailsPage> {
 
     setState(() {
       _isDeleting = false;
-    });*/
+    });
+
+
+  ouvrirDialog(context) async {
+    bool? resulat = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        var url = Uri.parse("${Constantes.BASE_URL}${Endpoints.deleteArticle}${widget.article.id}");
+        return AlertDialog(
+          title: Text("Déconnexion"),
+          content: new Text("Voulez-vous vraiment suprimer ?"),
+          actions: <Widget>[
+            TextButton(
+              child: new Text(
+                "Annuler",
+                style: TextStyle(color: Colors.grey),
+              ),
+              onPressed: () {
+                Navigator.pop(context, false);
+              },
+            ),
+            new TextButton(
+              child: new Text(
+                "Confirmer", style: TextStyle(color: Colors.orange),),
+              onPressed: () {
+                Navigator.pop(context, true);
+                deleteArticle();
+                box.remove(StockageKeys.tokenKey);
+                Navigator.popAndPushNamed(context, Routes.HomePagePageRoutes);
+              },
+            ),
+          ],
+        );
+      },
+    );
+
+    if (resulat != null) {
+      var message = !resulat ? "Suppression annulée" : "Supprimer";
+      showSnackBar(context, message);
+    }
+  }
+
+  showSnackBar(context, String message) {
+    final scaffold = ScaffoldMessenger.of(context);
+    scaffold.showSnackBar(SnackBar(
+      content: Text(message),
+      action:
+      SnackBarAction(label: 'OK',
+          textColor: Colors.orange,
+          onPressed: scaffold.hideCurrentSnackBar),
+    ));
+  }*/
 }

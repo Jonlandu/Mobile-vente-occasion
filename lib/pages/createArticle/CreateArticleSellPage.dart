@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:squelette_mobile_parcours/controllers/ArticleController.dart';
-import 'package:squelette_mobile_parcours/models/CategorieModel.dart';
+import 'package:squelette_mobile_parcours/controllers/CategorieController.dart';
 import 'package:squelette_mobile_parcours/pages/createArticle/widgets/EntryFieldLongtext.dart';
 import '../../utils/Routes.dart';
 import 'widgets/EntryField.dart';
@@ -15,9 +15,7 @@ import 'widgets/EntryFieldBloqued.dart';
 
 class CreateArticleSellPage extends StatefulWidget {
   final int? article_id;
-  final String? selectedValue;
-  final List<CategorieModel> categories;
-  CreateArticleSellPage({this.selectedValue, this.article_id, required this.categories});
+  CreateArticleSellPage({this.article_id});
 
   @override
   State<CreateArticleSellPage> createState() => _CreateArticleSellPageState();
@@ -25,14 +23,10 @@ class CreateArticleSellPage extends StatefulWidget {
 
 class _CreateArticleSellPageState extends State<CreateArticleSellPage> {
 
-
-  int? _categorySelected;
-
   bool isSwitched = false;
   final _controller = ValueNotifier<bool>(false);
   bool checked = false;
-  var test = TextEditingController(text: "R.D. Congo");
-  var categorie_form = TextEditingController(text: "1");
+
   var title_form = TextEditingController(text: "Exaucé");
   var price_form = TextEditingController(text: "1200000");
   var country_form = TextEditingController(text: "R.D. Congo");
@@ -41,10 +35,11 @@ class _CreateArticleSellPageState extends State<CreateArticleSellPage> {
   var keyword_form = TextEditingController(text: "voiture");
   bool negociation_form=false;
   var devise_form = TextEditingController(text: "CDF");
-
-  List<File> _selectedImages = [];
+  int? _categorySelected;
   var formkey = GlobalKey<FormState>();
   bool isVisible = false;
+
+  List<File> _selectedImages = [];
   final ImagePicker picker = ImagePicker();
   var imageFile;
   var imagePicker;
@@ -74,6 +69,8 @@ class _CreateArticleSellPageState extends State<CreateArticleSellPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      var categorieCtrl = context.read<CategorieController>();
+      categorieCtrl.recuperCategorieAPI();
       imagePicker = new ImagePicker();
       _controller.addListener(() {
         setState(() {
@@ -121,6 +118,8 @@ class _CreateArticleSellPageState extends State<CreateArticleSellPage> {
   }
 
   Widget _body(BuildContext context) {
+    var categoriCtrl = context.watch<CategorieController>();
+    String ListCategories = categoriCtrl.categories.map((e) => e.category_name).toString();
     return Form(
       key: formkey,
       child: Center(
@@ -148,10 +147,11 @@ class _CreateArticleSellPageState extends State<CreateArticleSellPage> {
                 SizedBox(
                   height: 10,
                 ),
-                _entryFieldDropdown('Selectionnez la catégorie',
+                _entryFieldDropdown(ListCategories,
                     _categorySelected, (value) {
+                  print("selection $value");
                       setState(() {
-                        _categorySelected = value as int;
+                        _categorySelected = value;
                       });
                     }
                 ),
@@ -377,7 +377,8 @@ class _CreateArticleSellPageState extends State<CreateArticleSellPage> {
               ),
             ),
           );
-        });
+        }
+        );
   }
 
   selectImageFromGallery() async {
@@ -410,9 +411,13 @@ class _CreateArticleSellPageState extends State<CreateArticleSellPage> {
     );
   }
 
-  Widget _entryFieldDropdown(String? label,
+  Widget _entryFieldDropdown( String categoriesList,
       int? defaultValue, Function(int?) onChange) {
-    int? _selectedValue=defaultValue ;
+    var categoriCtrl = context.watch<CategorieController>();
+    int? _selectedValue=defaultValue;
+    print("VOICI LE PRINT +++++++++++++++++++ $_selectedValue");
+    String? label = "Selectionnez une catégorie";
+    var selectedOption = _selectedValue == null ? label:_selectedValue;
     return Center(
       child: DropdownButtonHideUnderline(
         child: DropdownButton2(
@@ -429,7 +434,7 @@ class _CreateArticleSellPageState extends State<CreateArticleSellPage> {
               ),
               Expanded(
                 child: Text(
-                  'List des Catégories',
+                  selectedOption.toString(),
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
@@ -440,7 +445,7 @@ class _CreateArticleSellPageState extends State<CreateArticleSellPage> {
               ),
             ],
           ),
-          items: widget.categories
+          items: categoriCtrl.categories
               .map((item) => DropdownMenuItem<int>(
             value: item.id,
             child: Text(
@@ -456,9 +461,7 @@ class _CreateArticleSellPageState extends State<CreateArticleSellPage> {
               .toList(),
           value: _selectedValue,
           onChanged: (value) {
-            setState(() {
-              _selectedValue = value ;
-            });
+           onChange(value);
           },
           buttonStyleData: ButtonStyleData(
             height: 50,
@@ -542,7 +545,7 @@ class _CreateArticleSellPageState extends State<CreateArticleSellPage> {
     String country = country_form.text;
     String city = city_form.text;
     String content = content_form.text;
-    int category_id = int.parse(categorie_form.text);
+    int? _category_id = _categorySelected;
     String keyword = keyword_form.text;
     bool? negociation = negociation_form;
     String devise = devise_form.text;
@@ -554,7 +557,7 @@ class _CreateArticleSellPageState extends State<CreateArticleSellPage> {
       "country": country,
       "city": city,
       "content": content,
-      "category_id": category_id,
+      "category_id": _category_id,
       "keyword": keyword,
       "negociation": negociation,
       "devise": devise,
@@ -565,6 +568,7 @@ class _CreateArticleSellPageState extends State<CreateArticleSellPage> {
     setState(() {});
     if (response.status) {
       await Future.delayed(Duration(seconds: 2));
+      setState(() {});
       Navigator.popAndPushNamed(context, Routes.HomePagePageRoutes);
     } else {
       var msg =
@@ -574,31 +578,7 @@ class _CreateArticleSellPageState extends State<CreateArticleSellPage> {
           duration: const Duration(seconds: 5),
           content: Text('$msg')));
     }
-    ///////////////////
-    /*if (response.status != 201) {
-      // Handle image upload error
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Image Upload Failed'),
-            content: Text('Failed to upload the images.'),
-            actions: [
-              TextButton(
-                child: Text('OK'),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          );
-        },
-      );
-      return; // Exit the method early
-    }*/
     isVisible = false;
-    /////////////////
   }
-
 }
 

@@ -25,7 +25,7 @@ class RoutesManager {
         return MaterialPageRoute(builder: (_)=> ArticlesDetailsPage(article: articleData));
 
       case Routes.CreateArticleSellPageRoutes:
-        return MaterialPageRoute(builder: (_)=> CreateArticleSellPage(categories: [],));
+        return MaterialPageRoute(builder: (_)=> CreateArticleSellPage());
 
 
       case Routes.DashboardPageRoutes:
