@@ -26,6 +26,6 @@ Widget EntryField({
 
 OutlineInputBorder _bordure(MaterialColor _color) {
   return OutlineInputBorder(
-      borderSide: BorderSide(width: 2, color: _color),
-      borderRadius: BorderRadius.all(Radius.circular(16)));
+      borderSide: BorderSide(width: 1, color: _color),
+      borderRadius: BorderRadius.all(Radius.circular(2)));
 }

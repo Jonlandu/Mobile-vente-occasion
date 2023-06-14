@@ -1,4 +1,4 @@
-import 'package:faker/faker.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +17,6 @@ class _PreferencePageState extends State<PreferencePage> {
   List<String> tags = [];
   GetStorage? stockage;
   bool isSelected = false;
-  Faker faker = Faker();
   List<String> preferences = [
     'Habits',
     'Laptop',

@@ -19,6 +19,13 @@ class MainDetailsArticlesWidget extends StatelessWidget {
                 (MediaQuery.of(context).size.height / 2)),
         itemCount: 1,
         itemBuilder: (BuildContext ctx, index) {
+          var negociationValintermediare = detailsArticles.negociation;
+          var negociationVal = "";
+          if(negociationValintermediare == 1){
+            negociationVal = "Négociable";
+          }else{
+            negociationVal = "Non négociable";
+          }
           return Container(
             alignment: Alignment.center,
             margin: EdgeInsets.symmetric(vertical: 0, horizontal: 4),
@@ -150,7 +157,7 @@ class MainDetailsArticlesWidget extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Text(
-                                  "${detailsArticles.negociation}",
+                                  "${negociationVal}",
                                   style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,
