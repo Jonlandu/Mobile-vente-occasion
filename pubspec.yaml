@@ -61,6 +61,7 @@ dependencies:
   flutter_onboarding_slider: ^1.0.9
 
   alice: ^0.3.3
+  dio: ^5.2.1+1
 
 dependency_overrides:
   http: ^1.0.0

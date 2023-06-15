@@ -11,8 +11,18 @@ class DetailsArticlesImagesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(article.images);
-    return article.images != null && article.images!.length != 0
+    var listImages=article.images.map((e) {
+      return CachedNetworkImage(
+        imageUrl: "${Constantes.BASE_URL}${e.imagePath}",
+
+        placeholder: (context, url) =>
+            Center(child: CircularProgressIndicator()),
+        errorWidget: (context, url, error) => Icon(Icons.error),
+        fit: BoxFit.cover,
+      );
+    },
+    ).toList();
+    return article.images != "" && article.images.length != 0
         ? ImageSlideshow(
         height: 300,
         indicatorColor: Colors.white,
@@ -20,19 +30,7 @@ class DetailsArticlesImagesWidget extends StatelessWidget {
         onPageChanged: (value) {
           debugPrint("Page chaged : $value");
         },
-        //autoPlayInterval: 3000,
-        children:article.images!.map((e) {
-          print("${Constantes.BASE_URL}/${e}");
-          return CachedNetworkImage(
-            imageUrl: "${Constantes.BASE_URL}/${e}",
-
-            placeholder: (context, url) =>
-                Center(child: CircularProgressIndicator()),
-            errorWidget: (context, url, error) => Icon(Icons.error),
-            fit: BoxFit.cover,
-          );
-        },
-        ).toList()
+        children: listImages
     )
         : Container(
       height: 300,

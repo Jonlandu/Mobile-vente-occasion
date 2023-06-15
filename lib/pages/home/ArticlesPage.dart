@@ -36,7 +36,7 @@ class _ArticlesPageState extends State<ArticlesPage> {
 
   @override
   Widget build(BuildContext context) {
-    var token = box.read(StockageKeys.tokenyKey);
+    var token = box.read(StockageKeys.tokenKey);
     return token!=null? Scaffold(
       appBar: _appBar(),
       body: _body(),

@@ -6,6 +6,7 @@ import 'package:squelette_mobile_parcours/pages/home/ArticlesPage.dart';
 import '../pages/DiscussionPage.dart';
 import '../pages/TemplatePage.dart';
 import 'package:squelette_mobile_parcours/models/ArticleModel.dart';
+import 'package:squelette_mobile_parcours/pages/RegisterPage.dart';
 import 'package:squelette_mobile_parcours/pages/home/ArticlesPage.dart';
 import '../pages/createArticle/CreateArticleSellPage.dart';
 import '../pages/detailsArticle/ArticlesDetailsPage.dart';
@@ -13,7 +14,6 @@ import 'package:squelette_mobile_parcours/pages/DashboardPage.dart';
 import 'package:squelette_mobile_parcours/pages/PreferencePage.dart';
 import 'package:squelette_mobile_parcours/pages/HomePage.dart';
 import 'package:squelette_mobile_parcours/pages/LoginPage.dart';
-import 'package:squelette_mobile_parcours/pages/home/ArticlesPage.dart';
 import 'package:squelette_mobile_parcours/pages/BienvenuPage.dart';
 
 
@@ -52,9 +52,11 @@ class RoutesManager {
       case Routes.BienvenuePageRoutes:
       //var args=r.arguments as String?;
         return MaterialPageRoute(builder: (_) => BienvenuPage());
-      case Routes.PreferencePagePageRoutes:
+      case Routes.PreferencePageRoutes:
       //var args=r.arguments as String?;
         return MaterialPageRoute(builder: (_) => PreferencePage());
+      case Routes.RegisterPageRoutes:
+        return MaterialPageRoute(builder: (_)=> RegisterPage());
       case '/':
       // don't generate route on start-up
         return null;

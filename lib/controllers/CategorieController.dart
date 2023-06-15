@@ -22,17 +22,17 @@ class CategorieController with ChangeNotifier {
     print("Résultat de la réccupération ${reponse}");
 
     if(reponse!=null){
-      categories=reponse["data"].map<CategorieModel>((e) => CategorieModel.fromJson(e)).toList();
+      categories=reponse.map<CategorieModel>((e) => CategorieModel.fromJson(e)).toList();
       stockage?.write(StockageKeys.categoriesKey, reponse);
       isHttpException=false;
       notifyListeners();
-    }else{
+    }/*else{
       isHttpException=true;
       var datastockee= stockage?.read(StockageKeys.categoriesKey);
-      var temp= datastockee["data"].map<CategorieModel>((e)=>CategorieModel.fromJson(e)).toList;
+      var temp= datastockee.map<CategorieModel>((e)=>CategorieModel.fromJson(e)).toList;
       categories = temp;
       print("data satockee :${temp}");
-    }
+    }*/
     loading = false;
     notifyListeners();
   }

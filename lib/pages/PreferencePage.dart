@@ -1,8 +1,8 @@
+
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:squelette_mobile_parcours/controllers/UserCtrl.dart';
-import 'package:squelette_mobile_parcours/utils/StockageKeys.dart';
 
 import '../utils/Routes.dart';
 
@@ -35,6 +35,7 @@ class _PreferencePageState extends State<PreferencePage> {
     'Smartphone',
   ];
   Color? color;
+
 
   @override
   void initState() {
@@ -144,7 +145,6 @@ class _PreferencePageState extends State<PreferencePage> {
                 SizedBox(width: 25,),
                 ElevatedButton(
                   onPressed: () {
-                    stockage?.write(StockageKeys.preferenceKey, tags);
                     var userCtrl = context.read<UserCtrl>();
                     userCtrl.isFirstTimeBienvenue = true;
                     _naviguerVersPreferencePage();

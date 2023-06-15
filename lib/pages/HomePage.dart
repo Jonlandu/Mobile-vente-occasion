@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:squelette_mobile_parcours/pages/DashboardPage.dart';
 import 'package:squelette_mobile_parcours/pages/ListeConversationPage.dart';
-import 'package:squelette_mobile_parcours/pages/MessagePage.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:squelette_mobile_parcours/utils/StockageKeys.dart';
 
 import 'ProfilPage.dart';
-import 'createArticle/CreateArticleSellPage.dart';
 import 'home/ArticlesPage.dart';
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -18,10 +17,10 @@ class _HomePageState extends State<HomePage> {
   int _currentIndex=0;
   Color other = Colors.black;
   Color selectedItem = Colors.orange;
+  GetStorage box = GetStorage();
 
   final pages=[
     ArticlesPage(),
-    DashboardPage(),
     ListeConversationPage(),
     ProfilPage()
   ];
@@ -44,16 +43,12 @@ class _HomePageState extends State<HomePage> {
 
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.analytics_outlined),
-          label: 'Dashboard',
-        ),
-        BottomNavigationBarItem(
           icon: Icon(Icons.chat),
           label: 'Message',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
-          label: 'Profile',
+          label: box.read(StockageKeys.tokenKey)!=null? 'Profile':'Connexion',
         ),
       ],
       onTap: (int index){

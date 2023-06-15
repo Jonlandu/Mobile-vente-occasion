@@ -16,22 +16,30 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      var userCtrl = context.read<UserCtrl>();
+      userCtrl.recuperDataAPI();
+    });
+  }
   GetStorage box = GetStorage();
 
   @override
   Widget build(BuildContext context) {
-    var token = box.read(StockageKeys.tokenyKey);
-    return token!=null? Scaffold(
-      floatingActionButton: ButtonFloat(context, Routes.CreateArticleSellPageRoutes),
+    var token = box.read(StockageKeys.tokenKey);
+    return token != null ? Scaffold(
+      floatingActionButton: ButtonFloat(
+          context, Routes.CreateArticleSellPageRoutes),
       extendBodyBehindAppBar: true,
       body: _body(),
-    ): Scaffold(
+    ) : Scaffold(
       extendBodyBehindAppBar: true,
       body: _connectezVous(),
     );
   }
 
-  Widget _body(){
+  Widget _body() {
     var userCtrl = context.watch<UserCtrl>();
     return ListView(
       padding: EdgeInsets.zero,
@@ -49,27 +57,32 @@ class _DashboardPageState extends State<DashboardPage> {
               ListTile(
                 contentPadding: EdgeInsets.symmetric(horizontal: 30),
                 title: Text(
-                  '${userCtrl.user?.name}',
+                  '${userCtrl.user?.name==null? "Nom : non défini": userCtrl.user?.name}',
                   style: Theme.of(context)
                       .textTheme
                       .headlineSmall
                       ?.copyWith(color: Colors.white),
                 ),
                 subtitle: Text(
-                  '${userCtrl.user?.email}',
+                  '${userCtrl.user?.email == null ? "Email : non_défini" : userCtrl.user?.email}',
                   style: Theme.of(context)
                       .textTheme
                       .titleMedium
                       ?.copyWith(color: Colors.white54),
                 ),
                 trailing: Container(
-                  padding: const EdgeInsets.all(3),
-                  decoration: BoxDecoration(
-                      color: Colors.white, shape: BoxShape.circle
-                  ),
-                  child: CircleAvatar(
-                    backgroundImage: NetworkImage('${Constantes.BASE_URL}/${userCtrl.user?.image}'),
-                  ) , //AssetImage("assets/img.png"),
+                    padding: const EdgeInsets.all(3),
+                    decoration: BoxDecoration(
+                        color: Colors.white, shape: BoxShape.circle
+                    ),
+                    child: ClipOval(
+                        child: Image.network(
+                          "${Constantes.BASE_URL}${userCtrl.user?.image}",
+                          errorBuilder: (BuildContext context, Object exception,
+                              StackTrace? stackTrace) {
+                            return Icon(Icons.account_circle);
+                          },
+                        )),
                 ),
               ),
               SizedBox(
@@ -157,7 +170,8 @@ class _DashboardPageState extends State<DashboardPage> {
         ),
         child: Text('''
 Veillez vous connecter pour voir cette page ! 
-                            CLIQUEZ ICI''', style: TextStyle(color: Colors.black),),
+                            CLIQUEZ ICI''',
+          style: TextStyle(color: Colors.black),),
       ),
     ));
   }

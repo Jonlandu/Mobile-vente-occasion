@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:squelette_mobile_parcours/utils/Constantes.dart';
+import 'package:squelette_mobile_parcours/widgets/errors/NetworkErrorExceptionType1Widget.dart';
 import '../../../models/ArticleModel.dart';
 import '../../../utils/Routes.dart';
+import '../../../widgets/errors/NetworkErrorExceptionType2Widget.dart';
 
 class ArticlesListWidget extends StatelessWidget {
   final List <ArticleModel> articles;
@@ -13,7 +15,7 @@ class ArticlesListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
 
     if(articles.length==0){
-      return Center(child: Text("Aucune donnée trouvé !"),);
+      return Center(child: NetworkErrorExceptionType2Widget(),);
     }
     return GridView.builder(
         physics: ClampingScrollPhysics(),
@@ -27,209 +29,221 @@ class ArticlesListWidget extends StatelessWidget {
         itemCount: articles.length,
         itemBuilder: (BuildContext ctx, index) {
           ArticleModel article = articles[index];
-          return Container(
-            alignment: Alignment.center,
-            // padding: EdgeInsets.all(1),
-            margin: EdgeInsets.symmetric(vertical: 4, horizontal: 4),
-            padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Colors.orange,
-                width: 0.5,
+          var imagesToprint = article.images.isNotEmpty ? (article.images[0].imagePath ?? "") :  "";
+          var negociationValintermediare = article.negociation;
+          var negociationVal = "";
+          if(negociationValintermediare == 1){
+            negociationVal = "Négociable";
+          }else{
+            negociationVal = "Non négociable";
+          }
+
+          return Padding(
+            //padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(left: 10, right: 10),
+            child: Container(
+              alignment: Alignment.center,
+              // padding: EdgeInsets.all(1),
+              //margin: EdgeInsets.symmetric(vertical: 0, horizontal: 4),
+              padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.orange,
+                  width: 0.5,
+                ),
+                borderRadius: BorderRadius.circular(5),
               ),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                InkWell(
-                  onTap: () {
-                    print(article);
-                    Navigator.pushNamed(context, Routes.ArticlesDetailsPageRoutes,
-                        arguments: article.toJson());
-                  },
-                  child: Container(
-                    margin: EdgeInsets.all(10),
-                    child: CachedNetworkImage(
-                      imageUrl: "${Constantes.BASE_URL}/${article.images ?? ""}",
-                      //imageUrl: "",
-                      placeholder: (context, url) =>
-                          Center(child: CircularProgressIndicator()),
-                      errorWidget: (context, url, error) =>
-                          Icon(Icons.error),
-                      width: 100,
-                      height: 100,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      print(article);
+                      Navigator.pushNamed(context, Routes.ArticlesDetailsPageRoutes,
+                          arguments: article.toJson());
+                    },
+                    child: Container(
+                      margin: EdgeInsets.all(10),
+                      child: CachedNetworkImage(
+                        imageUrl: "${Constantes.BASE_URL}${imagesToprint ?? ''}",
+                        placeholder: (context, url) =>
+                            Center(child: CircularProgressIndicator()),
+                        errorWidget: (context, url, error) =>
+                            Icon(Icons.error),
+                        width: 100,
+                        height: 100,
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 11),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        children: [
-                          Column(
-                            children: [
-                              Text(
-                                article.title ?? "",
-                                style: TextStyle(
-                                  fontSize: 17,
-                                  color: Colors.orange,
-                                  fontWeight: FontWeight.bold,
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 11),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          children: [
+                            Column(
+                              children: [
+                                Text(
+                                  article.title ?? "",
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                    color: Colors.orange,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              Text(
-                                "Catégories : ${article.title ?? ""} ",
-                                style: TextStyle(
-                                  fontSize: 6,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Icon(
-                            Icons.favorite_border,
-                            color: Colors.red,
-                            size: 15,
-                          ),
-                          Text(
-                            "${article.interrese ?? null} intéressé(s)",
-                            style: TextStyle(
-                              fontSize: 6,
-                              color: Colors.black,
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // description du produit
-                    Flexible(
-                      child: Container(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          article.content ?? "",
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: Colors.black,
-                          ),
+                            Column(
+                              children: [
+                                Text(
+                                  "Catégories : ${article.title ?? ""} ",
+                                  style: TextStyle(
+                                    fontSize: 6,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    // prix
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 0),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                "${article.price ?? ""} ${article.devise ?? ""}",
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                "${article.negociation ?? ""}",
-                                style: TextStyle(
-                                  fontSize: 6,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.orange,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-
-                SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 11),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        child: Row(
+                        Column(
                           children: [
                             Icon(
-                              Icons.place,
-                              color: Colors.orange,
+                              Icons.favorite_border,
+                              color: Colors.red,
                               size: 15,
-
                             ),
-                            Flexible(
-                              child: Text(
-                                "${article.country ?? ""}-${article.city ?? ""}",
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                                style: TextStyle(
-                                  fontSize: 8,
-                                  color: Colors.black,
-                                ),
+                            Text(
+                              "${article.interrese ?? ""} intéressé(s)",
+                              style: TextStyle(
+                                fontSize: 6,
+                                color: Colors.black,
                               ),
                             ),
                           ],
                         ),
-                      ),
-                      SizedBox(width: 12,),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.access_time,
-                            color: Colors.black,
-                            size: 11,
-                          ),
-                          Text(
-                            //"Publie 04-05-2023",
-                            "Publie ${article.createdAt}",
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            style: TextStyle(
-                              fontSize: 7,
-                              color: Colors.black,
+                      ],
+                    ),
+                  ),
 
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // description du produit
+                      Flexible(
+                        child: Container(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            article.content ?? "",
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: Colors.black,
                             ),
                           ),
-                        ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      // prix
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 0),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "${article.price ?? ""} ${article.devise ?? ""}",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "${negociationVal}",
+                                  style: TextStyle(
+                                    fontSize: 6,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.orange,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
-                ),
-              ],
+
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 11),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.place,
+                                color: Colors.orange,
+                                size: 15,
+
+                              ),
+                              Flexible(
+                                child: Text(
+                                  "${article.country ?? ""}-${article.city ?? ""}",
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                    fontSize: 8,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: 12,),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.access_time,
+                              color: Colors.black,
+                              size: 11,
+                            ),
+                            Text(
+                              //"Publie 04-05-2023",
+                              "Publie ${article.createdAt}",
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: TextStyle(
+                                fontSize: 7,
+                                color: Colors.black,
+
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         });
