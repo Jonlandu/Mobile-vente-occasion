@@ -24,16 +24,15 @@ class ArticleController with ChangeNotifier {
     var reponse = await getData(url);
 
     if(reponse!=null){
-      print(reponse['data']);
       articles=reponse["data"].map<ArticleModel>((e) => ArticleModel.fromJson(e)).toList();
       isHttpException = false;
-    }/*else{
+    }else{
       isHttpException = true;
       var datastockee = stockage?.read(StockageKeys.articlesKey);
       var for_a_time_data = datastockee["data"].map<ArticleModel>((e)=>ArticleModel.fromJson(e)).toList();
       articles = for_a_time_data;
       print("data satockee :${for_a_time_data}");
-    }*/
+    }
     loading = false;
     notifyListeners();
   }
@@ -42,17 +41,15 @@ class ArticleController with ChangeNotifier {
     var url = "${Endpoints.createPublicationEndpoint}";
 
     String? token=stockage?.read(StockageKeys.tokenKey);
+    print("VOICI LE TOKEN D'ENVOIE DES DONNEES FONCTION $token");
 
     HttpResponse reponse = await postData(url, data, token: token);
-
     if (reponse.status) {
-      print("Réponse Brut : ${reponse.data?['id']}");
       var article = ArticleModel.fromJson(reponse.data?['article'] ?? {});
       articles.add(article);
 
       var endpoint = Endpoints.createImagesPublicationEndpoint.replaceAll("{id}", reponse.data?['id']);
       postDataWithFile(endpoint, images.map((e) => e.path).toList(), token: token);
-      print("==================IMAGES ${images.map((e) => e.path)}");
     }
     return reponse;
   }
@@ -78,5 +75,22 @@ class ArticleController with ChangeNotifier {
     }
     loading = false;
     notifyListeners();
+  }
+  Future<HttpResponse> deleteArticleSelected(int? articleId) async {
+    var endpoint = Endpoints.deleteArticlesEndpoint.replaceAll("{id}", articleId.toString());
+    print("Voici mon URL $endpoint");
+    var token = stockage?.read(StockageKeys.tokenKey);
+    print("VOICI LE TOKEN CONTROLLER DELETE FONCTION  $token");
+
+    loading = true;
+    notifyListeners();
+
+    HttpResponse reponse = await deleteArticle(endpoint, token: token);
+    return reponse;
+  }
+
+  test(){
+    String? token=stockage?.read(StockageKeys.tokenKey);
+    print("VOICI LE TOKEN D'ENVOIE DES DONNEES FONCTION $token");
   }
 }

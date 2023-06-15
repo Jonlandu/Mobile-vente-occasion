@@ -1,10 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:squelette_mobile_parcours/utils/Constantes.dart';
-import 'package:squelette_mobile_parcours/widgets/errors/NetworkErrorExceptionType1Widget.dart';
 import '../../../models/ArticleModel.dart';
 import '../../../utils/Routes.dart';
-import '../../../widgets/errors/NetworkErrorExceptionType2Widget.dart';
 
 class ArticlesListWidget extends StatelessWidget {
   final List <ArticleModel> articles;
@@ -15,7 +13,8 @@ class ArticlesListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
 
     if(articles.length==0){
-      return Center(child: NetworkErrorExceptionType2Widget(),);
+      return Center(child: CircularProgressIndicator(),
+      );
     }
     return GridView.builder(
         physics: ClampingScrollPhysics(),
@@ -66,7 +65,7 @@ class ArticlesListWidget extends StatelessWidget {
                     child: Container(
                       margin: EdgeInsets.all(10),
                       child: CachedNetworkImage(
-                        imageUrl: "${Constantes.BASE_URL}${imagesToprint ?? ''}",
+                        imageUrl: "${Constantes.BASE_URL}${imagesToprint}",
                         placeholder: (context, url) =>
                             Center(child: CircularProgressIndicator()),
                         errorWidget: (context, url, error) =>
