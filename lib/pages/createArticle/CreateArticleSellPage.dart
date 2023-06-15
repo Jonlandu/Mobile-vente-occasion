@@ -35,7 +35,7 @@ class _CreateArticleSellPageState extends State<CreateArticleSellPage> {
   var keyword_form = TextEditingController(text: "voiture");
   bool negociation_form=false;
   var devise_form = TextEditingController(text: "CDF");
-  int? _categorySelected = 1;
+  int? _categorySelected;
   var formkey = GlobalKey<FormState>();
   bool isVisible = false;
 
