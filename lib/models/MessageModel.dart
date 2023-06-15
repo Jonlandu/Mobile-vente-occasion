@@ -6,8 +6,8 @@ String messageModelToJson(MessageModel data) => json.encode(data.toJson());
 
 class MessageModel {
   int? id;
-  String? conversation_id;
-  int? content;
+  int? conversation_id;
+  String? content;
   int? user_id;
 
   MessageModel({

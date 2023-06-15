@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
+import 'package:squelette_mobile_parcours/pages/DiscussionPage.dart';
 
 import '../../../models/ArticleModel.dart';
+import '../../../utils/Routes.dart';
 
 class MainDetailsArticlesWidget extends StatelessWidget {
   final ArticleModel detailsArticles;
@@ -264,13 +266,18 @@ class MainDetailsArticlesWidget extends StatelessWidget {
                                   onPressed: () {
                                     Center(child: CircularProgressIndicator());
                                   },
-                                  child: Text(
-                                    'Contactez-moi',
-                                    style: TextStyle(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
+                                  child: InkWell(
+                                    child: Text(
+                                      'Contactez-moi',
+                                      style: TextStyle(
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
                                     ),
+                                    onTap: (){
+                                      Navigator.pushNamed(context, Routes.DiscussionPageRoutes);
+                                    },
                                   ),
                                 ),
                               ),
@@ -278,7 +285,10 @@ class MainDetailsArticlesWidget extends StatelessWidget {
                                 width: 5,
                               ),
                               InkWell(
-                                onTap: () {},
+
+                                onTap: () {
+
+                                },
                                 child: Icon(
                                   Icons.share,
                                   size: 20,

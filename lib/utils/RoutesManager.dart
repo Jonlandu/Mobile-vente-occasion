@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:squelette_mobile_parcours/pages/ListeConversationPage.dart';
 // import 'package:squelette_mobile_parcours/pages/HomePage.dart';
 import 'package:squelette_mobile_parcours/pages/home/ArticlesPage.dart';
 //import 'package:squelette_mobile_parcours/pages/messageExemple.dart';
 import '../pages/DiscussionPage.dart';
-import '../pages/ListeArticle.dart';
 import '../pages/TemplatePage.dart';
 import 'package:squelette_mobile_parcours/models/ArticleModel.dart';
 import 'package:squelette_mobile_parcours/pages/home/ArticlesPage.dart';
@@ -25,9 +25,9 @@ class RoutesManager {
       case Routes.ArticlesPageRoutes:
         return MaterialPageRoute(builder: (_) => ArticlesPage());
       case Routes.ListeArticleRoutes:
-       return MaterialPageRoute(builder: (_)=> ListeArticle());
+       return MaterialPageRoute(builder: (_)=> ListeConversationPage());
       case Routes.DiscussionPageRoutes:
-        return MaterialPageRoute(builder: (_)=> DiscussionPagePage());
+        return MaterialPageRoute(builder: (_)=> DiscussionPage());
 
 
       case Routes.ArticlesDetailsPageRoutes:
@@ -38,6 +38,9 @@ class RoutesManager {
 
       case Routes.CreateArticleSellPageRoutes:
         return MaterialPageRoute(builder: (_)=> CreateArticleSellPage());
+
+      case Routes.diaRoutes:
+        return MaterialPageRoute(builder: (_)=> Dialog());
 
 
       case Routes.DashboardPageRoutes:
@@ -56,7 +59,7 @@ class RoutesManager {
       // don't generate route on start-up
         return null;
       default:
-        return MaterialPageRoute(builder: (_) => TemplatePage());
+        return MaterialPageRoute(builder: (_) => HomePage());
     }
   }
 }

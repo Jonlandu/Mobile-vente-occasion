@@ -12,6 +12,7 @@ class Routes {
   static const String LoginPageRoutes = "/login";
   static const String BienvenuePageRoutes = "/bienvenu";
   static const String PreferencePagePageRoutes = "/preference";
+  static const String diaRoutes="dia";
 
 
 }

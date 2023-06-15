@@ -2,6 +2,8 @@ import 'package:alice/alice.dart';
 import 'package:flutter/material.dart';
 // import 'package:squelette_mobile_parcours/controllers/UserCtrl.dart';
 import 'package:squelette_mobile_parcours/Controllers/AuthentificationCtrl.dart';
+import 'package:squelette_mobile_parcours/controllers/ConversationController.dart';
+import 'package:squelette_mobile_parcours/controllers/MessageController.dart';
 import 'package:squelette_mobile_parcours/controllers/UserCtrl.dart';
 import 'package:squelette_mobile_parcours/utils/StockageKeys.dart';
 
@@ -28,6 +30,8 @@ class MonApplication extends StatelessWidget {
          ChangeNotifierProvider(create: (_) => UserCtrl(stockage: box)),
         ChangeNotifierProvider(create: (_) => UserCtrl(stockage: box)),
         ChangeNotifierProvider(create: (_) => AuthentificationCtrl(stockage: box)),
+        ChangeNotifierProvider(create: (_) => MessageController(stockage: box)),
+        ChangeNotifierProvider(create: (_) => ConversationController(stockage: box)),
 
       ],
       child: MaterialApp(

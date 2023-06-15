@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:squelette_mobile_parcours/pages/DashboardPage.dart';
+import 'package:squelette_mobile_parcours/pages/ListeConversationPage.dart';
 import 'package:squelette_mobile_parcours/pages/MessagePage.dart';
 
 import 'ProfilPage.dart';
@@ -21,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   final pages=[
     ArticlesPage(),
     DashboardPage(),
-    MessagePage(),
+    ListeConversationPage(),
     ProfilPage()
   ];
 
