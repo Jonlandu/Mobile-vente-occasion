@@ -523,7 +523,7 @@ class _ArticleCreatePageState extends State<ArticleCreatePage> {
             return TextButton(
               onPressed: () => _validateForm(ctx),
               child: Text(
-                "Publier l'annonce",
+                "Publier l'article",
                 style:
                 TextStyle(color: Colors.white, fontSize: 20),
               ),

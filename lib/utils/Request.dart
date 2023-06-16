@@ -50,7 +50,7 @@ Future<HttpResponse> patchData(String api_url, Map data,
   try {
     var url = Uri.parse("${Constantes.BASE_URL}$api_url");
     String dataStr = json.encode(data);
-    var tkn = token ?? Constantes.DefaultToken;
+    var tkn = token ?? Constantes.defaultToken;
     var response = await http.patch(url, body: dataStr, headers: {
       "Content-Type": "application/json",
       "Authorization": "Bearer $tkn"
@@ -183,27 +183,22 @@ Future<dynamic> deleteData(String endpoint, {String? token}) async {
   }
 }
 
-Future<dynamic> updateArticle(String endpoint,
-    String newtitle, String newkeyword, String newcontent,
-    String newcity, int newprice, String newdevise, bool newnegociation,
-    List<String> newimageUrls, {String? token}) async {
+Future<dynamic> updateData(String endpoint, Map data, {String? token}) async {
   final dio = d.Dio();
   try{
     final url = "${Constantes.BASE_URL}$endpoint";
     dio.interceptors.add(alice.getDioInterceptor());
 
     var _tkn = token ?? Constantes.defaultToken;
-    final response = await dio.put(url,
-      data: {
-        'title': newtitle,
-        'keyword': newkeyword,
-        'content': newcontent,
-        'city': newcity,
-        'price': newprice,
-        'devise': newdevise,
-        'negociation': newnegociation,
-        'images': newimageUrls
-      },
+    final response = await dio.put(url, data: data,
+      options: d.Options(
+        followRedirects: false,
+        contentType: "application/x-www-form-urlencoded",
+        headers: {
+          'Authorization':'Bearer $_tkn',
+          "Accept" : "application/json"
+        },
+      ),
     );
 
     var successList = [200, 201];
@@ -223,6 +218,53 @@ Future<dynamic> updateArticle(String endpoint,
   }
 }
 
+Future<dynamic> updateDataWithFile(String endpoint,List<String> filenames, {String? token}) async {
+  final dio = d.Dio();
+  try{
+    var url =
+        "${Constantes.BASE_URL}$endpoint";
+    dio.interceptors.add(alice.getDioInterceptor());
+    String _tkn = token ?? Constantes.defaultToken;
+
+    var files=[];
+    var Splitedelement = "";
+    for (var f in filenames) {
+      var elt = f.split('/');
+      Splitedelement = elt.last;
+      files.add(await d.MultipartFile.fromFile( f, filename:Splitedelement ));
+    }
+    final formData = d.FormData.fromMap({
+      // 'name': 'dio',
+      // 'date': DateTime.now().toIso8601String(),
+      //'file': await d.MultipartFile.fromFile( , filename: 'upload.txt'),
+      'image_path[]': files
+    });
+    final response = await dio.put(url, data: formData,
+      options: d.Options(
+        followRedirects: false,
+        contentType: "application/x-www-form-urlencoded",
+        headers: {
+          'Authorization':'Bearer $_tkn',
+          "Accept" : "application/json"
+        },
+      ),
+    );
+    var successList = [200, 201];
+    var msg = json.decode(response.data);
+    var st = successList.contains(response.statusCode);
+    if (response.statusCode == 500) throw Exception(msg);
+
+    return HttpResponse(status: st, data: msg); // {"status": st, "m
+  }catch(e, trace) {
+    printWrapped(e.toString());
+    printWrapped(trace.toString());
+    return HttpResponse(
+        status: false,
+        errorMsg: "Erreur inattendue, Problème de connexion",
+        isException: true
+    ); // {"status": st, "msg": msg};{
+  }
+}
 /*Future<dynamic> searchArticles(String query) async {
   final dio = d.Dio();
   try{

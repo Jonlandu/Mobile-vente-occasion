@@ -58,7 +58,6 @@ class ArticlesListWidget extends StatelessWidget {
                 children: [
                   InkWell(
                     onTap: () {
-                      print(article);
                       Navigator.pushNamed(context, Routes.ArticlesDetailsPageRoutes,
                           arguments: article.toJson());
                     },

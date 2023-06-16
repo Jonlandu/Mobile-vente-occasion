@@ -51,6 +51,11 @@ class RoutesManager {
         return MaterialPageRoute(builder: (_) => PreferencePage());
       case Routes.RegisterPageRoutes:
         return MaterialPageRoute(builder: (_)=> RegisterPage());
+      /*case Routes.ArticleUpdateRoutes:
+        var args=r.arguments as Map?;
+        var articleToUpdateChoosed = {};
+        var articleToUpdate = ArticleModel.fromJson(args ?? articleToUpdateChoosed);
+        return MaterialPageRoute(builder: (_)=> ArticleUpdatePage(articleToUpdate: articleToUpdate));*/
       case '/':
       // don't generate route on start-up
         return null;
