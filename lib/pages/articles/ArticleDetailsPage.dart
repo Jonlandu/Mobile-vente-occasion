@@ -22,13 +22,17 @@ class _ArticleDetailsPageState extends State<ArticleDetailsPage> {
   bool isVisible = false;
   bool _isAppBarVisible = true;
   late final ScrollController _scrollController;
+  var articleId;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      var annoncesSimilaireCtrl = context.read<ArticleController>();
-      annoncesSimilaireCtrl.recuperAnnoncesSimilaireAPI();
+      var articleController = context.read<ArticleController>();
+      articleController.recuperDetailsArticlesAPI(widget.article.id);
+      print("VOICI L'ID GLISSER PAR LA LISTE DES ARTICLES : ${widget.article.id}");
+      //var annoncesSimilaireCtrl = context.read<ArticleController>();
+      //annoncesSimilaireCtrl.recuperAnnoncesSimilaireAPI();
       _scrollController = ScrollController();
       _scrollController.addListener(_handleScroll);
     });
@@ -54,15 +58,17 @@ class _ArticleDetailsPageState extends State<ArticleDetailsPage> {
   }
 
   AppBar _appBar() {
-    var articleCtrl = context.read<ArticleController>();
+    var articleCtrl = context.watch<ArticleController>();
+    //articleCtrl.recuperDetailsArticlesAPI(articleCtrl.detailarticles.id);
 
     void _validateDelete(BuildContext ctx) async {
       FocusScope.of(context).requestFocus(new FocusNode());
       isVisible = true;
-      final int? articleId = widget.article.id; // ID de l'article à supprimer
+      final int? articleId = articleCtrl.detailarticles.id;
+
       await articleCtrl.deleteArticleSelected(articleId);
-      print("ID DE L'ARTICLE SUPRIMMER $articleId");
       await Future.delayed(Duration(seconds: 2));
+
       Navigator.popAndPushNamed(context, Routes.HomePagePageRoutes);
       ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
           backgroundColor: Colors.green,
@@ -70,6 +76,7 @@ class _ArticleDetailsPageState extends State<ArticleDetailsPage> {
           content: Text('Vous avez suppimer cet article')));
       isVisible = false;
     }
+
     return AppBar(
       leading: InkWell(
         onTap: () {
@@ -100,7 +107,8 @@ class _ArticleDetailsPageState extends State<ArticleDetailsPage> {
                   },*/
                   child: InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, Routes.ArticleUpdateRoutes);
+                      Navigator.pushNamed(context, Routes.ArticleUpdateRoutes,
+                          arguments: articleId);
                     },
                     child: Row(
                       children: [
@@ -154,14 +162,15 @@ class _ArticleDetailsPageState extends State<ArticleDetailsPage> {
   }
 
   Widget _body() {
+    var articleController = context.watch<ArticleController>();
     var annoncesSimilaireCtrl = context.watch<ArticleController>();
     return SingleChildScrollView(
       child: SingleChildScrollView(
         controller: _scrollController,
         child: Column(
           children: [
-            DetailsArticlesImagesWidget(article: widget.article),
-            MainDetailsArticlesWidget(detailsArticles: widget.article),
+            DetailsArticlesImagesWidget(article: articleController.detailarticles),
+            MainDetailsArticlesWidget(detailsArticles: articleController.detailarticles),
             SizedBox(
               height: 5,
             ),

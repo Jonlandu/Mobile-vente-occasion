@@ -50,7 +50,7 @@ Future<HttpResponse> patchData(String api_url, Map data,
   try {
     var url = Uri.parse("${Constantes.BASE_URL}$api_url");
     String dataStr = json.encode(data);
-    var tkn = token ?? Constantes.DefaultToken;
+    var tkn = token ?? Constantes.defaultToken;
     var response = await http.patch(url, body: dataStr, headers: {
       "Content-Type": "application/json",
       "Authorization": "Bearer $tkn"
@@ -183,15 +183,22 @@ Future<dynamic> deleteData(String endpoint, {String? token}) async {
   }
 }
 
-Future<dynamic> updateArticle(String endpoint, Map data, {String? token}) async {
+Future<dynamic> updateData(String endpoint, Map data, {String? token}) async {
   final dio = d.Dio();
   try{
     final url = "${Constantes.BASE_URL}$endpoint";
     dio.interceptors.add(alice.getDioInterceptor());
 
     var _tkn = token ?? Constantes.defaultToken;
-    final response = await dio.put(url,
-      data: data
+    final response = await dio.put(url, data: data,
+      options: d.Options(
+        followRedirects: false,
+        contentType: "application/x-www-form-urlencoded",
+        headers: {
+          'Authorization':'Bearer $_tkn',
+          "Accept" : "application/json"
+        },
+      ),
     );
 
     var successList = [200, 201];

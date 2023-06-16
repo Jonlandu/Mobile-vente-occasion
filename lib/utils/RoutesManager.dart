@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:squelette_mobile_parcours/pages/ListeConversationPage.dart';
 import '../pages/DiscussionPage.dart';
 import 'package:squelette_mobile_parcours/models/ArticleModel.dart';
-import 'package:squelette_mobile_parcours/pages/articles/ArticleUpdatePage.dart';
 import 'package:squelette_mobile_parcours/pages/connexion/RegisterPage.dart';
 import 'package:squelette_mobile_parcours/pages/Articles/ArticlesPage.dart';
 import '../pages/Articles/ArticleCreatePage.dart';
@@ -52,8 +51,11 @@ class RoutesManager {
         return MaterialPageRoute(builder: (_) => PreferencePage());
       case Routes.RegisterPageRoutes:
         return MaterialPageRoute(builder: (_)=> RegisterPage());
-      case Routes.ArticleUpdateRoutes:
-        return MaterialPageRoute(builder: (_)=> ArticleUpdatePage());
+      /*case Routes.ArticleUpdateRoutes:
+        var args=r.arguments as Map?;
+        var articleToUpdateChoosed = {};
+        var articleToUpdate = ArticleModel.fromJson(args ?? articleToUpdateChoosed);
+        return MaterialPageRoute(builder: (_)=> ArticleUpdatePage(articleToUpdate: articleToUpdate));*/
       case '/':
       // don't generate route on start-up
         return null;
