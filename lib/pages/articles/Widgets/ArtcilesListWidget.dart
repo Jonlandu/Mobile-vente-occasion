@@ -44,7 +44,7 @@ class ArticlesListWidget extends StatelessWidget {
               alignment: Alignment.center,
               // padding: EdgeInsets.all(1),
               //margin: EdgeInsets.symmetric(vertical: 0, horizontal: 4),
-              padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+              padding: EdgeInsets.symmetric( horizontal: 4),
               decoration: BoxDecoration(
                 border: Border.all(
                   color: Colors.orange,
@@ -63,15 +63,16 @@ class ArticlesListWidget extends StatelessWidget {
                           arguments: article.toJson());
                     },
                     child: Container(
-                      margin: EdgeInsets.all(10),
+                      margin: EdgeInsets.only(bottom: 8),
                       child: CachedNetworkImage(
                         imageUrl: "${Constantes.BASE_URL}${imagesToprint}",
                         placeholder: (context, url) =>
                             Center(child: CircularProgressIndicator()),
                         errorWidget: (context, url, error) =>
                             Icon(Icons.error),
-                        width: 100,
-                        height: 100,
+                         width: 120,
+                         height: 120,
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),

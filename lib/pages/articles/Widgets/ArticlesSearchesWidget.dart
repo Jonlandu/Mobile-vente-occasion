@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ArticlesSearchesWidget extends StatelessWidget {
+  final TextEditingController _searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(

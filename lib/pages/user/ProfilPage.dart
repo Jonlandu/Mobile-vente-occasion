@@ -9,10 +9,10 @@ import 'package:provider/provider.dart';
 import 'package:squelette_mobile_parcours/controllers/UserCtrl.dart';
 import 'package:squelette_mobile_parcours/utils/Constantes.dart';
 
-import '../controllers/AuthentificationCtrl.dart';
-import '../utils/Routes.dart';
-import '../utils/StockageKeys.dart';
-import '../widgets/Appbar.dart';
+import '../../controllers/AuthentificationCtrl.dart';
+import '../../utils/Routes.dart';
+import '../../utils/StockageKeys.dart';
+import '../../widgets/Appbar.dart';
 
 class ProfilPage extends StatefulWidget {
   const ProfilPage({Key? key}) : super(key: key);
