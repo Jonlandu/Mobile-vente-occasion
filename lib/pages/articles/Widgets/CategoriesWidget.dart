@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../../../models/CategorieModel.dart';
 import '../../../utils/Constantes.dart';
+import '../../../widgets/errors/NetworkErrorExceptionType1Widget.dart';
 
 class CategoriesWidget extends StatelessWidget {
   final List<CategorieModel> categories;
@@ -10,7 +11,9 @@ class CategoriesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    if(categories.length==0){
+      return Center(child: NetworkErrorExceptionType1Widget(),);
+    }
     return Container(
       height: 60,
       margin: EdgeInsets.symmetric(vertical: 15),
@@ -48,7 +51,7 @@ class CategoriesWidget extends StatelessWidget {
               // Spacer(),
               Container(
                 child: Text(
-                  "${categorie.title ?? ""} ",
+                  "${categorie.category_name} ",
                   overflow: TextOverflow.ellipsis,
                   softWrap: true,
                   style: TextStyle(

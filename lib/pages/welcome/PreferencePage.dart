@@ -1,10 +1,12 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:squelette_mobile_parcours/controllers/UserCtrl.dart';
 
-import '../controllers/TagCtrl.dart';
-import '../utils/Routes.dart';
+import '../../controllers/TagCtrl.dart';
+import '../../utils/Routes.dart';
 
 class PreferencePage extends StatefulWidget {
   const PreferencePage({Key? key}) : super(key: key);

@@ -2,28 +2,27 @@ import 'package:flutter/material.dart';
 
 
 import 'package:provider/provider.dart';
-import 'package:squelette_mobile_parcours/pages/LoginPage.dart';
-import '../controllers/AuthentificationCtrl.dart';
-import '../utils/Message.dart';
-import '../utils/Routes.dart';
-import '../widgets/ChampsSaisie.dart';
-import '../widgets/Chargement.dart';
+import '../../controllers/AuthentificationCtrl.dart';
+import '../../utils/Message.dart';
+import '../../utils/Routes.dart';
+import '../../widgets/ChampsSaisie.dart';
+import '../../widgets/Chargement.dart';
 
-class RegisterPage extends StatefulWidget {
+class LoginPage extends StatefulWidget {
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+
+
+class _LoginPageState extends State<LoginPage> {
+  Color couleurFond = Colors.white;
 
   String errorMsg = "";
   bool isVisible = false;
   var formKey = GlobalKey<FormState>();
-  var name = TextEditingController();
-  var email = TextEditingController();
-  var telephone = TextEditingController();
+  var username = TextEditingController();
   var password = TextEditingController();
-  var password_confirm = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -34,44 +33,41 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
   }
-  registerPressed() async {
+  LoginPressed() async {
     FocusScope.of(context).requestFocus(new FocusNode());
     if (!formKey.currentState!.validate()) {
       return;
     }
     isVisible = true;
+
     setState(() {});
     var ctrl = context.read<AuthentificationCtrl>();
     Map data = {
-      'name': name.text,
-      'email': email.text,
-      'telephone': telephone.text,
-      'password': password.text,
-      'password_confirmation': password_confirm.text,
-      'temp': false
+      "email": username.text,
+      "password": password.text
     };
     print(data);
-    var res = await ctrl.register(data);
+    var res = await ctrl.login(data);
 
 
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(Duration(seconds: 1));
 
     isVisible = false;
     setState(() {});
-    // print(res.status);
-    // print("::::::::::::::::::::::${res.data}");
+    print(res.status);
+    print("::::::::::::::::::::::${res.data}");
     //res.data?['status_message']=="vous etes connecter"
     if (res.status) {
-      //res.data?['status_message'];
+      res.data?['status_message'];
       //Message.afficherSnack(context, "Authentification reussie", Colors.green);
       await Future.delayed(Duration(seconds: 1));
       setState(() {});
 
-      Navigator.popAndPushNamed(context, Routes.HomePagePageRoutes);
+      Navigator.pushReplacementNamed(context, Routes.HomePagePageRoutes);
     } else {
       var msg =
-      res.isException == true ? res.errorMsg : (res.data?['errorInfo']);
-      print("msg=====!!! : $msg");
+      res.isException == true ? res.errorMsg : (res.data?['message']);
+      print("mqg=====!!! : $msg");
       Message.afficherSnack(context, msg);
 
       print("------------------------${res.data?['message']}");
@@ -80,6 +76,8 @@ class _RegisterPageState extends State<RegisterPage> {
     }
     return;
   }
+
+
   Widget _body(BuildContext context) {
     return Form(
       key: formKey,
@@ -87,39 +85,32 @@ class _RegisterPageState extends State<RegisterPage> {
         children: [
           Center(
             child: Container(
+              width: double.infinity,
               padding: EdgeInsets.symmetric(horizontal: 40),
               child: SingleChildScrollView(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(height: 50,),
                     Icon(Icons.lock, size: 100,),
+                    SizedBox(height: 20,),
+                    Container(
+                      alignment: Alignment.center,
+                      child: Text("Connectez-vous ", style: TextStyle(fontSize: 29,fontWeight: FontWeight.w500,color: Color(0xff000000),height: 1.1725)),
+                    ),
+                    SizedBox(height: 20,),
                     Text(
-                      'Bienvenu dans notre App',
+                      'Content de vous retrouver encore !',
                       style: TextStyle(
                         color: Colors.grey[700],
                         fontSize: 16,
                       ),
                     ),
-                    SizedBox(height: 20,),
-                    Container(
-                      alignment: Alignment.center,
-                    ),
-                    Container(
-                      alignment: Alignment.center,
-                      child: Text("Créer un compte ", style: TextStyle(fontSize: 29,fontWeight: FontWeight.w500,color: Color(0xff000000),height: 1.1725)),
-                    ),
+
                     SizedBox(
                       height: 20,
                     ),
-                    ChampSaisie(ctrl: name, label: "Nom complet", required: true),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    ChampSaisie(ctrl: email, label: "Email", required: true),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    ChampSaisie(ctrl: telephone, label: "Téléphone", required: true),
+                    ChampSaisie(ctrl: username, label: "Adresse Email", required: true),
                     SizedBox(
                       height: 15,
                     ),
@@ -129,15 +120,21 @@ class _RegisterPageState extends State<RegisterPage> {
                         required: true,
                         isPassword: true),
                     SizedBox(
-                      height: 15,
+                      height: 0,
                     ),
-                    ChampSaisie(
-                        ctrl: password_confirm,
-                        label: "Confirmer le Mot de passe",
-                        required: true,
-                        isPassword: true),
+                    Container(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        child: Text(
+                          'Mot de passe oublié?',
+                          style: TextStyle(color: Colors.orange,decoration: TextDecoration.underline),
+                        ),
+                        onPressed: () {
+                          showSnackBar(context, "Bientôt disponible !");
+                        },
+                      ),
+                    ),
                     _textError(),
-                    SizedBox(height: 20,),
                     _buttonWidget(context),
                     SizedBox(
                       height: 8,
@@ -145,29 +142,26 @@ class _RegisterPageState extends State<RegisterPage> {
                     Container(
                       alignment: Alignment.center,
                       child: Text(
-                        'vous avez un compte ?',
+                        'vous n\'avez pas un compte ?',
                         style: TextStyle(color: Colors.black),
 
                       ),
-                    ),
-                    SizedBox(
-                      height: 1,
                     ),
                     Container(
                       alignment: Alignment.center,
                       child: TextButton(
                         child: Text(
-                          'Connectez-vous !',
-                          style: TextStyle(color: Colors.orange,decoration: TextDecoration.underline,fontSize: 16,fontWeight: FontWeight.w500),
+                          'Enregistrez-vous !',
+                          style: TextStyle(color: Colors.orange,decoration: TextDecoration.underline),
                         ),
-                        onPressed: () async {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(builder: (_) => LoginPage()));
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(context, Routes.RegisterPageRoutes);
                         },
                       ),
                     ),
-                    SizedBox(height: 20,)
+                    SizedBox(
+                      height: 8,
+                    ),
                   ],
                 ),
               ),
@@ -205,6 +199,7 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
   }
+
   showSnackBar(context, String message) {
     final scaffold = ScaffoldMessenger.of(context);
     scaffold.showSnackBar(SnackBar(
@@ -222,15 +217,14 @@ class _RegisterPageState extends State<RegisterPage> {
       width: 500,
       height: 50,
       child: ElevatedButton(
-        onPressed: ()=>registerPressed(),
-        child: Text("Créer un compte",style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
+        onPressed: ()=>LoginPressed(),
+        child: Text("Connexion", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
         style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.black
+          backgroundColor: Colors.black
         ),
       ),
     );
   }
-
 
   Widget _textError() {
     return Text(errorMsg, style: TextStyle(color: Colors.red, fontSize: 16));

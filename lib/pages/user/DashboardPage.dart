@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:squelette_mobile_parcours/utils/Constantes.dart';
-import '../controllers/UserCtrl.dart';
-import '../utils/Routes.dart';
-import '../utils/StockageKeys.dart';
-import '../widgets/ButtonFloat.dart';
+import '../../controllers/UserCtrl.dart';
+import '../../utils/Routes.dart';
+import '../../utils/StockageKeys.dart';
+import '../../widgets/ButtonFloat.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({Key? key}) : super(key: key);

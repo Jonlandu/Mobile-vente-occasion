@@ -2,27 +2,28 @@ import 'package:flutter/material.dart';
 
 
 import 'package:provider/provider.dart';
-import '../controllers/AuthentificationCtrl.dart';
-import '../utils/Message.dart';
-import '../utils/Routes.dart';
-import '../widgets/ChampsSaisie.dart';
-import '../widgets/Chargement.dart';
+import 'package:squelette_mobile_parcours/pages/connexion/LoginPage.dart';
+import '../../controllers/AuthentificationCtrl.dart';
+import '../../utils/Message.dart';
+import '../../utils/Routes.dart';
+import '../../widgets/ChampsSaisie.dart';
+import '../../widgets/Chargement.dart';
 
-class LoginPage extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-
-
-class _LoginPageState extends State<LoginPage> {
-  Color couleurFond = Colors.white;
+class _RegisterPageState extends State<RegisterPage> {
 
   String errorMsg = "";
   bool isVisible = false;
   var formKey = GlobalKey<FormState>();
-  var username = TextEditingController();
+  var name = TextEditingController();
+  var email = TextEditingController();
+  var telephone = TextEditingController();
   var password = TextEditingController();
+  var password_confirm = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -33,41 +34,44 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-  LoginPressed() async {
+  registerPressed() async {
     FocusScope.of(context).requestFocus(new FocusNode());
     if (!formKey.currentState!.validate()) {
       return;
     }
     isVisible = true;
-
     setState(() {});
     var ctrl = context.read<AuthentificationCtrl>();
     Map data = {
-      "email": username.text,
-      "password": password.text
+      'name': name.text,
+      'email': email.text,
+      'telephone': telephone.text,
+      'password': password.text,
+      'password_confirmation': password_confirm.text,
+      'temp': false
     };
     print(data);
-    var res = await ctrl.login(data);
+    var res = await ctrl.register(data);
 
 
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(Duration(seconds: 2));
 
     isVisible = false;
     setState(() {});
-    print(res.status);
-    print("::::::::::::::::::::::${res.data}");
+    // print(res.status);
+    // print("::::::::::::::::::::::${res.data}");
     //res.data?['status_message']=="vous etes connecter"
     if (res.status) {
-      res.data?['status_message'];
+      //res.data?['status_message'];
       //Message.afficherSnack(context, "Authentification reussie", Colors.green);
       await Future.delayed(Duration(seconds: 1));
       setState(() {});
 
-      Navigator.pushReplacementNamed(context, Routes.HomePagePageRoutes);
+      Navigator.popAndPushNamed(context, Routes.HomePagePageRoutes);
     } else {
       var msg =
-      res.isException == true ? res.errorMsg : (res.data?['message']);
-      print("mqg=====!!! : $msg");
+      res.isException == true ? res.errorMsg : (res.data?['errorInfo']);
+      print("msg=====!!! : $msg");
       Message.afficherSnack(context, msg);
 
       print("------------------------${res.data?['message']}");
@@ -76,8 +80,6 @@ class _LoginPageState extends State<LoginPage> {
     }
     return;
   }
-
-
   Widget _body(BuildContext context) {
     return Form(
       key: formKey,
@@ -85,32 +87,39 @@ class _LoginPageState extends State<LoginPage> {
         children: [
           Center(
             child: Container(
-              width: double.infinity,
               padding: EdgeInsets.symmetric(horizontal: 40),
               child: SingleChildScrollView(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    SizedBox(height: 50,),
                     Icon(Icons.lock, size: 100,),
-                    SizedBox(height: 20,),
-                    Container(
-                      alignment: Alignment.center,
-                      child: Text("Connectez-vous ", style: TextStyle(fontSize: 29,fontWeight: FontWeight.w500,color: Color(0xff000000),height: 1.1725)),
-                    ),
-                    SizedBox(height: 20,),
                     Text(
-                      'Content de vous retrouver encore !',
+                      'Bienvenu dans notre App',
                       style: TextStyle(
                         color: Colors.grey[700],
                         fontSize: 16,
                       ),
                     ),
-
+                    SizedBox(height: 20,),
+                    Container(
+                      alignment: Alignment.center,
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      child: Text("Créer un compte ", style: TextStyle(fontSize: 29,fontWeight: FontWeight.w500,color: Color(0xff000000),height: 1.1725)),
+                    ),
                     SizedBox(
                       height: 20,
                     ),
-                    ChampSaisie(ctrl: username, label: "Adresse Email", required: true),
+                    ChampSaisie(ctrl: name, label: "Nom complet", required: true),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    ChampSaisie(ctrl: email, label: "Email", required: true),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    ChampSaisie(ctrl: telephone, label: "Téléphone", required: true),
                     SizedBox(
                       height: 15,
                     ),
@@ -120,21 +129,15 @@ class _LoginPageState extends State<LoginPage> {
                         required: true,
                         isPassword: true),
                     SizedBox(
-                      height: 0,
+                      height: 15,
                     ),
-                    Container(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                        child: Text(
-                          'Mot de passe oublié?',
-                          style: TextStyle(color: Colors.orange,decoration: TextDecoration.underline),
-                        ),
-                        onPressed: () {
-                          showSnackBar(context, "Bientôt disponible !");
-                        },
-                      ),
-                    ),
+                    ChampSaisie(
+                        ctrl: password_confirm,
+                        label: "Confirmer le Mot de passe",
+                        required: true,
+                        isPassword: true),
                     _textError(),
+                    SizedBox(height: 20,),
                     _buttonWidget(context),
                     SizedBox(
                       height: 8,
@@ -142,26 +145,29 @@ class _LoginPageState extends State<LoginPage> {
                     Container(
                       alignment: Alignment.center,
                       child: Text(
-                        'vous n\'avez pas un compte ?',
+                        'vous avez un compte ?',
                         style: TextStyle(color: Colors.black),
 
                       ),
+                    ),
+                    SizedBox(
+                      height: 1,
                     ),
                     Container(
                       alignment: Alignment.center,
                       child: TextButton(
                         child: Text(
-                          'Enregistrez-vous !',
-                          style: TextStyle(color: Colors.orange,decoration: TextDecoration.underline),
+                          'Connectez-vous !',
+                          style: TextStyle(color: Colors.orange,decoration: TextDecoration.underline,fontSize: 16,fontWeight: FontWeight.w500),
                         ),
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(context, Routes.RegisterPageRoutes);
+                        onPressed: () async {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (_) => LoginPage()));
                         },
                       ),
                     ),
-                    SizedBox(
-                      height: 8,
-                    ),
+                    SizedBox(height: 20,)
                   ],
                 ),
               ),
@@ -199,7 +205,6 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
   showSnackBar(context, String message) {
     final scaffold = ScaffoldMessenger.of(context);
     scaffold.showSnackBar(SnackBar(
@@ -217,14 +222,15 @@ class _LoginPageState extends State<LoginPage> {
       width: 500,
       height: 50,
       child: ElevatedButton(
-        onPressed: ()=>LoginPressed(),
-        child: Text("Connexion", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
+        onPressed: ()=>registerPressed(),
+        child: Text("Créer un compte",style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.black
+            backgroundColor: Colors.black
         ),
       ),
     );
   }
+
 
   Widget _textError() {
     return Text(errorMsg, style: TextStyle(color: Colors.red, fontSize: 16));

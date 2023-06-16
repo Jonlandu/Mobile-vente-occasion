@@ -3,8 +3,8 @@ import 'package:get_storage/get_storage.dart';
 import 'package:squelette_mobile_parcours/controllers/CategorieController.dart';
 import 'package:provider/provider.dart';
 import 'package:squelette_mobile_parcours/controllers/ArticleController.dart';
-import 'package:squelette_mobile_parcours/pages/home/widgets/CategoriesWidget.dart';
-import 'package:squelette_mobile_parcours/pages/home/widgets/ArtcilesListWidget.dart';
+import 'package:squelette_mobile_parcours/pages/Articles/Widgets/CategoriesWidget.dart';
+import 'package:squelette_mobile_parcours/pages/Articles/Widgets/ArtcilesListWidget.dart';
 import 'package:squelette_mobile_parcours/utils/Routes.dart';
 import 'package:squelette_mobile_parcours/widgets/ButtonFloat.dart';
 import '../../utils/StockageKeys.dart';
@@ -12,7 +12,7 @@ import '../../utils/StockageKeys.dart';
 import '../../widgets/errors/NetworkErrorExceptionType1Widget.dart';
 import '../../widgets/errors/NetworkErrorExceptionType2Widget.dart';
 
-import 'widgets/ArticlesSearchesWidget.dart';
+import 'Widgets/ArticlesSearchesWidget.dart';
 
 class ArticlesPage extends StatefulWidget {
   const ArticlesPage({Key? key}) : super(key: key);
