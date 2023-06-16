@@ -8,6 +8,7 @@ class Endpoints {
   static const String createArticlePublicationEndpoint = "/api/articles";
   static const String updateArticlePublicationEndpoint = "/api/articles/{id}";
   static const String createImagesPublicationEndpoint = "/api/articles/{id}/images/";
+  static const String updateImagesArticleEndpoint = "/api/articles/{id}/images/{id}";
   static const String userToken="token";
   static const String detailUserEndpoint = "/api/singleUser";
   static const String logout = "/api/logout";

@@ -65,7 +65,7 @@ class ArticleController with ChangeNotifier {
     return reponse;
   }
 
-  Future<HttpResponse> updateArticlesCreated(int? articleId, title, keyword, content, city, price, devise, negociation, imageUrls) async {
+  /*Future<HttpResponse> updateArticlesCreated(int? articleId, title, keyword, content, city, price, devise, negociation, imageUrls) async {
     var endpoint = Endpoints.updateArticlePublicationEndpoint.replaceAll("{id}", articleId.toString());
     print("Voici mon URL $endpoint");
     var token = stockage?.read(StockageKeys.tokenKey);
@@ -83,6 +83,22 @@ class ArticleController with ChangeNotifier {
 
     HttpResponse reponse = await updateArticle(endpoint, newtitle, newkeyword, newcontent,
         newcity, newprice,  newdevise, newnegociation, newimageUrls, token: token);
+    return reponse;
+  }*/
+
+  Future<HttpResponse> updateArticlesCreated(articleId, Map data, List<File> images) async {
+    var endpoint = Endpoints.updateArticlePublicationEndpoint.replaceAll("{id}", articleId.toString());
+    print("Voici mon URL UPDATE $endpoint");
+    var token = stockage?.read(StockageKeys.tokenKey);
+
+    HttpResponse reponse = await updateArticle(endpoint, data, token: token);
+    if (reponse.status) {
+      var article = ArticleModel.fromJson(reponse.data?['article'] ?? {});
+      articles.add(article);
+
+      var endpoint = Endpoints.createImagesPublicationEndpoint.replaceAll("{id}", reponse.data?['id']);
+      postDataWithFile(endpoint, images.map((e) => e.path).toList(), token: token);
+    }
     return reponse;
   }
 

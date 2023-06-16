@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import '../../controllers/ArticleController.dart';
 import '../../models/ArticleModel.dart';
@@ -19,19 +20,35 @@ class ArticleDetailsPage extends StatefulWidget {
 
 class _ArticleDetailsPageState extends State<ArticleDetailsPage> {
   bool isVisible = false;
+  bool _isAppBarVisible = true;
+  late final ScrollController _scrollController;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       var annoncesSimilaireCtrl = context.read<ArticleController>();
       annoncesSimilaireCtrl.recuperAnnoncesSimilaireAPI();
+      _scrollController = ScrollController();
+      _scrollController.addListener(_handleScroll);
+    });
+  }
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _handleScroll() {
+    setState(() {
+      _isAppBarVisible = _scrollController.position.userScrollDirection == ScrollDirection.forward;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _appBar(),
+      appBar: _isAppBarVisible ? _appBar():null,
       body: _body(),
     );
   }
@@ -56,8 +73,9 @@ class _ArticleDetailsPageState extends State<ArticleDetailsPage> {
     return AppBar(
       leading: InkWell(
         onTap: () {
-          setState(() {});
           Navigator.popAndPushNamed(context, Routes.HomePagePageRoutes);
+          //Navigator.pop(context, Routes.HomePagePageRoutes);
+          setState(() {});
         },
         child: Icon(
           Icons.arrow_back,
@@ -76,17 +94,26 @@ class _ArticleDetailsPageState extends State<ArticleDetailsPage> {
             itemBuilder: (context) => [
               PopupMenuItem<int>(
                   value: 1,
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.edit,
-                        color: Colors.orange,
-                      ),
-                      const SizedBox(
-                        width: 7,
-                      ),
-                      Text("Modifier")
-                    ],
+                  /*onTap: () {
+                    Navigator.pushNamed(context, Routes.ArticleUpdateRoutes);
+                    setState(() {});
+                  },*/
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.ArticleUpdateRoutes);
+                    },
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.edit,
+                          color: Colors.orange,
+                        ),
+                        const SizedBox(
+                          width: 7,
+                        ),
+                        Text("Modifier")
+                      ],
+                    ),
                   )),
               PopupMenuDivider(),
               PopupMenuItem<int>(
@@ -114,11 +141,10 @@ class _ArticleDetailsPageState extends State<ArticleDetailsPage> {
       ],
       title: Center(
         child: Text(
-          "Détails Articles",
+          "TekaSombaShop",
           style: TextStyle(
-            fontSize: 23,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
+            color: Colors.orange,
+            fontSize: 18,
           ),
         ),
       ),
@@ -130,20 +156,23 @@ class _ArticleDetailsPageState extends State<ArticleDetailsPage> {
   Widget _body() {
     var annoncesSimilaireCtrl = context.watch<ArticleController>();
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          DetailsArticlesImagesWidget(article: widget.article),
-          MainDetailsArticlesWidget(detailsArticles: widget.article),
-          SizedBox(
-            height: 5,
-          ),
-          (annoncesSimilaireCtrl.isHttpException == true)
-              ? Center(
-                  child: NetworkErrorExceptionType1Widget(),
-                )
-              : AnnoncesSimilaireWidget(
-                  annoncesSimilaires: annoncesSimilaireCtrl.annoncesSimilaire),
-        ],
+      child: SingleChildScrollView(
+        controller: _scrollController,
+        child: Column(
+          children: [
+            DetailsArticlesImagesWidget(article: widget.article),
+            MainDetailsArticlesWidget(detailsArticles: widget.article),
+            SizedBox(
+              height: 5,
+            ),
+            (annoncesSimilaireCtrl.isHttpException == true)
+                ? Center(
+                    child: NetworkErrorExceptionType1Widget(),
+                  )
+                : AnnoncesSimilaireWidget(
+                    annoncesSimilaires: annoncesSimilaireCtrl.annoncesSimilaire),
+          ],
+        ),
       ),
     );
   }

@@ -1,4 +1,3 @@
-
 import 'package:dotted_border/dotted_border.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
@@ -13,28 +12,29 @@ import 'package:provider/provider.dart';
 
 import 'Widgets/EntryFieldBloqued.dart';
 
-class ArticleCreatePage extends StatefulWidget {
+class ArticleUpdatePage extends StatefulWidget {
   final int? article_id;
-  ArticleCreatePage({this.article_id});
+
+  ArticleUpdatePage({this.article_id});
 
   @override
-  State<ArticleCreatePage> createState() => _ArticleCreatePageState();
+  State<ArticleUpdatePage> createState() => _ArticleUpdatePageState();
 }
 
-class _ArticleCreatePageState extends State<ArticleCreatePage> {
+class _ArticleUpdatePageState extends State<ArticleUpdatePage> {
 
   bool isSwitched = false;
   final _controller = ValueNotifier<bool>(false);
   bool checked = false;
 
-  var title_form = TextEditingController(text: "Mercedes");
-  var price_form = TextEditingController(text: "1200000");
-  var country_form = TextEditingController(text: "R.D. Congo");
-  var city_form = TextEditingController(text: "Kinshasa");
-  var content_form = TextEditingController(text: "Contenue de la description de l'élément à vendre. Contenue de la description de l'élément à vendre.");
-  var keyword_form = TextEditingController(text: "voiture");
+  var title_form = TextEditingController();
+  var price_form = TextEditingController();
+  var country_form = TextEditingController();
+  var city_form = TextEditingController();
+  var content_form = TextEditingController();
+  var keyword_form = TextEditingController();
   bool negociation_form=false;
-  var devise_form = TextEditingController(text: "CDF");
+  var devise_form = TextEditingController();
   int? _categorySelected = 1;
   var formkey = GlobalKey<FormState>();
   bool isVisible = false;
@@ -96,7 +96,7 @@ class _ArticleCreatePageState extends State<ArticleCreatePage> {
     return AppBar(
       leading: InkWell(
         onTap: () {
-          Navigator.popAndPushNamed(context, Routes.HomePagePageRoutes);
+          Navigator.pop(context);
         },
         child: Icon(
           Icons.arrow_back,
@@ -105,9 +105,9 @@ class _ArticleCreatePageState extends State<ArticleCreatePage> {
         ),
       ),
       title: Text(
-        "Vendre",
+        "Modifier l'article",
         style: TextStyle(
-          fontSize: 30,
+          fontSize: 25,
           fontWeight: FontWeight.bold,
           color: Colors.black,
         ),
@@ -149,7 +149,7 @@ class _ArticleCreatePageState extends State<ArticleCreatePage> {
                 ),
                 _entryFieldDropdown(ListCategories,
                     _categorySelected, (value) {
-                  print("selection $value");
+                      print("selection $value");
                       setState(() {
                         _categorySelected = value;
                       });
@@ -314,7 +314,7 @@ class _ArticleCreatePageState extends State<ArticleCreatePage> {
                       children: [
                         GestureDetector(
                           onTap: () async {
-                           await selectImageFromGallery();
+                            await selectImageFromGallery();
                             print('Image_Path:-${_selectedImages}');
                             if (_selectedImages.isNotEmpty) {
                               Navigator.pop(context);
@@ -378,7 +378,7 @@ class _ArticleCreatePageState extends State<ArticleCreatePage> {
             ),
           );
         }
-        );
+    );
   }
 
   selectImageFromGallery() async {
@@ -461,7 +461,7 @@ class _ArticleCreatePageState extends State<ArticleCreatePage> {
               .toList(),
           value: _selectedValue,
           onChanged: (value) {
-           onChange(value);
+            onChange(value);
           },
           buttonStyleData: ButtonStyleData(
             height: 50,
@@ -523,7 +523,7 @@ class _ArticleCreatePageState extends State<ArticleCreatePage> {
             return TextButton(
               onPressed: () => _validateForm(ctx),
               child: Text(
-                "Publier l'article",
+                "Modifier l'article",
                 style:
                 TextStyle(color: Colors.white, fontSize: 20),
               ),
