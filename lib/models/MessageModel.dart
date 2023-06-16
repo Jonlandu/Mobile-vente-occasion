@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:dash_chat_2/dash_chat_2.dart';
+
 MessageModel messageModelFromJson(String str) => MessageModel.fromJson(json.decode(str));
 
 String messageModelToJson(MessageModel data) => json.encode(data.toJson());
@@ -30,6 +32,18 @@ class MessageModel {
     "content": content,
     "user_id":user_id,
   };
+  ChatMessage toChatMessage() {
+    return ChatMessage(
+      text: '${this.content}',
+      user: ChatUser(
+        id: '${this.user_id}',
+        firstName: '',
+        lastName: '',
+        profileImage: '',
+      ),
+      createdAt: DateTime.now(),
+    );
+  }
 }
 
 

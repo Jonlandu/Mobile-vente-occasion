@@ -48,7 +48,7 @@ void main() {
   var test = MessageController();
   //test.RecevoirListeMessage();
   //test.creerConversationApi({"article_id":2,"user_id":1});
-  test.envoyerMessage({"conversation_id":6,"content":"BONJOUR", "user_id":2});
+  test.envoyerMessage({"conversation_id":6,"content":"salut", "user_id":2});
   //test.recevoirListeMessage();
   //test.recevoirListeMessage();
 }

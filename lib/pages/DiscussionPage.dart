@@ -1,10 +1,9 @@
 import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../controllers/ConversationController.dart';
-import '../controllers/MessageController.dart';
-import '../controllers/UserCtrl.dart';
+import 'package:squelette_mobile_parcours/controllers/MessageController.dart';
+import 'package:squelette_mobile_parcours/controllers/UserCtrl.dart';
+import 'package:squelette_mobile_parcours/models/MessageModel.dart';
 
 class DiscussionPage extends StatefulWidget {
   @override
@@ -12,11 +11,10 @@ class DiscussionPage extends StatefulWidget {
 }
 
 class _DiscussionPageState extends State<DiscussionPage> {
+  @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      var conversationCtrl = context.read<ConversationController>();
-      conversationCtrl.recevoirListeConversation();
       var messageCtrl = context.read<MessageController>();
       messageCtrl.recevoirListeMessage();
       var userCtrl = context.read<UserCtrl>();
@@ -24,58 +22,40 @@ class _DiscussionPageState extends State<DiscussionPage> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     var userCtrl = context.watch<UserCtrl>();
     var messageCtrl = context.watch<MessageController>();
-    var conversation=messageCtrl.messages;
+    var messages = messageCtrl.messages.map((message) => MessageModel.fromJson(message as Map<String, dynamic>)).toList();
+
     ChatUser user = ChatUser(
       id: '${userCtrl.user?.id}',
       firstName: '${userCtrl.user?.name}',
     );
 
-    List<ChatMessage> messages = <ChatMessage>[
-      ChatMessage(
-        text: 'google.com hello you @Marc is it &you okay?',
-        user: ChatUser(
-          id: '${conversation}',
-          firstName: '',
-          lastName: 'Nlandu',
-          profileImage: 'assets/img.png',
-
-
-
-        ),
-
-        createdAt: DateTime.now(),
-        mentions: [
-          Mention(title: '@Marc'),
-          Mention(title: '&you'),
-        ],
-      ),
-    ];
     return Scaffold(
-/*      appBar: AppBar(
-        title: Text('U'),
+      appBar: AppBar(
+        title: Text('Aimée Amisa'),
         leading: IconButton(
           icon: CircleAvatar(
             backgroundImage: AssetImage('assets/img.png'),
-          ), onPressed: () {
-
-        },
+          ),
+          onPressed: () {},
         ),
-
-
-      ),*/
+      ),
       body: DashChat(
         currentUser: user,
         onSend: (ChatMessage m) {
           setState(() {
-            messages.insert(0, m);
+            var newMessage = MessageModel(
+              content: m.text,
+              user_id: int.parse(m.user.id),
+            );
+            messages.insert(0, newMessage);
+            // Envoyer le message à l'API
           });
         },
-        messages: messages,
+        messages: messages.map((message) => message.toChatMessage()).toList(),
         messageListOptions: MessageListOptions(
           onLoadEarlier: () async {
             await Future.delayed(const Duration(seconds: 3));

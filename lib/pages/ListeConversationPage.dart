@@ -1,5 +1,4 @@
 import 'package:accordion/accordion.dart';
-import 'package:accordion/controllers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:squelette_mobile_parcours/controllers/ConversationController.dart';
@@ -21,10 +20,6 @@ class _ListeConversationPageState extends State<ListeConversationPage> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       var conversationCtrl = context.read<ConversationController>();
       conversationCtrl.recevoirListeConversation();
-      // var messageCtrl = context.read<MessageController>();
-      // messageCtrl.recevoirListeMessage();
-      // var userCtrl = context.read<UserCtrl>();
-      // userCtrl.recuperDataAPI();
     });
   }
 
@@ -40,7 +35,7 @@ class _ListeConversationPageState extends State<ListeConversationPage> {
     var userCtrl = context.watch<UserCtrl>();
     return Scaffold(
         appBar: AppBar(
-          title: Text('Discussion'),
+          title: Text('Discussions'),
           backgroundColor: Colors.black,
         ),
         body: ListView.builder(
@@ -58,8 +53,6 @@ class _ListeConversationPageState extends State<ListeConversationPage> {
     var conversationCtl = context.watch<ConversationController>();
     var messageCtrl = context.watch<MessageController>();
     var userCtrl = context.watch<UserCtrl>();
-    //var c=conversationCtl.usersConversations;
-    print("hheee");
     var userListConv = conversationCtl.conversations.map((e) {
       e.clients;
     });
@@ -67,7 +60,6 @@ class _ListeConversationPageState extends State<ListeConversationPage> {
       maxOpenSections: 1,
       paddingListBottom: 0,
       paddingListTop: 0,
-      //conversationCtl.conversations.length,
       headerBackgroundColorOpened: Colors.black54,
       scaleWhenAnimating: true,
       openAndCloseAnimation: true,
@@ -104,7 +96,6 @@ class _ListeConversationPageState extends State<ListeConversationPage> {
                     ),
                   ),
                   onTap: () {
-                    // Navigator.pushReplacement(context, Routes.DiscussionPageRoutes as Route<Object?>);
                     Navigator.popAndPushNamed(
                         context, Routes.DiscussionPageRoutes);
                   },
