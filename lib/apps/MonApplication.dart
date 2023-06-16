@@ -1,5 +1,6 @@
 import 'package:alice/alice.dart';
 import 'package:flutter/material.dart';
+import 'package:squelette_mobile_parcours/controllers/TagCtrl.dart';
 import '../controllers/ArticleController.dart';
 import '../controllers/AuthentificationCtrl.dart';
 import '../controllers/CategorieController.dart';
@@ -23,7 +24,7 @@ class MonApplication extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CategorieController(stockage: box)),
         ChangeNotifierProvider(create: (_) => UserCtrl(stockage: box)),
         ChangeNotifierProvider(create: (_) => AuthentificationCtrl(stockage: box)),
-
+        ChangeNotifierProvider(create: (_) => TagCtrl(stockage: box)),
       ],
       child: MaterialApp(
         navigatorKey: alice.getNavigatorKey(),
