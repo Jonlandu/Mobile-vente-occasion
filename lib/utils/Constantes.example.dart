@@ -1,6 +1,6 @@
 class Constantes {
-  static const String BASE_URL = "http://VOTRE_IP";
-   static const String DefaultToken="";
+
+
  // static const String BASE_URL = "http://127.0.0.1:8000";
 
   static const String DefaultEmail="jonalndu78@gmail.com";
@@ -12,4 +12,6 @@ class Constantes {
   static const String defaultToken = "5|w2jYIqVJjgrPMAcZS2AFchzM4m3vsbAPCFoRiack";
   static const String authentificationEndpoint = "/api/login";
 
+  static const String BASE_URL = "VOTRE IP";
+  //static const String defaultToken = "";
 }

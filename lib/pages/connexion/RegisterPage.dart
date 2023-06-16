@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 
 import 'package:provider/provider.dart';
-import 'package:squelette_mobile_parcours/pages/LoginPage.dart';
-import '../controllers/AuthentificationCtrl.dart';
-import '../utils/Message.dart';
-import '../utils/Routes.dart';
-import '../widgets/ChampsSaisie.dart';
-import '../widgets/Chargement.dart';
+import 'package:squelette_mobile_parcours/pages/connexion/LoginPage.dart';
+import '../../controllers/AuthentificationCtrl.dart';
+import '../../utils/Message.dart';
+import '../../utils/Routes.dart';
+import '../../widgets/ChampsSaisie.dart';
+import '../../widgets/Chargement.dart';
 
 class RegisterPage extends StatefulWidget {
   @override

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 
 import 'package:provider/provider.dart';
-import '../controllers/AuthentificationCtrl.dart';
-import '../utils/Message.dart';
-import '../utils/Routes.dart';
-import '../widgets/ChampsSaisie.dart';
-import '../widgets/Chargement.dart';
+import '../../controllers/AuthentificationCtrl.dart';
+import '../../utils/Message.dart';
+import '../../utils/Routes.dart';
+import '../../widgets/ChampsSaisie.dart';
+import '../../widgets/Chargement.dart';
 
 class LoginPage extends StatefulWidget {
   @override

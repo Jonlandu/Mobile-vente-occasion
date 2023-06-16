@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:squelette_mobile_parcours/pages/ListeConversationPage.dart';
-// import 'package:squelette_mobile_parcours/pages/HomePage.dart';
-import 'package:squelette_mobile_parcours/pages/home/ArticlesPage.dart';
-//import 'package:squelette_mobile_parcours/pages/messageExemple.dart';
 import '../pages/DiscussionPage.dart';
-import '../pages/TemplatePage.dart';
 import 'package:squelette_mobile_parcours/models/ArticleModel.dart';
-import 'package:squelette_mobile_parcours/pages/RegisterPage.dart';
-import 'package:squelette_mobile_parcours/pages/home/ArticlesPage.dart';
-import '../pages/createArticle/CreateArticleSellPage.dart';
-import '../pages/detailsArticle/ArticlesDetailsPage.dart';
-import 'package:squelette_mobile_parcours/pages/DashboardPage.dart';
-import 'package:squelette_mobile_parcours/pages/PreferencePage.dart';
-import 'package:squelette_mobile_parcours/pages/HomePage.dart';
-import 'package:squelette_mobile_parcours/pages/LoginPage.dart';
-import 'package:squelette_mobile_parcours/pages/BienvenuPage.dart';
+import 'package:squelette_mobile_parcours/pages/connexion/RegisterPage.dart';
+import 'package:squelette_mobile_parcours/pages/Articles/ArticlesPage.dart';
+import '../pages/Articles/ArticleCreatePage.dart';
+import '../pages/Articles/ArticleDetailsPage.dart';
+import 'package:squelette_mobile_parcours/pages/user/DashboardPage.dart';
+import 'package:squelette_mobile_parcours/pages/welcome/PreferencePage.dart';
+import 'package:squelette_mobile_parcours/pages/home/HomePage.dart';
+import 'package:squelette_mobile_parcours/pages/connexion/LoginPage.dart';
+import 'package:squelette_mobile_parcours/pages/welcome/BienvenuPage.dart';
 
 
 import 'Routes.dart';
@@ -34,10 +30,10 @@ class RoutesManager {
         var args=r.arguments as Map?;
         var articlechoosed = {};
         var articleData=ArticleModel.fromJson(args ?? articlechoosed);
-        return MaterialPageRoute(builder: (_)=> ArticlesDetailsPage(article: articleData));
+        return MaterialPageRoute(builder: (_)=> ArticleDetailsPage(article: articleData));
 
       case Routes.CreateArticleSellPageRoutes:
-        return MaterialPageRoute(builder: (_)=> CreateArticleSellPage());
+        return MaterialPageRoute(builder: (_)=> ArticleCreatePage());
 
 
 
