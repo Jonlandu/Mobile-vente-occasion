@@ -6,22 +6,22 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:squelette_mobile_parcours/controllers/ArticleController.dart';
 import 'package:squelette_mobile_parcours/controllers/CategorieController.dart';
-import 'package:squelette_mobile_parcours/pages/createArticle/widgets/EntryFieldLongtext.dart';
+import 'package:squelette_mobile_parcours/pages/Articles/Widgets/EntryFieldLongtext.dart';
 import '../../utils/Routes.dart';
-import 'widgets/EntryField.dart';
+import 'Widgets/EntryField.dart';
 import 'package:provider/provider.dart';
 
-import 'widgets/EntryFieldBloqued.dart';
+import 'Widgets/EntryFieldBloqued.dart';
 
-class CreateArticleSellPage extends StatefulWidget {
+class ArticleCreatePage extends StatefulWidget {
   final int? article_id;
-  CreateArticleSellPage({this.article_id});
+  ArticleCreatePage({this.article_id});
 
   @override
-  State<CreateArticleSellPage> createState() => _CreateArticleSellPageState();
+  State<ArticleCreatePage> createState() => _ArticleCreatePageState();
 }
 
-class _CreateArticleSellPageState extends State<CreateArticleSellPage> {
+class _ArticleCreatePageState extends State<ArticleCreatePage> {
 
   bool isSwitched = false;
   final _controller = ValueNotifier<bool>(false);
@@ -35,7 +35,7 @@ class _CreateArticleSellPageState extends State<CreateArticleSellPage> {
   var keyword_form = TextEditingController(text: "voiture");
   bool negociation_form=false;
   var devise_form = TextEditingController(text: "CDF");
-  int? _categorySelected;
+  int? _categorySelected = 1;
   var formkey = GlobalKey<FormState>();
   bool isVisible = false;
 

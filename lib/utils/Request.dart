@@ -21,7 +21,6 @@ class HttpResponse {
 }
 
 void printWrapped(String text) {
-  print('===');
   final pattern = RegExp('.{1,800}'); // 800 is the size of each chunk
   pattern.allMatches(text).forEach((match) => print(match.group(0)));
 }
@@ -196,3 +195,16 @@ Future<dynamic> updateArticle(String endpoint,
     ); // {"status": st, "msg": msg};{
   }
 }
+
+/*Future<dynamic> searchArticles(String query) async {
+  final dio = d.Dio();
+  try{
+    final response = await http.get();
+    final jsonData = json.decode(response.body) as List<dynamic>;
+  }catch(){
+
+  }
+}*/
+/*setState(() {
+    _searchResults = jsonData.map((article) => Article.fromJson(article)).toList();
+  });*/

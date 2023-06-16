@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:squelette_mobile_parcours/pages/MessagePage.dart';
+import 'package:squelette_mobile_parcours/pages/messagerie/MessagePage.dart';
 import 'package:squelette_mobile_parcours/utils/StockageKeys.dart';
 
-import 'ProfilPage.dart';
-import 'home/ArticlesPage.dart';
+import '../user/ProfilPage.dart';
+import '../Articles/ArticlesPage.dart';
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/Appbar.dart';
+import '../../widgets/Appbar.dart';
 
 class MessagePage extends StatefulWidget {
   const MessagePage({Key? key}) : super(key: key);

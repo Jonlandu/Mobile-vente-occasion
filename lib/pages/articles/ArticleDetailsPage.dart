@@ -4,20 +4,20 @@ import '../../controllers/ArticleController.dart';
 import '../../models/ArticleModel.dart';
 import '../../utils/Routes.dart';
 import '../../widgets/errors/NetworkErrorExceptionType1Widget.dart';
-import 'widgets/AnnoncesSimilaireWidget.dart';
-import 'widgets/DetailsArticlesImagesWidget.dart';
-import 'widgets/MainDetailsArticlesWidget.dart';
+import 'Widgets/AnnoncesSimilaireWidget.dart';
+import 'Widgets/DetailsArticlesImagesWidget.dart';
+import 'Widgets/MainDetailsArticlesWidget.dart';
 
-class ArticlesDetailsPage extends StatefulWidget {
+class ArticleDetailsPage extends StatefulWidget {
   final ArticleModel article;
 
-  ArticlesDetailsPage({required this.article});
+  ArticleDetailsPage({required this.article});
 
   @override
-  State<ArticlesDetailsPage> createState() => _ArticlesDetailsPageState();
+  State<ArticleDetailsPage> createState() => _ArticleDetailsPageState();
 }
 
-class _ArticlesDetailsPageState extends State<ArticlesDetailsPage> {
+class _ArticleDetailsPageState extends State<ArticleDetailsPage> {
   bool isVisible = false;
   @override
   void initState() {
@@ -56,6 +56,7 @@ class _ArticlesDetailsPageState extends State<ArticlesDetailsPage> {
     return AppBar(
       leading: InkWell(
         onTap: () {
+          setState(() {});
           Navigator.popAndPushNamed(context, Routes.HomePagePageRoutes);
         },
         child: Icon(
