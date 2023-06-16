@@ -27,7 +27,7 @@ class _CreateArticleSellPageState extends State<CreateArticleSellPage> {
   final _controller = ValueNotifier<bool>(false);
   bool checked = false;
 
-  var title_form = TextEditingController(text: "Exaucé");
+  var title_form = TextEditingController(text: "Mercedes");
   var price_form = TextEditingController(text: "1200000");
   var country_form = TextEditingController(text: "R.D. Congo");
   var city_form = TextEditingController(text: "Kinshasa");

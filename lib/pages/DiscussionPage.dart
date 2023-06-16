@@ -28,8 +28,8 @@ class _DiscussionPageState extends State<DiscussionPage> {
   @override
   Widget build(BuildContext context) {
     var userCtrl = context.watch<UserCtrl>();
-    var conversationCtrl = context.watch<ConversationController>();
-    var conversation=conversationCtrl.conversations;
+    var messageCtrl = context.watch<MessageController>();
+    var conversation=messageCtrl.messages;
     ChatUser user = ChatUser(
       id: '${userCtrl.user?.id}',
       firstName: '${userCtrl.user?.name}',

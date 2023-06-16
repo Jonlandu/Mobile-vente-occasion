@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
-
 import 'package:dio/dio.dart' as d;
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -11,14 +9,16 @@ class HttpResponse {
   bool status;
   Map? data;
   String? errorMsg;
+  bool? isError;
   bool? isException;
 
   HttpResponse(
 
       {this.data,
-      required this.status,
-      this.errorMsg,
-      this.isException});
+        required this.status,
+        this.errorMsg,
+        this.isError,
+        this.isException});
 }
 
 void printWrapped(String text) {
@@ -31,9 +31,10 @@ Future<dynamic> getData(String url_api, {String? token}) async {
   try {
 
     var url = Uri.parse("${Constantes.BASE_URL}$url_api");
-    print("Données de l'URL : ${url}");
-
-    var reponse = await http.get(url, headers: {"Authorization":"Bearer ${token??Constantes.defaultToken}"}).timeout(Duration(seconds: 2));
+    var reponse = await http.get(url,
+        headers: {
+          "Authorization":"Bearer ${token??Constantes.defaultToken}"}).timeout(Duration(seconds: 2)
+    );
     if (reponse.statusCode == 200) {
       return json.decode(reponse.body);
     }
@@ -73,10 +74,8 @@ Future<HttpResponse> patchData(String api_url, Map data,
 Future<HttpResponse> postData(String api_url, Map data, {String? token}) async {
   try {
     var url = Uri.parse("${Constantes.BASE_URL}$api_url");
-    print("url===== $url");
     String dataStr = json.encode(data);
     var _tkn = token ?? Constantes.defaultToken;
-
     var response = await http.post(url, body: dataStr, headers: {
       "Content-Type": "application/json",
       "Authorization": "Bearer $_tkn"
@@ -95,8 +94,6 @@ Future<HttpResponse> postData(String api_url, Map data, {String? token}) async {
   } catch (e, trace) {
     printWrapped(e.toString());
     printWrapped(trace.toString());
-    // return null;
-    //return {"status": false, "error_msg": };
     return HttpResponse(
         status: false,
         errorMsg: "Erreur inattendue, Problème de connexion",
@@ -105,10 +102,10 @@ Future<HttpResponse> postData(String api_url, Map data, {String? token}) async {
 }
 
 Future<dynamic> postDataWithFile(String endpoint,List<String> filenames, {String? token}) async {
+  final dio = d.Dio();
   try{
     var url =
         "${Constantes.BASE_URL}$endpoint";
-    final dio = d.Dio();
     dio.interceptors.add(alice.getDioInterceptor());
     String _tkn = token ?? Constantes.defaultToken;
     var files=[];
@@ -151,16 +148,71 @@ Future<dynamic> postDataWithFile(String endpoint,List<String> filenames, {String
   }
 }
 
-Future<dynamic> deleteArticle(String articleId, String endpoint, {String? token}) async {
+Future<dynamic> deleteData(String endpoint, {String? token}) async {
+  final dio = d.Dio();
   try {
-    final url = 'https://example.com/api/articles/$articleId';
-    final response = await http.delete(Uri.parse(url));
+    final url = "${Constantes.BASE_URL}$endpoint";
 
-    if (response.statusCode == 200) {
-      return json.decode(response.body);
-    } else {
-      // Handle error
-    }
+    dio.interceptors.add(alice.getDioInterceptor());
+
+    var _tkn = token ?? Constantes.defaultToken;
+    final response = await dio.delete(url,
+      options: d.Options(
+        followRedirects: false,
+        contentType: "application/x-www-form-urlencoded",
+        headers: {
+          'Authorization':'Bearer $_tkn',
+          "Accept" : "application/json"
+        },
+      ),
+    );
+
+    var successList = [200, 201];
+    var msg = json.decode(response.data);
+    var st = successList.contains(response.statusCode);
+    if (response.statusCode == 500) throw Exception(msg);
+
+    return HttpResponse(status: st, data: msg); // {"status": st, "m
+  }catch(e, trace) {
+    printWrapped(e.toString());
+    printWrapped(trace.toString());
+    return HttpResponse(
+        status: false,
+        errorMsg: "Erreur inattendue, Problème de connexion",
+        isException: true
+    ); // {"status": st, "msg": msg};{
+  }
+}
+
+Future<dynamic> updateArticle(String endpoint,
+    String newtitle, String newkeyword, String newcontent,
+    String newcity, int newprice, String newdevise, bool newnegociation,
+    List<String> newimageUrls, {String? token}) async {
+  final dio = d.Dio();
+  try{
+    final url = "${Constantes.BASE_URL}$endpoint";
+    dio.interceptors.add(alice.getDioInterceptor());
+
+    var _tkn = token ?? Constantes.defaultToken;
+    final response = await dio.put(url,
+      data: {
+        'title': newtitle,
+        'keyword': newkeyword,
+        'content': newcontent,
+        'city': newcity,
+        'price': newprice,
+        'devise': newdevise,
+        'negociation': newnegociation,
+        'images': newimageUrls
+      },
+    );
+
+    var successList = [200, 201];
+    var msg = json.decode(response.data);
+    var st = successList.contains(response.statusCode);
+    if (response.statusCode == 500) throw Exception(msg);
+
+    return HttpResponse(status: st, data: msg); // {"status": st, "m
   }catch(e, trace) {
     printWrapped(e.toString());
     printWrapped(trace.toString());

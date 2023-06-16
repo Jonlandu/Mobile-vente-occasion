@@ -39,8 +39,6 @@ class RoutesManager {
       case Routes.CreateArticleSellPageRoutes:
         return MaterialPageRoute(builder: (_)=> CreateArticleSellPage());
 
-      case Routes.diaRoutes:
-        return MaterialPageRoute(builder: (_)=> Dialog());
 
 
       case Routes.DashboardPageRoutes:

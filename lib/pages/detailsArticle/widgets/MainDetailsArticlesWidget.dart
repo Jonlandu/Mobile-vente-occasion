@@ -8,7 +8,7 @@ import '../../../utils/Routes.dart';
 class MainDetailsArticlesWidget extends StatelessWidget {
   final ArticleModel detailsArticles;
 
-  MainDetailsArticlesWidget({required this.   detailsArticles});
+  MainDetailsArticlesWidget({required this.detailsArticles});
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +28,7 @@ class MainDetailsArticlesWidget extends StatelessWidget {
           }else{
             negociationVal = "Non négociable";
           }
+
           return Container(
             alignment: Alignment.center,
             margin: EdgeInsets.symmetric(vertical: 0, horizontal: 4),
@@ -410,6 +411,7 @@ class MainDetailsArticlesWidget extends StatelessWidget {
               ),
             ),
           );
-        });
+        }
+        );
   }
 }

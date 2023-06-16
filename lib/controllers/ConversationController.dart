@@ -17,7 +17,7 @@ class ConversationController with ChangeNotifier {
 
   creerConversationApi(Map data) async {
     var url = Endpoints.CreerConversation;
-    var tkn = stockage?.read(StockageKeys.tokenyKey);
+    var tkn = stockage?.read(StockageKeys.tokenKey);
     var reponse = await postData(url, data, token: tkn);
     print("Resultat ${reponse.data}");
   }
@@ -27,7 +27,7 @@ class ConversationController with ChangeNotifier {
     var url = Endpoints.detailUser;
     loading = true;
     notifyListeners();
-    var tkn = stockage?.read(StockageKeys.tokenyKey);
+    var tkn = stockage?.read(StockageKeys.tokenKey);
     var reponse = await getData(url, token: tkn);
 
     if (reponse != null) {
@@ -43,7 +43,7 @@ class ConversationController with ChangeNotifier {
     var url = "${Endpoints.CreerConversation}";
     loading = true;
     notifyListeners();
-    var token = stockage?.read(StockageKeys.tokenyKey);
+    var token = stockage?.read(StockageKeys.tokenKey);
     print("token::::$token");
 
     var reponse = await getData(url, token: token);
