@@ -13,6 +13,7 @@ class HttpResponse {
   bool? isException;
 
   HttpResponse(
+
       {this.data,
         required this.status,
         this.errorMsg,
@@ -27,6 +28,7 @@ void printWrapped(String text) {
 
 Future<dynamic> getData(String url_api, {String? token}) async {
   try {
+
     var url = Uri.parse("${Constantes.BASE_URL}$url_api");
     var reponse = await http.get(url,
         headers: {
@@ -40,6 +42,31 @@ Future<dynamic> getData(String url_api, {String? token}) async {
     print(e.toString());
     print(trace.toString());
     return null;
+  }
+}
+
+Future<HttpResponse> patchData(String api_url, Map data,
+    {String? token}) async {
+  try {
+    var url = Uri.parse("${Constantes.BASE_URL}$api_url");
+    String dataStr = json.encode(data);
+    var tkn = token ?? Constantes.DefaultToken;
+    var response = await http.patch(url, body: dataStr, headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $tkn"
+    }).timeout(Duration(seconds: 5));
+    var successList = [200, 201];
+    var msg = json.decode(response.body);
+    var st = successList.contains(response.statusCode);
+    print("url:${url}");
+
+    return HttpResponse(status: st, data: msg);
+  } catch (e, trace) {
+    print(e.toString());
+    print(trace.toString());
+
+    return HttpResponse(
+        status: false, errorMsg: "Erreur inattendue", isException: true);
   }
 }
 

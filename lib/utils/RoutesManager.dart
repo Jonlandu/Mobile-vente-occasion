@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:squelette_mobile_parcours/pages/ListeConversationPage.dart';
+import '../pages/DiscussionPage.dart';
 import 'package:squelette_mobile_parcours/models/ArticleModel.dart';
 import 'package:squelette_mobile_parcours/pages/articles/ArticleUpdatePage.dart';
 import 'package:squelette_mobile_parcours/pages/connexion/RegisterPage.dart';
@@ -11,6 +13,7 @@ import 'package:squelette_mobile_parcours/pages/home/HomePage.dart';
 import 'package:squelette_mobile_parcours/pages/connexion/LoginPage.dart';
 import 'package:squelette_mobile_parcours/pages/welcome/BienvenuPage.dart';
 
+
 import 'Routes.dart';
 
 class RoutesManager {
@@ -18,6 +21,11 @@ class RoutesManager {
     switch (r.name) {
       case Routes.ArticlesPageRoutes:
         return MaterialPageRoute(builder: (_) => ArticlesPage());
+      case Routes.ListeArticleRoutes:
+       return MaterialPageRoute(builder: (_)=> ListeConversationPage());
+      case Routes.DiscussionPageRoutes:
+        return MaterialPageRoute(builder: (_)=> DiscussionPage());
+
 
       case Routes.ArticlesDetailsPageRoutes:
         var args=r.arguments as Map?;
@@ -27,6 +35,7 @@ class RoutesManager {
 
       case Routes.CreateArticleSellPageRoutes:
         return MaterialPageRoute(builder: (_)=> ArticleCreatePage());
+
 
 
       case Routes.DashboardPageRoutes:

@@ -1,5 +1,9 @@
 import 'package:alice/alice.dart';
 import 'package:flutter/material.dart';
+import 'package:squelette_mobile_parcours/controllers/ConversationController.dart';
+import 'package:squelette_mobile_parcours/controllers/MessageController.dart';
+import 'package:squelette_mobile_parcours/utils/StockageKeys.dart';
+
 import '../controllers/ArticleController.dart';
 import '../controllers/AuthentificationCtrl.dart';
 import '../controllers/CategorieController.dart';
@@ -14,15 +18,18 @@ Alice alice = Alice(showNotification: true,);
 class MonApplication extends StatelessWidget {
 
   final box = GetStorage();
-
   @override
   Widget build(BuildContext context) {
+    var token = box.read(StockageKeys.tokenKey);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ArticleController(stockage: box)),
         ChangeNotifierProvider(create: (_) => CategorieController(stockage: box)),
+         ChangeNotifierProvider(create: (_) => UserCtrl(stockage: box)),
         ChangeNotifierProvider(create: (_) => UserCtrl(stockage: box)),
         ChangeNotifierProvider(create: (_) => AuthentificationCtrl(stockage: box)),
+        ChangeNotifierProvider(create: (_) => MessageController(stockage: box)),
+        ChangeNotifierProvider(create: (_) => ConversationController(stockage: box)),
 
       ],
       child: MaterialApp(
