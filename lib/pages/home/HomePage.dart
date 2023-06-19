@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:squelette_mobile_parcours/pages/ListeConversationPage.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:squelette_mobile_parcours/pages/messagerie/MessagePage.dart';
 import 'package:squelette_mobile_parcours/utils/StockageKeys.dart';
 
 import '../user/ProfilPage.dart';
@@ -20,7 +20,12 @@ class _HomePageState extends State<HomePage> {
   Color selectedItem = Colors.orange;
   GetStorage box = GetStorage();
 
-  final pages = [ArticlesPage(), MessagePage(), ProfilPage()];
+
+  final pages=[
+    ArticlesPage(),
+    ListeConversationPage(),
+    ProfilPage()
+  ];
 
   @override
   Widget build(BuildContext context) {
