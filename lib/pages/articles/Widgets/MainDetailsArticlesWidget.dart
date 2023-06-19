@@ -55,7 +55,7 @@ class MainDetailsArticlesWidget extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              "Catégories : ${detailsArticles.categorie}",
+                              "${detailsArticles.categorie}",
                               style: TextStyle(
                                 fontSize: 12,
                                 color: Colors.black,
@@ -218,7 +218,7 @@ class MainDetailsArticlesWidget extends StatelessWidget {
                                 size: 20,
                               ),
                               Text(
-                                "Mots clés : ",
+                                "htags : ",
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                                 style: TextStyle(

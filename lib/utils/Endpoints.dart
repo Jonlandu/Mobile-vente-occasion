@@ -1,6 +1,7 @@
 class Endpoints {
   static const String authentication = "/api/login";
   static const String articlesEndpoint = "/api/articles";
+  static const String articlesShowEndpoint = "/api/articles/{id}";
   static const String deleteArticlesEndpoint = "/api/articles/{id}";
   static const String imagesArticlesEndpoint = "/api/articles/{id}/images";
   static const String detailUser = "/api/user";
@@ -13,6 +14,7 @@ class Endpoints {
   static const String createArticlePublicationEndpoint = "/api/articles";
   static const String updateArticlePublicationEndpoint = "/api/articles/{id}";
   static const String createImagesPublicationEndpoint = "/api/articles/{id}/images/";
+  static const String updateImagesArticleEndpoint = "/api/articles/{id}/images/{id}";
   static const String userToken="token";
   static const String detailUserEndpoint = "/api/singleUser";
   static const String logout = "/api/logout";

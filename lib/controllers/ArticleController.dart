@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_storage/get_storage.dart';
@@ -11,6 +10,7 @@ import '../utils/StockageKeys.dart';
 class ArticleController with ChangeNotifier {
   GetStorage? stockage;
   List<ArticleModel> articles = [];
+  var detailarticles;
   List<ArticleModel> annoncesSimilaire = [];
   bool loading = false;
   bool? isHttpException;
@@ -31,7 +31,26 @@ class ArticleController with ChangeNotifier {
       var datastockee = stockage?.read(StockageKeys.articlesKey);
       var for_a_time_data = datastockee["data"].map<ArticleModel>((e)=>ArticleModel.fromJson(e)).toList();
       articles = for_a_time_data;
-      print("data satockee :${for_a_time_data}");
+    }
+    loading = false;
+    notifyListeners();
+  }
+
+  void recuperDetailsArticlesAPI(articleId) async {
+    var urlWithArticleId = Endpoints.articlesShowEndpoint.replaceAll("{id}", articleId.toString());
+    var url = "${urlWithArticleId}";
+    loading = true;
+    notifyListeners();
+    var reponse = await getData(url);
+
+    if(reponse!=null){
+      detailarticles=ArticleModel.fromJson(reponse);
+      isHttpException = false;
+    }else{
+      isHttpException = true;
+      //var datastockee = stockage?.read(StockageKeys.articlesKey);
+      var for_a_time_data = ArticleModel.fromJson(reponse ?? {});
+      detailarticles = for_a_time_data;
     }
     loading = false;
     notifyListeners();
@@ -41,7 +60,6 @@ class ArticleController with ChangeNotifier {
     var url = "${Endpoints.createArticlePublicationEndpoint}";
 
     String? token=stockage?.read(StockageKeys.tokenKey);
-    print("VOICI LE TOKEN D'ENVOIE DES DONNEES FONCTION $token");
 
     HttpResponse reponse = await postData(url, data, token: token);
     if (reponse.status) {
@@ -57,7 +75,6 @@ class ArticleController with ChangeNotifier {
   Future<HttpResponse> deleteArticleSelected(int? articleId) async {
     var endpoint = Endpoints.deleteArticlesEndpoint.replaceAll("{id}", articleId.toString());
     var token = stockage?.read(StockageKeys.tokenKey);
-
     loading = true;
     notifyListeners();
 
@@ -65,24 +82,19 @@ class ArticleController with ChangeNotifier {
     return reponse;
   }
 
-  Future<HttpResponse> updateArticlesCreated(int? articleId, title, keyword, content, city, price, devise, negociation, imageUrls) async {
+  Future<HttpResponse> updateArticlesCreated(articleId, Map data, List<File> images) async {
     var endpoint = Endpoints.updateArticlePublicationEndpoint.replaceAll("{id}", articleId.toString());
-    print("Voici mon URL $endpoint");
+    print("Voici mon URL UPDATE $endpoint");
     var token = stockage?.read(StockageKeys.tokenKey);
 
-    loading = true;
-    notifyListeners();
-    String newtitle = title;
-    String newkeyword = keyword;
-    String newcontent = content;
-    String newcity = city;
-    int newprice = price;
-    String newdevise = devise;
-    bool newnegociation = negociation;
-    List<String> newimageUrls = imageUrls;
+    HttpResponse reponse = await updateData(endpoint, data, token: token);
+    if (reponse.status) {
+      var article = ArticleModel.fromJson(reponse.data?['article'] ?? {});
+      articles.add(article);
 
-    HttpResponse reponse = await updateArticle(endpoint, newtitle, newkeyword, newcontent,
-        newcity, newprice,  newdevise, newnegociation, newimageUrls, token: token);
+      var endpoint = Endpoints.createImagesPublicationEndpoint.replaceAll("{id}", articleId.toString());
+      postDataWithFile(endpoint, images.map((e) => e.path).toList(), token: token);
+    }
     return reponse;
   }
 
