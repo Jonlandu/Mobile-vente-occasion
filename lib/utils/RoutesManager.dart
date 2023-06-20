@@ -11,8 +11,7 @@ import 'package:squelette_mobile_parcours/pages/welcome/PreferencePage.dart';
 import 'package:squelette_mobile_parcours/pages/home/HomePage.dart';
 import 'package:squelette_mobile_parcours/pages/connexion/LoginPage.dart';
 import 'package:squelette_mobile_parcours/pages/welcome/BienvenuPage.dart';
-
-
+import '../pages/articles/ArticleUpdatePage.dart';
 import 'Routes.dart';
 
 class RoutesManager {
@@ -24,38 +23,28 @@ class RoutesManager {
        return MaterialPageRoute(builder: (_)=> ListeConversationPage());
       case Routes.DiscussionPageRoutes:
         return MaterialPageRoute(builder: (_)=> DiscussionPage());
-
-
       case Routes.ArticlesDetailsPageRoutes:
         var args=r.arguments as Map?;
         var articlechoosed = {};
         var articleData=ArticleModel.fromJson(args ?? articlechoosed);
         return MaterialPageRoute(builder: (_)=> ArticleDetailsPage(article: articleData));
-
       case Routes.CreateArticleSellPageRoutes:
         return MaterialPageRoute(builder: (_)=> ArticleCreatePage());
-
-
-
       case Routes.DashboardPageRoutes:
-      //var args=r.arguments as String?;
         return MaterialPageRoute(builder: (_) => DashboardPage());
       case Routes.LoginPageRoutes:
-      //var args=r.arguments as String?;
         return MaterialPageRoute(builder: (_) => LoginPage());
       case Routes.BienvenuePageRoutes:
-      //var args=r.arguments as String?;
         return MaterialPageRoute(builder: (_) => BienvenuPage());
       case Routes.PreferencePageRoutes:
-      //var args=r.arguments as String?;
         return MaterialPageRoute(builder: (_) => PreferencePage());
       case Routes.RegisterPageRoutes:
         return MaterialPageRoute(builder: (_)=> RegisterPage());
-      /*case Routes.ArticleUpdateRoutes:
-        var args=r.arguments as Map?;
+      case Routes.ArticleUpdateRoutes:
+        var args = r.arguments as Map?;
         var articleToUpdateChoosed = {};
         var articleToUpdate = ArticleModel.fromJson(args ?? articleToUpdateChoosed);
-        return MaterialPageRoute(builder: (_)=> ArticleUpdatePage(articleToUpdate: articleToUpdate));*/
+        return MaterialPageRoute(builder: (_)=> ArticleUpdatePage(articleToUpdate: articleToUpdate));
       case '/':
       // don't generate route on start-up
         return null;

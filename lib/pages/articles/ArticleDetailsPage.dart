@@ -108,7 +108,7 @@ class _ArticleDetailsPageState extends State<ArticleDetailsPage> {
                   child: InkWell(
                     onTap: () {
                       Navigator.pushNamed(context, Routes.ArticleUpdateRoutes,
-                          arguments: articleId);
+                          arguments: widget.article.toJson());
                     },
                     child: Row(
                       children: [

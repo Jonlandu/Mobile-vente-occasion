@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
-import 'package:squelette_mobile_parcours/pages/DiscussionPage.dart';
-
 import '../../../models/ArticleModel.dart';
 import '../../../utils/Routes.dart';
 

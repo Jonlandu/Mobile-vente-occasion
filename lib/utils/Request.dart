@@ -13,12 +13,12 @@ class HttpResponse {
   bool? isException;
 
   HttpResponse(
-
       {this.data,
         required this.status,
         this.errorMsg,
         this.isError,
-        this.isException});
+        this.isException}
+      );
 }
 
 void printWrapped(String text) {
@@ -28,7 +28,6 @@ void printWrapped(String text) {
 
 Future<dynamic> getData(String url_api, {String? token}) async {
   try {
-
     var url = Uri.parse("${Constantes.BASE_URL}$url_api");
     var reponse = await http.get(url,
         headers: {
@@ -38,9 +37,11 @@ Future<dynamic> getData(String url_api, {String? token}) async {
       return json.decode(reponse.body);
     }
     return null;
+
   } catch (e, trace) {
     print(e.toString());
     print(trace.toString());
+
     return null;
   }
 }
@@ -55,12 +56,12 @@ Future<HttpResponse> patchData(String api_url, Map data,
       "Content-Type": "application/json",
       "Authorization": "Bearer $tkn"
     }).timeout(Duration(seconds: 5));
+
     var successList = [200, 201];
     var msg = json.decode(response.body);
     var st = successList.contains(response.statusCode);
-    print("url:${url}");
-
     return HttpResponse(status: st, data: msg);
+
   } catch (e, trace) {
     print(e.toString());
     print(trace.toString());
@@ -87,12 +88,12 @@ Future<HttpResponse> postData(String api_url, Map data, {String? token}) async {
     var msg = json.decode(response.body);
     var st = successList.contains(response.statusCode);
     if (response.statusCode == 500) throw Exception(msg);
-
     return HttpResponse(status: st, data: msg); // {"status": st, "msg": msg};
-    // return null;
+
   } catch (e, trace) {
     printWrapped(e.toString());
     printWrapped(trace.toString());
+
     return HttpResponse(
         status: false,
         errorMsg: "Erreur inattendue, Problème de connexion",
@@ -102,6 +103,7 @@ Future<HttpResponse> postData(String api_url, Map data, {String? token}) async {
 
 Future<dynamic> postDataWithFile(String endpoint,List<String> filenames, {String? token}) async {
   final dio = d.Dio();
+
   try{
     var url =
         "${Constantes.BASE_URL}$endpoint";
@@ -120,6 +122,7 @@ Future<dynamic> postDataWithFile(String endpoint,List<String> filenames, {String
       //'file': await d.MultipartFile.fromFile( , filename: 'upload.txt'),
       'image_path[]': files
     });
+
     final response = await dio.post(url, data: formData,
       options: d.Options(
         followRedirects: false,
@@ -130,6 +133,7 @@ Future<dynamic> postDataWithFile(String endpoint,List<String> filenames, {String
         },
       ),
     );
+
     var successList = [200, 201];
     var msg = json.decode(response.data);
     var st = successList.contains(response.statusCode);
@@ -139,6 +143,7 @@ Future<dynamic> postDataWithFile(String endpoint,List<String> filenames, {String
   }catch(e, trace) {
     printWrapped(e.toString());
     printWrapped(trace.toString());
+
     return HttpResponse(
         status: false,
         errorMsg: "Erreur inattendue, Problème de connexion",
@@ -149,12 +154,12 @@ Future<dynamic> postDataWithFile(String endpoint,List<String> filenames, {String
 
 Future<dynamic> deleteData(String endpoint, {String? token}) async {
   final dio = d.Dio();
+
   try {
     final url = "${Constantes.BASE_URL}$endpoint";
-
     dio.interceptors.add(alice.getDioInterceptor());
-
     var _tkn = token ?? Constantes.defaultToken;
+
     final response = await dio.delete(url,
       options: d.Options(
         followRedirects: false,
@@ -172,9 +177,11 @@ Future<dynamic> deleteData(String endpoint, {String? token}) async {
     if (response.statusCode == 500) throw Exception(msg);
 
     return HttpResponse(status: st, data: msg); // {"status": st, "m
+
   }catch(e, trace) {
     printWrapped(e.toString());
     printWrapped(trace.toString());
+
     return HttpResponse(
         status: false,
         errorMsg: "Erreur inattendue, Problème de connexion",
@@ -185,15 +192,18 @@ Future<dynamic> deleteData(String endpoint, {String? token}) async {
 
 Future<dynamic> updateData(String endpoint, Map data, {String? token}) async {
   final dio = d.Dio();
+
   try{
     final url = "${Constantes.BASE_URL}$endpoint";
     dio.interceptors.add(alice.getDioInterceptor());
-
     var _tkn = token ?? Constantes.defaultToken;
-    final response = await dio.put(url, data: data,
+
+    String jsonData = json.encode(data);
+
+    final response = await dio.put(url, data: jsonData,
       options: d.Options(
         followRedirects: false,
-        contentType: "application/x-www-form-urlencoded",
+        contentType: "application/json",
         headers: {
           'Authorization':'Bearer $_tkn',
           "Accept" : "application/json"
@@ -207,9 +217,11 @@ Future<dynamic> updateData(String endpoint, Map data, {String? token}) async {
     if (response.statusCode == 500) throw Exception(msg);
 
     return HttpResponse(status: st, data: msg); // {"status": st, "m
+
   }catch(e, trace) {
     printWrapped(e.toString());
     printWrapped(trace.toString());
+
     return HttpResponse(
         status: false,
         errorMsg: "Erreur inattendue, Problème de connexion",
@@ -220,6 +232,7 @@ Future<dynamic> updateData(String endpoint, Map data, {String? token}) async {
 
 Future<dynamic> updateDataWithFile(String endpoint,List<String> filenames, {String? token}) async {
   final dio = d.Dio();
+
   try{
     var url =
         "${Constantes.BASE_URL}$endpoint";
@@ -233,12 +246,14 @@ Future<dynamic> updateDataWithFile(String endpoint,List<String> filenames, {Stri
       Splitedelement = elt.last;
       files.add(await d.MultipartFile.fromFile( f, filename:Splitedelement ));
     }
+
     final formData = d.FormData.fromMap({
       // 'name': 'dio',
       // 'date': DateTime.now().toIso8601String(),
       //'file': await d.MultipartFile.fromFile( , filename: 'upload.txt'),
       'image_path[]': files
     });
+
     final response = await dio.put(url, data: formData,
       options: d.Options(
         followRedirects: false,
@@ -249,6 +264,7 @@ Future<dynamic> updateDataWithFile(String endpoint,List<String> filenames, {Stri
         },
       ),
     );
+
     var successList = [200, 201];
     var msg = json.decode(response.data);
     var st = successList.contains(response.statusCode);
