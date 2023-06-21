@@ -1,4 +1,3 @@
-
 import 'package:dotted_border/dotted_border.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
@@ -27,12 +26,12 @@ class _ArticleCreatePageState extends State<ArticleCreatePage> {
   final _controller = ValueNotifier<bool>(false);
   bool checked = false;
 
-  var title_form = TextEditingController(text: "Mercedes");
-  var price_form = TextEditingController(text: "1200000");
+  var title_form = TextEditingController();
+  var price_form = TextEditingController();
   var country_form = TextEditingController(text: "R.D. Congo");
-  var city_form = TextEditingController(text: "Kinshasa");
-  var content_form = TextEditingController(text: "Contenue de la description de l'élément à vendre. Contenue de la description de l'élément à vendre.");
-  var keyword_form = TextEditingController(text: "voiture");
+  var city_form = TextEditingController();
+  var content_form = TextEditingController();
+  var keyword_form = TextEditingController();
   bool negociation_form=false;
   var devise_form = TextEditingController(text: "CDF");
   int? _categorySelected = 1;
@@ -45,7 +44,6 @@ class _ArticleCreatePageState extends State<ArticleCreatePage> {
   var imagePicker;
 
   Widget _buildImageList() {
-    print("${_selectedImages.length} Images sélectionnées");
     return Container(
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
@@ -149,7 +147,6 @@ class _ArticleCreatePageState extends State<ArticleCreatePage> {
                 ),
                 _entryFieldDropdown(ListCategories,
                     _categorySelected, (value) {
-                  print("selection $value");
                       setState(() {
                         _categorySelected = value;
                       });
@@ -187,7 +184,6 @@ class _ArticleCreatePageState extends State<ArticleCreatePage> {
                         setState(() {
                           isSwitched = value;
                           negociation_form = isSwitched;
-                          print("La valeur est : ${isSwitched}");
                         });
                       },
                       activeTrackColor: Colors.orange,
@@ -315,7 +311,6 @@ class _ArticleCreatePageState extends State<ArticleCreatePage> {
                         GestureDetector(
                           onTap: () async {
                            await selectImageFromGallery();
-                            print('Image_Path:-${_selectedImages}');
                             if (_selectedImages.isNotEmpty) {
                               Navigator.pop(context);
                               setState(() {});
@@ -344,7 +339,6 @@ class _ArticleCreatePageState extends State<ArticleCreatePage> {
                         GestureDetector(
                           onTap: () async {
                             _selectedImages = await selectImageFromCamera();
-                            print('Image_Path:-${_selectedImages}');
                             if (_selectedImages.isNotEmpty) {
                               Navigator.pop(context);
                               setState(() {});
@@ -415,7 +409,6 @@ class _ArticleCreatePageState extends State<ArticleCreatePage> {
       int? defaultValue, Function(int?) onChange) {
     var categoriCtrl = context.watch<CategorieController>();
     int? _selectedValue=defaultValue;
-    print("VOICI LE PRINT +++++++++++++++++++ $_selectedValue");
     String? label = "Selectionnez une catégorie";
     var selectedOption = _selectedValue == null ? label:_selectedValue;
     return Center(

@@ -1,4 +1,3 @@
-
 class StockageKeys{
   static const String clientKey="CLIENT";
   static const String operateursKey="OPERATEURS";
@@ -10,7 +9,6 @@ class StockageKeys{
   static const String ListeConversationKey="CONVERSATION";
   static const String EnvoyerMessageKey="ENVOIE MESSAGE";
   static const String RecevoirListeMessagekey="LISTE MESSAGE";
-
   static const String tokenKey="TOKEN";
   static const String tags="TAG";
 }
