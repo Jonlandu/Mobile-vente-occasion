@@ -55,14 +55,9 @@ class _LoginPageState extends State<LoginPage> {
     isVisible = false;
     setState(() {});
     print(res.status);
-    print("::::::::::::::::::::::${res.data}");
-    //res.data?['status_message']=="vous etes connecter"
     if (res.status) {
-      res.data?['status_message'];
-      //Message.afficherSnack(context, "Authentification reussie", Colors.green);
       await Future.delayed(Duration(seconds: 1));
       setState(() {});
-
       Navigator.pushReplacementNamed(context, Routes.HomePagePageRoutes);
     } else {
       var msg =
@@ -70,13 +65,9 @@ class _LoginPageState extends State<LoginPage> {
       print("mqg=====!!! : $msg");
       Message.afficherSnack(context, msg);
 
-      print("------------------------${res.data?['message']}");
-      print("------------------------${res.isException}");
-      print("------------------------${res.errorMsg}");
     }
     return;
   }
-
 
   Widget _body(BuildContext context) {
     return Form(

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
+import 'package:squelette_mobile_parcours/controllers/ConversationController.dart';
+import 'package:squelette_mobile_parcours/controllers/UserCtrl.dart';
 import '../../../models/ArticleModel.dart';
 import '../../../utils/Routes.dart';
 
@@ -10,6 +13,8 @@ class MainDetailsArticlesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var conversationCtrl = context.read<ConversationController>();
+    var userCtrl = context.read<UserCtrl>();
     return GridView.builder(
         physics: ClampingScrollPhysics(),
         shrinkWrap: true,
@@ -272,7 +277,8 @@ class MainDetailsArticlesWidget extends StatelessWidget {
                                   onPressed: () {
                                     Center(child: CircularProgressIndicator());
                                   },
-                                  child: InkWell(
+                                  child:userCtrl.user?.id != detailsArticles.user_id?
+                                  InkWell(
                                     child: Text(
                                       'Contactez-moi',
                                       style: TextStyle(
@@ -282,9 +288,23 @@ class MainDetailsArticlesWidget extends StatelessWidget {
                                       ),
                                     ),
                                     onTap: (){
+                                      Map data = {"article_id":detailsArticles.id,"user_id":userCtrl.user?.id};
+                                      conversationCtrl.creerConversationApi(data);
                                       Navigator.pushNamed(context, Routes.DiscussionPageRoutes);
                                     },
-                                  ),
+                                  ):InkWell(
+                                    child: Text(
+                                      'Qui m\'ont écrit ?',
+                                      style: TextStyle(
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    onTap: (){
+                                      Navigator.pushNamed(context, Routes.HomePagePageRoutes);
+                                    },
+                                  )
                                 ),
                               ),
                               SizedBox(
