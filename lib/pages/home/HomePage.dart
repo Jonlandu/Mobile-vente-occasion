@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:squelette_mobile_parcours/pages/ListeConversationPage.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:squelette_mobile_parcours/pages/messagerie/MessagePage.dart';
 import 'package:squelette_mobile_parcours/utils/StockageKeys.dart';
 
 import '../user/ProfilPage.dart';
 import '../Articles/ArticlesPage.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -20,6 +20,7 @@ class _HomePageState extends State<HomePage> {
   Color selectedItem = Colors.orange;
   GetStorage box = GetStorage();
 
+
   final pages=[
     ArticlesPage(),
     ListeConversationPage(),
@@ -28,7 +29,13 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body:pages[_currentIndex], bottomNavigationBar: _bottomNav(),);
+    return Scaffold(
+      body: IndexedStack(
+        index: _currentIndex,
+      children: pages,
+      ),
+      bottomNavigationBar: _bottomNav(),
+    );
   }
   Widget _bottomNav(){
     return BottomNavigationBar(
@@ -39,9 +46,8 @@ class _HomePageState extends State<HomePage> {
       selectedItemColor: selectedItem,
       items: [
         BottomNavigationBarItem(
-          icon: Icon(Icons.home_outlined),
+          icon: Icon(Icons.home),
           label: 'Accueil',
-
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.chat),
@@ -49,19 +55,17 @@ class _HomePageState extends State<HomePage> {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
-          label: box.read(StockageKeys.tokenKey)!=null? 'Profile':'Connexion',
+          label:
+              box.read(StockageKeys.tokenKey) != null ? 'Profile' : 'Connexion',
         ),
       ],
-      onTap: (int index){
+      onTap: (int index) {
         setState(() {
-          _currentIndex=index;
-          other= Colors.black;
-          selectedItem= Colors.orange;
+          _currentIndex = index;
+          other = Colors.black;
+          selectedItem = Colors.orange;
         });
       },
     );
   }
 }
-
-
-

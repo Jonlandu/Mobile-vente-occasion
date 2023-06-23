@@ -2,8 +2,6 @@ import 'package:accordion/accordion.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:squelette_mobile_parcours/controllers/ConversationController.dart';
-import 'package:squelette_mobile_parcours/controllers/MessageController.dart';
-import 'package:squelette_mobile_parcours/controllers/UserCtrl.dart';
 import 'package:squelette_mobile_parcours/models/ConversationModel.dart';
 import 'package:squelette_mobile_parcours/utils/Routes.dart';
 
@@ -23,16 +21,10 @@ class _ListeConversationPageState extends State<ListeConversationPage> {
     });
   }
 
-  final _contentStyle = const TextStyle(
-      color: Colors.black, fontSize: 17, fontWeight: FontWeight.normal);
-  final _headerStyle = const TextStyle(
-      color: Colors.black, fontSize: 17, fontWeight: FontWeight.bold);
 
   @override
   Widget build(BuildContext context) {
     var conversationCtl = context.watch<ConversationController>();
-    var messageCtrl = context.watch<MessageController>();
-    var userCtrl = context.watch<UserCtrl>();
     return Scaffold(
         appBar: AppBar(
           title: Text('Discussions'),
@@ -50,12 +42,6 @@ class _ListeConversationPageState extends State<ListeConversationPage> {
   }
 
   conversionItemiew(ConversationModel conversation) {
-    var conversationCtl = context.watch<ConversationController>();
-    var messageCtrl = context.watch<MessageController>();
-    var userCtrl = context.watch<UserCtrl>();
-    var userListConv = conversationCtl.conversations.map((e) {
-      e.clients;
-    });
     return Accordion(
       maxOpenSections: 1,
       paddingListBottom: 0,
@@ -96,7 +82,7 @@ class _ListeConversationPageState extends State<ListeConversationPage> {
                     ),
                   ),
                   onTap: () {
-                    Navigator.popAndPushNamed(
+                    Navigator.pushNamed(
                         context, Routes.DiscussionPageRoutes);
                   },
                 );
