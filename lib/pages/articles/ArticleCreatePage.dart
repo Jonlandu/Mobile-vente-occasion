@@ -30,6 +30,7 @@ class _ArticleCreatePageState extends State<ArticleCreatePage> {
   var price_form = TextEditingController();
   var country_form = TextEditingController(text: "R.D. Congo");
   var city_form = TextEditingController();
+  var buyer_form = TextEditingController(text: "");
   var content_form = TextEditingController();
   var keyword_form = TextEditingController();
   bool negociation_form=false;
@@ -537,6 +538,7 @@ class _ArticleCreatePageState extends State<ArticleCreatePage> {
     int price  = int.parse(price_form.text);
     String country = country_form.text;
     String city = city_form.text;
+    String buyer = buyer_form.text;
     String content = content_form.text;
     int? _category_id = _categorySelected;
     String keyword = keyword_form.text;
@@ -549,6 +551,7 @@ class _ArticleCreatePageState extends State<ArticleCreatePage> {
       "price": price,
       "country": country,
       "city": city,
+      "buyer": buyer,
       "content": content,
       "category_id": _category_id,
       "keyword": keyword,

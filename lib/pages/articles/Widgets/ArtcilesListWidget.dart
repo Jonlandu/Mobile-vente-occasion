@@ -112,11 +112,11 @@ class ArticlesListWidget extends StatelessWidget {
                           children: [
                             Icon(
                               Icons.favorite_border,
-                              color: Colors.red,
+                              color: Colors.orange,
                               size: 15,
                             ),
                             Text(
-                              "${article.interrese ?? ""} intéressé(s)",
+                              "${article.interesse ?? ""} intéressé(s)",
                               style: TextStyle(
                                 fontSize: 6,
                                 color: Colors.black,

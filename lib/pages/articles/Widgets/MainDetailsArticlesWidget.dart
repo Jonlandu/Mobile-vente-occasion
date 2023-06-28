@@ -58,7 +58,7 @@ class MainDetailsArticlesWidget extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              "${detailsArticles.categorie}",
+                              "${detailsArticles.categorie_name}",
                               style: TextStyle(
                                 fontSize: 12,
                                 color: Colors.black,
@@ -70,21 +70,31 @@ class MainDetailsArticlesWidget extends StatelessWidget {
                         SizedBox(
                           width: 90,
                         ),
-                        Column(
-                          children: [
-                            Icon(
-                              Icons.favorite,
-                              color: Colors.orange,
-                              size: 24,
-                            ),
-                            Text(
-                              "${detailsArticles.interrese} intéressé(s)",
-                              style: TextStyle(
-                                fontSize: 11,
-                                color: Colors.black,
+                        InkWell(
+                          child: Column(
+                            children: [
+                              detailsArticles.interesse == 0 ?
+                              Icon(
+                                Icons.favorite_border,
+                                color: Colors.orange,
+                                size: 24,
+                              ):Icon(
+                                Icons.favorite,
+                                color: Colors.orange,
+                                size: 24,
                               ),
-                            ),
-                          ],
+                              Text(
+                                "${detailsArticles.interesse} intéressé(s)",
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                          onTap: (){
+
+                          },
                         ),
                         Column(
                           children: [
@@ -302,7 +312,7 @@ class MainDetailsArticlesWidget extends StatelessWidget {
                                       ),
                                     ),
                                     onTap: (){
-                                      Navigator.pushNamed(context, Routes.HomePagePageRoutes);
+                                      showSnackBar(context, "Bientôt disponible !");
                                     },
                                   )
                                 ),
@@ -313,7 +323,7 @@ class MainDetailsArticlesWidget extends StatelessWidget {
                               InkWell(
 
                                 onTap: () {
-
+                                  showSnackBar(context, "Bientôt disponible !");
                                 },
                                 child: Icon(
                                   Icons.share,
@@ -340,7 +350,7 @@ class MainDetailsArticlesWidget extends StatelessWidget {
                             children: [
                               Flexible(
                                 child: Text(
-                                  "Postée par : ${detailsArticles.user_id}, le 25 mai 2023",
+                                  "Postée par : ${detailsArticles.user_name}, le ${detailsArticles.createdAt}",
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                   style: TextStyle(
@@ -431,5 +441,15 @@ class MainDetailsArticlesWidget extends StatelessWidget {
           );
         }
         );
+  }
+  showSnackBar(context, String message) {
+    final scaffold = ScaffoldMessenger.of(context);
+    scaffold.showSnackBar(SnackBar(
+      content: Text(message),
+      action:
+      SnackBarAction(label: 'OK',
+          textColor: Colors.orange,
+          onPressed: scaffold.hideCurrentSnackBar),
+    ));
   }
 }
