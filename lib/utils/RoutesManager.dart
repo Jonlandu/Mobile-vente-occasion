@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:squelette_mobile_parcours/pages/ListeConversationPage.dart';
+import 'package:squelette_mobile_parcours/pages/articles/ArticlesPubliePage.dart';
 import '../pages/DiscussionPage.dart';
 import 'package:squelette_mobile_parcours/models/ArticleModel.dart';
 import 'package:squelette_mobile_parcours/pages/connexion/RegisterPage.dart';
@@ -45,6 +46,11 @@ class RoutesManager {
         var articleToUpdateChoosed = {};
         var articleToUpdate = ArticleModel.fromJson(args ?? articleToUpdateChoosed);
         return MaterialPageRoute(builder: (_)=> ArticleUpdatePage(articleToUpdate: articleToUpdate));
+      case Routes.ArticlesPublieRoutes:
+        var args=r.arguments as List<ArticleModel>?;
+        var articlechoosed = [];
+        var articleData = args ?? articlechoosed.map<ArticleModel>((e) => ArticleModel.fromJson(e)).toList();
+        return MaterialPageRoute(builder: (_)=> ArticlesPubliePage(articlesVendeur: articleData));
       case '/':
       // don't generate route on start-up
         return null;

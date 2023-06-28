@@ -80,7 +80,7 @@ class _ArticleUpdatePageState extends State<ArticleUpdatePage> {
       negociationArticleToUpdate = widget.articleToUpdate.negociation;
       negociation_form = negociationArticleToUpdate == 1;
       isSwitched = negociationArticleToUpdate == 1;
-      categoryArticleToUpdate = widget.articleToUpdate.categorie;
+      categoryArticleToUpdate = widget.articleToUpdate.categorie_name;
       //_categorySelected = categoryArticleToUpdate;
       imagePicker = new ImagePicker();
 
