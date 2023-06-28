@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
+import 'package:squelette_mobile_parcours/controllers/ArticleController.dart';
 import 'package:squelette_mobile_parcours/utils/Constantes.dart';
 import '../../controllers/UserCtrl.dart';
 import '../../utils/Routes.dart';
@@ -21,6 +22,8 @@ class _DashboardPageState extends State<DashboardPage> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       var userCtrl = context.read<UserCtrl>();
       userCtrl.recuperDataAPI();
+      var articleCtrl = context.read<ArticleController>();
+      articleCtrl.recuperArticlesAPI();
     });
   }
   GetStorage box = GetStorage();
@@ -41,6 +44,8 @@ class _DashboardPageState extends State<DashboardPage> {
 
   Widget _body() {
     var userCtrl = context.watch<UserCtrl>();
+    var articleCtrl = context.watch<ArticleController>();
+    var mesArticle =articleCtrl.articles.where((element) => element.user_id == userCtrl.user?.id).toList();
     return ListView(
       padding: EdgeInsets.zero,
       children: [
@@ -106,12 +111,19 @@ class _DashboardPageState extends State<DashboardPage> {
               mainAxisSpacing: 30,
               crossAxisCount: 2,
               children: [
-                elementDashboard("Mes publications",1, nbr: "52", Icons.announcement, Colors.orange),
-                elementDashboard("Articles favoris",2,nbr: "20", CupertinoIcons.square_favorites_alt, Colors.orange),
-                elementDashboard("Articles vendus",3,nbr: "5", CupertinoIcons.square_fill_on_square_fill, Colors.orange),
-                elementDashboard("Mes follows",4,nbr: "52", Icons.contacts_outlined, Colors.orange),
+                elementDashboard(
+                    "Mes publications",1, 
+                    nbr: "${mesArticle.length}", 
+                    Icons.announcement, 
+                    Colors.orange, 
+                    onTap: (){
+                  Navigator.pushNamed(context, Routes.ArticlesPublieRoutes, arguments: mesArticle.toList());
+                }),
+                elementDashboard("Articles favoris",2,nbr: "0", CupertinoIcons.square_favorites_alt, Colors.orange),
+                elementDashboard("Articles vendus",3,nbr: "0", CupertinoIcons.square_fill_on_square_fill, Colors.orange),
+                elementDashboard("Mes follows",4,nbr: "0", Icons.contacts_outlined, Colors.orange),
                 elementDashboard("Analyse des articles",6, Icons.analytics_outlined, Colors.orange),
-                elementDashboard("Messenger",7,nbr: "60", CupertinoIcons.chat_bubble_text, Colors.orange),
+                elementDashboard("Messenger",7,nbr: "0", CupertinoIcons.chat_bubble_text, Colors.orange),
               ],
             ),
           ),
@@ -120,7 +132,7 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
-  elementDashboard(String title,int index, IconData icon, Color background,{String? nbr}){
+  elementDashboard(String title,int index, IconData icon, Color background,{String? nbr, Function? onTap}){
     return InkWell(
       child: Container(
         decoration: BoxDecoration(
@@ -153,9 +165,7 @@ class _DashboardPageState extends State<DashboardPage> {
           ],
         ),
       ),
-      onTap: (){
-        print("Elemenet $index");
-      },
+      onTap: ()=>onTap!(),
     );
   }
 
