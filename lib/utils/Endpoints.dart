@@ -1,6 +1,7 @@
 class Endpoints {
   static const String authentication = "/api/login";
   static const String articlesEndpoint = "/api/articles";
+  static const String articlesSearchEndpoint = "/api/articles/search?query={keyWord}";
   static const String articlesShowEndpoint = "/api/articles/{id}";
   static const String deleteArticlesEndpoint = "/api/articles/{id}";
   static const String imagesArticlesEndpoint = "/api/articles/{id}/images";

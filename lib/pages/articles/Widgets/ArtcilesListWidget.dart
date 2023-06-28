@@ -36,7 +36,6 @@ class ArticlesListWidget extends StatelessWidget {
           }else{
             negociationVal = "Non négociable";
           }
-
           return Padding(
             //padding: const EdgeInsets.all(8.0),
             padding: const EdgeInsets.only(left: 10, right: 10),
@@ -81,30 +80,25 @@ class ArticlesListWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Column(
-                              children: [
-                                Text(
-                                  article.title ?? "",
-                                  style: TextStyle(
-                                    fontSize: 17,
-                                    color: Colors.orange,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
+                            Text(
+                              article.title ?? "",
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.orange,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                            Column(
-                              children: [
-                                Text(
-                                  "Catégories : ${article.title ?? ""} ",
-                                  style: TextStyle(
-                                    fontSize: 6,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
+                            Text(
+                              "Catégories : ${article.categorie ?? ""} ",
+                              style: TextStyle(
+                                fontSize: 6,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ],
                         ),
@@ -145,9 +139,6 @@ class ArticlesListWidget extends StatelessWidget {
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 8,
                       ),
                       // prix
                       Padding(

@@ -10,6 +10,7 @@ import '../utils/StockageKeys.dart';
 class ArticleController with ChangeNotifier {
   GetStorage? stockage;
   List<ArticleModel> articles = [];
+  List<ArticleModel> articlesSearched = [];
   var detailarticles;
   List<ArticleModel> annoncesSimilaire = [];
   bool loading = false;
@@ -23,7 +24,7 @@ class ArticleController with ChangeNotifier {
     notifyListeners();
     var reponse = await getData(url);
 
-    if(reponse!=null){
+    if(reponse!=null && reponse != []){
       articles=reponse["data"].map<ArticleModel>((e) => ArticleModel.fromJson(e)).toList();
       isHttpException = false;
     }else{
@@ -120,5 +121,26 @@ class ArticleController with ChangeNotifier {
     }
     loading = false;
     notifyListeners();
+  }
+
+  Future<List<ArticleModel>> recuperArticlesSearched(String query) async {
+    var endpoint = Endpoints.articlesSearchEndpoint.replaceAll("{keyWord}", query);
+    loading = true;
+    notifyListeners();
+    var token = stockage?.read(StockageKeys.tokenKey);
+    var reponse = await ArticleSearch(endpoint, token: token);
+
+    if (reponse != null && reponse.isNotEmpty) {
+      articlesSearched = reponse.map<ArticleModel>((e) => ArticleModel.fromJson(e)).toList();
+      isHttpException = false;
+    } else {
+      isHttpException = true;
+      var datastockee = stockage?.read(StockageKeys.articlesKey);
+      var for_a_time_data = datastockee?.map<ArticleModel>((e) => ArticleModel.fromJson(e)).toList() ?? [];
+      articlesSearched = for_a_time_data;
+    }
+    loading = false;
+    notifyListeners();
+    return articles;
   }
 }

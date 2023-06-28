@@ -12,6 +12,7 @@ import 'package:squelette_mobile_parcours/pages/home/HomePage.dart';
 import 'package:squelette_mobile_parcours/pages/connexion/LoginPage.dart';
 import 'package:squelette_mobile_parcours/pages/welcome/BienvenuPage.dart';
 import '../pages/articles/ArticleUpdatePage.dart';
+import '../pages/home/ArticleSearchPages.dart';
 import 'Routes.dart';
 
 class RoutesManager {
@@ -40,6 +41,17 @@ class RoutesManager {
         return MaterialPageRoute(builder: (_) => PreferencePage());
       case Routes.RegisterPageRoutes:
         return MaterialPageRoute(builder: (_)=> RegisterPage());
+      case Routes.SearchPageRoutes:
+        var args = r.arguments as List<dynamic>?;
+        var articlesSearched = <ArticleModel>[];
+        if (args != null) {
+          for (var arg in args) {
+            if (arg is Map<dynamic, dynamic>) {
+              articlesSearched.add(ArticleModel.fromJson(arg));
+            }
+          }
+        }
+        return MaterialPageRoute(builder: (_) => ArticleSearchPage(resultatSearched: articlesSearched));
       case Routes.ArticleUpdateRoutes:
         var args = r.arguments as Map?;
         var articleToUpdateChoosed = {};

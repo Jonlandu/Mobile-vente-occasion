@@ -80,7 +80,7 @@ class _ArticleDetailsPageState extends State<ArticleDetailsPage> {
     return AppBar(
       leading: InkWell(
         onTap: () {
-          Navigator.popAndPushNamed(context, Routes.HomePagePageRoutes);
+          Navigator.pop(context);
           //Navigator.pop(context, Routes.HomePagePageRoutes);
           setState(() {});
         },

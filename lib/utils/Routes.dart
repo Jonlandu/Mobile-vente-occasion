@@ -14,5 +14,6 @@ class Routes {
   static const String PreferencePageRoutes = "/preference";
   static const String RegisterPageRoutes = "/register";
   static const String ArticleUpdateRoutes= "/articleUpdate";
+  static const String SearchPageRoutes= "/searchpage";
 
 }

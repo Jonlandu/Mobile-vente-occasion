@@ -281,15 +281,25 @@ Future<dynamic> updateDataWithFile(String endpoint,List<String> filenames, {Stri
     ); // {"status": st, "msg": msg};{
   }
 }
-/*Future<dynamic> searchArticles(String query) async {
-  final dio = d.Dio();
-  try{
-    final response = await http.get();
-    final jsonData = json.decode(response.body) as List<dynamic>;
-  }catch(){
 
+Future<dynamic> ArticleSearch(String endpoint, {String? token}) async {
+  try {
+    var url = Uri.parse("${Constantes.BASE_URL}$endpoint");
+    print("PRINTE DE LA ROUTE A ENVOYER POUR LA REQUETTE : $url");
+    var reponse = await http.get(url,
+        headers: {
+          "Authorization":"Bearer ${token ?? Constantes.defaultToken}"}).timeout(Duration(seconds: 2)
+    );
+    if (reponse.statusCode == 200) {
+      return json.decode(reponse.body);
+    }
+    return null;
+
+  } catch (e, trace) {
+    print(e.toString());
+    print(trace.toString());
+
+    return null;
   }
-}*/
-/*setState(() {
-    _searchResults = jsonData.map((article) => Article.fromJson(article)).toList();
-  });*/
+}
+

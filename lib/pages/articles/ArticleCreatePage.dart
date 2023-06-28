@@ -26,12 +26,13 @@ class _ArticleCreatePageState extends State<ArticleCreatePage> {
   final _controller = ValueNotifier<bool>(false);
   bool checked = false;
 
-  var title_form = TextEditingController();
-  var price_form = TextEditingController();
+  var title_form = TextEditingController(text: "Iphone");
+  var price_form = TextEditingController(text: "152222");
   var country_form = TextEditingController(text: "R.D. Congo");
-  var city_form = TextEditingController();
-  var content_form = TextEditingController();
-  var keyword_form = TextEditingController();
+  var city_form = TextEditingController(text: "Kinshasa");
+  var content_form = TextEditingController(text: "Content content content conten Content content content conten Content content content conten ");
+  var buyer_form = TextEditingController(text: "");
+  var keyword_form = TextEditingController(text: "phone");
   bool negociation_form=false;
   var devise_form = TextEditingController(text: "CDF");
   int? _categorySelected = 1;
@@ -94,7 +95,7 @@ class _ArticleCreatePageState extends State<ArticleCreatePage> {
     return AppBar(
       leading: InkWell(
         onTap: () {
-          Navigator.popAndPushNamed(context, Routes.HomePagePageRoutes);
+          Navigator.pop(context);
         },
         child: Icon(
           Icons.arrow_back,
@@ -540,6 +541,7 @@ class _ArticleCreatePageState extends State<ArticleCreatePage> {
     String content = content_form.text;
     int? _category_id = _categorySelected;
     String keyword = keyword_form.text;
+    String buyer = buyer_form.text;
     bool? negociation = negociation_form;
     String devise = devise_form.text;
     String title = title_form.text;
@@ -551,6 +553,7 @@ class _ArticleCreatePageState extends State<ArticleCreatePage> {
       "city": city,
       "content": content,
       "category_id": _category_id,
+      "buyer": buyer,
       "keyword": keyword,
       "negociation": negociation,
       "devise": devise,

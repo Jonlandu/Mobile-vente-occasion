@@ -1,4 +1,3 @@
-import 'package:dotted_border/dotted_border.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
@@ -96,26 +95,6 @@ class _ArticleUpdatePageState extends State<ArticleUpdatePage> {
         });
       });
     });
-  }
-
-  Widget _buildImageList() {
-    return Container(
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: _selectedImages.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Image.file(
-              _selectedImages[index],
-              width: 150,
-              height: 230,
-              fit: BoxFit.cover,
-            ),
-          );
-        },
-      ),
-    );
   }
 
   @override
@@ -247,21 +226,6 @@ class _ArticleUpdatePageState extends State<ArticleUpdatePage> {
                   label: "Mot clé ",
                   required: true,
                 ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text("Ajouter les images (Max 5)",
-                    style:
-                        TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                Center(
-                  child: _selectedImages.isNotEmpty
-                      ? Container(height: 100, child: _buildImageList())
-                      : Container(height: 0, child: _buildImageList()),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                _uploadImages(),
                 _addingButton(),
                 SizedBox(
                   height: 5,
@@ -271,176 +235,6 @@ class _ArticleUpdatePageState extends State<ArticleUpdatePage> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _uploadImages() {
-    return DottedBorder(
-      color: Colors.grey,
-      dashPattern: [8, 8],
-      strokeWidth: 1.4,
-      borderType: BorderType.RRect,
-      radius: Radius.circular(40),
-      child: Column(
-        children: [
-          Container(
-              height: 80,
-              child: imageFile == null
-                  ? Container(
-                      alignment: Alignment.center,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              selectImage();
-                            },
-                            child: Icon(
-                              Icons.cloud_upload,
-                              color: Colors.orangeAccent,
-                              size: 50,
-                            ),
-                          ),
-                          Text(
-                            "Click here to upload",
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  : Container(
-                      child: Image.file(
-                        imageFile,
-                        fit: BoxFit.cover,
-                      ),
-                    )),
-        ],
-      ),
-    );
-  }
-
-  Future selectImage() {
-    return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Dialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0)), //this right here
-            child: Container(
-              height: 150,
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
-                  children: [
-                    Text(
-                      'Select Image From !',
-                      style: TextStyle(
-                          fontSize: 18.0, fontWeight: FontWeight.bold),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        GestureDetector(
-                          onTap: () async {
-                            await selectImageFromGallery();
-                            print('Image_Path:-${_selectedImages}');
-                            if (_selectedImages.isNotEmpty) {
-                              Navigator.pop(context);
-                              setState(() {});
-                            } else {
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(SnackBar(
-                                content: Text("No Image Selected !"),
-                              ));
-                            }
-                          },
-                          child: Card(
-                              elevation: 5,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    Image.asset(
-                                      'assets/gallery.png',
-                                      height: 60,
-                                      width: 60,
-                                    ),
-                                    Text('Gallery'),
-                                  ],
-                                ),
-                              )),
-                        ),
-                        GestureDetector(
-                          onTap: () async {
-                            _selectedImages = await selectImageFromCamera();
-                            if (_selectedImages.isNotEmpty) {
-                              Navigator.pop(context);
-                              setState(() {});
-                            } else {
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(SnackBar(
-                                content: Text("No Image Captured !"),
-                              ));
-                            }
-                          },
-                          child: Card(
-                              elevation: 5,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    Image.asset(
-                                      'assets/camera.png',
-                                      height: 60,
-                                      width: 60,
-                                    ),
-                                    Text('Camera'),
-                                  ],
-                                ),
-                              )),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ),
-          );
-        });
-  }
-
-  selectImageFromGallery() async {
-    List<XFile> xfilePick =
-        await ImagePicker().pickMultiImage(imageQuality: 10);
-    setState(
-      () {
-        if (xfilePick.isNotEmpty) {
-          for (var i = 0; i < xfilePick.length; i++) {
-            _selectedImages.add(File(xfilePick[i].path));
-          }
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Nothing is selected')));
-        }
-      },
-    );
-  }
-
-  selectImageFromCamera() async {
-    XFile? file = await ImagePicker()
-        .pickImage(source: ImageSource.camera, imageQuality: 10);
-    setState(
-      () {
-        if (file != null) {
-          _selectedImages.add(File(file.path));
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Nothing is selected')));
-        }
-      },
     );
   }
 

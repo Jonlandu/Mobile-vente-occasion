@@ -100,37 +100,71 @@ class MainDetailsArticlesWidget extends StatelessWidget {
                       ],
                     ),
                   ),
+                  Container(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // description du produit
+                        Flexible(
+                          child: Container(
+                            alignment: Alignment.centerLeft,
+                            child: ReadMoreText(
+                              "${detailsArticles.content}",
+                              trimLines: 3,
+                              colorClickableText: Colors.orange,
+                              trimMode: TrimMode.Line,
+                              trimCollapsedText: '...show more',
+                              trimExpandedText: ' show less',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 9,
+                  ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Flexible(
                         child: Container(
                           alignment: Alignment.centerLeft,
-                          child: Column(
-                            children: [
-                              Row(children: [
-                                Text(
-                                  "",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                          child: Row(children: [
+                            Container(
+                              alignment: Alignment.center,
+                              margin:
+                              EdgeInsets.symmetric(vertical: 5, horizontal: 4),
+                              padding:
+                              EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.black12,
+                                  width: 0.5,
                                 ),
-                              ],),
-                              Row(
-                                children: [
-                                  Text(
-                                    "Description : ",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ],
+                                borderRadius: BorderRadius.circular(5),
                               ),
-                            ],
-                          ),
+                              child: InkWell(
+                                onTap: () {},
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.tag, size: 12,),
+                                    Text(
+                                      "${detailsArticles.keyword}",
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],),
                         ),
                       ),
                       SizedBox(
@@ -141,6 +175,7 @@ class MainDetailsArticlesWidget extends StatelessWidget {
                         padding: EdgeInsets.symmetric(vertical: 0),
                         child: Column(
                           children: [
+
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
@@ -175,166 +210,62 @@ class MainDetailsArticlesWidget extends StatelessWidget {
                   SizedBox(
                     height: 5,
                   ),
-                  Container(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // description du produit
-                        Flexible(
-                          child: Container(
-                            alignment: Alignment.centerLeft,
-                            child: ReadMoreText(
-                              "${detailsArticles.content}",
-                              trimLines: 3,
-                              colorClickableText: Colors.orange,
-                              trimMode: TrimMode.Line,
-                              trimCollapsedText: '...show more',
-                              trimExpandedText: ' show less',
-                              style: TextStyle(
-                                fontSize: 13,
-                                color: Colors.black,
-                              ),
-                            ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                          "par : ${detailsArticles.user_id}, le 25 mai 2023",
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: Colors.black,
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 9,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        children: [
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.key,
-                                color: Colors.black,
-                                size: 20,
-                              ),
-                              Text(
-                                "htags : ",
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ],
+                      SizedBox(width: 50,),
+                      SizedBox(
+                        height: 20,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.black,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5)),
                           ),
-                          Row(
-                            children: [
-                              Container(
-                                alignment: Alignment.center,
-                                margin:
-                                EdgeInsets.symmetric(vertical: 5, horizontal: 4),
-                                padding:
-                                EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.black12,
-                                    width: 0.5,
-                                  ),
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: InkWell(
-                                  onTap: () {},
-                                  child: Text(
-                                    "${detailsArticles.keyword}",
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
+                          onPressed: () {
+                            Center(child: CircularProgressIndicator());
+                          },
+                          child: InkWell(
+                            child: Text(
+                              'Contactez-moi',
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
                               ),
-                            ],
+                            ),
+                            onTap: (){
+                              Navigator.pushNamed(context, Routes.DiscussionPageRoutes);
+                            },
                           ),
-                        ],
+                        ),
                       ),
-                      Column(
-                        children: [
-                          Row(
-                            children: [
-                              SizedBox(
-                                height: 20,
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.black,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(5)),
-                                  ),
-                                  onPressed: () {
-                                    Center(child: CircularProgressIndicator());
-                                  },
-                                  child: InkWell(
-                                    child: Text(
-                                      'Contactez-moi',
-                                      style: TextStyle(
-                                        fontSize: 11,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    onTap: (){
-                                      Navigator.pushNamed(context, Routes.DiscussionPageRoutes);
-                                    },
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              InkWell(
+                      InkWell(
+                        onTap: () {
 
-                                onTap: () {
-
-                                },
-                                child: Icon(
-                                  Icons.share,
-                                  size: 20,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+                        },
+                        child: Icon(
+                          Icons.share,
+                          size: 20,
+                          color: Colors.black,
+                        ),
                       ),
                     ],
                   ),
                   SizedBox(
                     height: 10,
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 11),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Flexible(
-                          child: Row(
-                            children: [
-                              Flexible(
-                                child: Text(
-                                  "Postée par : ${detailsArticles.user_id}, le 25 mai 2023",
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+
                   Padding(
                     padding: EdgeInsets.only(bottom: 11),
                     child: Row(
@@ -397,14 +328,14 @@ class MainDetailsArticlesWidget extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(height: 9,),
+                  /*SizedBox(height: 9,),
                   Text(
                     "Annoncces Similaire",
                     style: TextStyle(
                       fontSize: 15,
                       color: Colors.black,
                     ),
-                  ),
+                  ),*/
                 ],
               ),
             ),
