@@ -61,15 +61,15 @@ class ArticlesListWidget extends StatelessWidget {
                           arguments: article.toJson());
                     },
                     child: Container(
-                      margin: EdgeInsets.only(bottom: 8),
+                      margin: EdgeInsets.all(7),
                       child: CachedNetworkImage(
                         imageUrl: "${Constantes.BASE_URL}${imagesToprint}",
                         placeholder: (context, url) =>
                             Center(child: CircularProgressIndicator()),
                         errorWidget: (context, url, error) =>
                             Icon(Icons.error),
-                         width: 120,
-                         height: 120,
+                        width: 135,
+                        height: 135,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -93,7 +93,7 @@ class ArticlesListWidget extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              "Catégories : ${article.categorie ?? ""} ",
+                              "Catégories : ${article.categorie_name ?? ""} ",
                               style: TextStyle(
                                 fontSize: 6,
                                 color: Colors.black,
@@ -209,25 +209,29 @@ class ArticlesListWidget extends StatelessWidget {
                           ),
                         ),
                         SizedBox(width: 12,),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.access_time,
-                              color: Colors.black,
-                              size: 11,
-                            ),
-                            Text(
-                              //"Publie 04-05-2023",
-                              "Publie ${article.createdAt}",
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              style: TextStyle(
-                                fontSize: 7,
+                        Flexible(
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.access_time,
                                 color: Colors.black,
-
+                                size: 11,
                               ),
-                            ),
-                          ],
+                              Flexible(
+                                child: Text(
+                                  //"Publie 04-05-2023",
+                                  "Publie ${article.createdAt}",
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                    fontSize: 7,
+                                    color: Colors.black,
+
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),

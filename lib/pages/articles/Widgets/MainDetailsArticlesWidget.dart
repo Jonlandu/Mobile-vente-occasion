@@ -228,14 +228,14 @@ class MainDetailsArticlesWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                          "Par : ${detailsArticles.user_name},\n le ${detailsArticles.createdAt}",
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                          style: TextStyle(
-                            fontSize: 13,
-                            color: Colors.black,
-                          ),
+                        "Par : ${detailsArticles.user_name},\n le ${detailsArticles.createdAt}",
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: Colors.black,
                         ),
+                      ),
                       SizedBox(width: 50,),
                       Column(
                         children: [
@@ -244,42 +244,42 @@ class MainDetailsArticlesWidget extends StatelessWidget {
                               SizedBox(
                                 height: 20,
                                 child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.black,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(5)),
-                                  ),
-                                  onPressed: () {
-                                    Center(child: CircularProgressIndicator());
-                                  },
-                                  child:userCtrl.user?.id != detailsArticles.user_id?
-                                  InkWell(
-                                    child: Text(
-                                      'Contactez-moi',
-                                      style: TextStyle(
-                                        fontSize: 11,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      ),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.black,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(5)),
                                     ),
-                                    onTap: (){
-                                      Map data = {"article_id":detailsArticles.id,"user_id":userCtrl.user?.id};
-                                      conversationCtrl.creerConversationApi(data);
-                                      Navigator.pushNamed(context, Routes.DiscussionPageRoutes);
+                                    onPressed: () {
+                                      Center(child: CircularProgressIndicator());
                                     },
-                                  ):InkWell(
-                                    child: Text(
-                                      'Qui m\'ont écrit ?',
-                                      style: TextStyle(
-                                        fontSize: 11,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
+                                    child:userCtrl.user?.id != detailsArticles.user_id?
+                                    InkWell(
+                                      child: Text(
+                                        'Contactez-moi',
+                                        style: TextStyle(
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
                                       ),
-                                    ),
-                                    onTap: (){
-                                      showSnackBar(context, "Bientôt disponible !");
-                                    },
-                                  )
+                                      onTap: (){
+                                        Map data = {"article_id":detailsArticles.id,"user_id":userCtrl.user?.id};
+                                        conversationCtrl.creerConversationApi(data);
+                                        Navigator.pushNamed(context, Routes.DiscussionPageRoutes);
+                                      },
+                                    ):InkWell(
+                                      child: Text(
+                                        'Qui m\'ont écrit ?',
+                                        style: TextStyle(
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      onTap: (){
+                                        showSnackBar(context, "Bientôt disponible !");
+                                      },
+                                    )
                                 ),
                               ),
                               SizedBox(
@@ -381,7 +381,7 @@ class MainDetailsArticlesWidget extends StatelessWidget {
             ),
           );
         }
-        );
+    );
   }
   showSnackBar(context, String message) {
     final scaffold = ScaffoldMessenger.of(context);

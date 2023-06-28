@@ -30,7 +30,6 @@ class _ArticleDetailsPageState extends State<ArticleDetailsPage> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       var articleController = context.read<ArticleController>();
       articleController.recuperDetailsArticlesAPI(widget.article.id);
-      print("VOICI L'ID GLISSER PAR LA LISTE DES ARTICLES : ${widget.article.id}");
       //var annoncesSimilaireCtrl = context.read<ArticleController>();
       //annoncesSimilaireCtrl.recuperAnnoncesSimilaireAPI();
       _scrollController = ScrollController();
@@ -81,7 +80,6 @@ class _ArticleDetailsPageState extends State<ArticleDetailsPage> {
       leading: InkWell(
         onTap: () {
           Navigator.pop(context);
-          //Navigator.pop(context, Routes.HomePagePageRoutes);
           setState(() {});
         },
         child: Icon(
@@ -101,10 +99,6 @@ class _ArticleDetailsPageState extends State<ArticleDetailsPage> {
             itemBuilder: (context) => [
               PopupMenuItem<int>(
                   value: 1,
-                  /*onTap: () {
-                    Navigator.pushNamed(context, Routes.ArticleUpdateRoutes);
-                    setState(() {});
-                  },*/
                   child: InkWell(
                     onTap: () {
                       Navigator.pushNamed(context, Routes.ArticleUpdateRoutes,
@@ -147,13 +141,13 @@ class _ArticleDetailsPageState extends State<ArticleDetailsPage> {
           ),
         ),
       ],
-      title: Center(
-        child: Text(
-          "TekaSombaShop",
-          style: TextStyle(
-            color: Colors.orange,
-            fontSize: 18,
-          ),
+      centerTitle: true,
+      title: Text(
+        "${widget.article.title}",
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+          fontSize: 19,
         ),
       ),
       backgroundColor: Colors.transparent,
@@ -170,16 +164,19 @@ class _ArticleDetailsPageState extends State<ArticleDetailsPage> {
         child: Column(
           children: [
             DetailsArticlesImagesWidget(article: articleController.detailarticles),
+            SizedBox(
+              height: 15,
+            ),
             MainDetailsArticlesWidget(detailsArticles: articleController.detailarticles),
             SizedBox(
               height: 5,
             ),
             (annoncesSimilaireCtrl.isHttpException == true)
                 ? Center(
-                    child: NetworkErrorExceptionType1Widget(),
-                  )
+              child: NetworkErrorExceptionType1Widget(),
+            )
                 : AnnoncesSimilaireWidget(
-                    annoncesSimilaires: annoncesSimilaireCtrl.annoncesSimilaire),
+                annoncesSimilaires: annoncesSimilaireCtrl.annoncesSimilaire),
           ],
         ),
       ),

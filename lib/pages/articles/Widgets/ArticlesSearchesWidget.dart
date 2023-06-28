@@ -13,7 +13,7 @@ class ArticlesSearchesWidget extends StatelessWidget {
       var articleCtrl = context.read<ArticleController>();
       var searchResult = await articleCtrl.recuperArticlesSearched(query);
 
-      Navigator.pushNamed(context, Routes.SearchPageRoutes   , arguments: searchResult);
+      Navigator.pushNamed(context, Routes.ArticleSearchPageRoutes, arguments: searchResult);
     }
     return Container(
       height: 40,
@@ -43,6 +43,7 @@ class ArticlesSearchesWidget extends StatelessWidget {
                       border: InputBorder.none,
                       hintText: "Recherche",
                     ),
+                    /*onChanged: ,*/
                   ),
                 ),
                 Spacer(),

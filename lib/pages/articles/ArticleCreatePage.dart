@@ -311,7 +311,7 @@ class _ArticleCreatePageState extends State<ArticleCreatePage> {
                       children: [
                         GestureDetector(
                           onTap: () async {
-                           await selectImageFromGallery();
+                            await selectImageFromGallery();
                             if (_selectedImages.isNotEmpty) {
                               Navigator.pop(context);
                               setState(() {});
@@ -373,7 +373,7 @@ class _ArticleCreatePageState extends State<ArticleCreatePage> {
             ),
           );
         }
-        );
+    );
   }
 
   selectImageFromGallery() async {
@@ -455,7 +455,7 @@ class _ArticleCreatePageState extends State<ArticleCreatePage> {
               .toList(),
           value: _selectedValue,
           onChanged: (value) {
-           onChange(value);
+            onChange(value);
           },
           buttonStyleData: ButtonStyleData(
             height: 50,

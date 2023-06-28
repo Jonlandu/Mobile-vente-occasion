@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:squelette_mobile_parcours/pages/ListeConversationPage.dart';
 import 'package:squelette_mobile_parcours/pages/articles/ArticlesPubliePage.dart';
+import 'package:squelette_mobile_parcours/pages/home/ArticleSearchPages.dart';
 import '../pages/DiscussionPage.dart';
 import 'package:squelette_mobile_parcours/models/ArticleModel.dart';
 import 'package:squelette_mobile_parcours/pages/connexion/RegisterPage.dart';
@@ -13,7 +14,6 @@ import 'package:squelette_mobile_parcours/pages/home/HomePage.dart';
 import 'package:squelette_mobile_parcours/pages/connexion/LoginPage.dart';
 import 'package:squelette_mobile_parcours/pages/welcome/BienvenuPage.dart';
 import '../pages/articles/ArticleUpdatePage.dart';
-import '../pages/home/ArticleSearchPages.dart';
 import 'Routes.dart';
 
 class RoutesManager {
@@ -22,7 +22,7 @@ class RoutesManager {
       case Routes.ArticlesPageRoutes:
         return MaterialPageRoute(builder: (_) => ArticlesPage());
       case Routes.ListeArticleRoutes:
-       return MaterialPageRoute(builder: (_)=> ListeConversationPage());
+        return MaterialPageRoute(builder: (_)=> ListeConversationPage());
       case Routes.DiscussionPageRoutes:
         return MaterialPageRoute(builder: (_)=> DiscussionPage());
       case Routes.ArticlesDetailsPageRoutes:
@@ -42,7 +42,7 @@ class RoutesManager {
         return MaterialPageRoute(builder: (_) => PreferencePage());
       case Routes.RegisterPageRoutes:
         return MaterialPageRoute(builder: (_)=> RegisterPage());
-      case Routes.SearchPageRoutes:
+      case Routes.ArticleSearchPageRoutes:
         var args = r.arguments as List<dynamic>?;
         var articlesSearched = <ArticleModel>[];
         if (args != null) {
@@ -52,7 +52,9 @@ class RoutesManager {
             }
           }
         }
-        return MaterialPageRoute(builder: (_) => ArticleSearchPage(resultatSearched: articlesSearched));
+        return MaterialPageRoute(builder: (_) => ArticleSearchPages(resultatSearched: articlesSearched));
+    /*case Routes.ArticleSearchPageRoutes:
+        return MaterialPageRoute(builder: (_) => ArticleSearchPages());*/
       case Routes.ArticleUpdateRoutes:
         var args = r.arguments as Map?;
         var articleToUpdateChoosed = {};
