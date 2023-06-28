@@ -1,9 +1,12 @@
 
+
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:squelette_mobile_parcours/controllers/UserCtrl.dart';
+import 'package:squelette_mobile_parcours/utils/StockageKeys.dart';
 
+import '../../controllers/TagCtrl.dart';
 import '../../utils/Routes.dart';
 
 class PreferencePage extends StatefulWidget {
@@ -14,27 +17,9 @@ class PreferencePage extends StatefulWidget {
 }
 
 class _PreferencePageState extends State<PreferencePage> {
-  List<String> tags = [];
+  List<String> preferences = [];
   GetStorage? stockage;
   bool isSelected = false;
-  List<String> preferences = [
-    'Habits',
-    'Laptop',
-    'Veste',
-    'T-shirt',
-    'Polo',
-    'Pantalon',
-    'Jordan',
-    'Electronique',
-    'Sandale',
-    'Robe',
-    'Ordinateur',
-    'Téléphone',
-    'Voiture',
-    'TV',
-    'Smartphone',
-  ];
-  Color? color;
 
 
   @override
@@ -56,6 +41,7 @@ class _PreferencePageState extends State<PreferencePage> {
 
   @override
   Widget build(BuildContext context) {
+    var tagCtrl = context.watch<TagCtrl>();
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -97,12 +83,14 @@ class _PreferencePageState extends State<PreferencePage> {
               child: Wrap(
                 spacing: 10,
                 children: [
-                  for (var value in preferences)
+                  for (var value in tagCtrl.listeTags)
                     ChoiceChip(
+                      shadowColor: Colors.black,
+                      elevation: 2,
                       padding: EdgeInsets.all(12),
-                      label: Text(value),
-                      selected: tags.contains(value),
-                      labelStyle: tags.contains(value)
+                      label: Text(value.nom as String),
+                      selected: preferences.contains(value.nom),
+                      labelStyle: preferences.contains(value.nom)
                           ? TextStyle(color: Colors.white, fontSize: 14, )
                           : TextStyle(color: Colors.black,fontSize: 14,),
                       selectedColor: Color.fromRGBO(255, 121, 0, 1),
@@ -110,12 +98,11 @@ class _PreferencePageState extends State<PreferencePage> {
                       onSelected: (bool selected) {
                         setState(() {
                           if (selected) {
-                            tags.add(value);
+                            preferences.add(value.nom as String);
                           } else {
-                            tags.remove(value);
+                            preferences.remove(value.nom);
                           }
                         });
-                        print("===================== Valeurs ${tags}");
                       },
                     ),
                 ],
@@ -126,9 +113,7 @@ class _PreferencePageState extends State<PreferencePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
-                  onPressed: () {
-                    //stockage?.write(StockageKeys.preferenceKey, tags);
-                  },
+                  onPressed: () {},
                   child: Container(
                     width: 70,
                     child: Center(
@@ -148,6 +133,7 @@ class _PreferencePageState extends State<PreferencePage> {
                     var userCtrl = context.read<UserCtrl>();
                     userCtrl.isFirstTimeBienvenue = true;
                     _naviguerVersPreferencePage();
+                    stockage?.write(StockageKeys.tags, preferences);
                   },
                   child: Container(
                     width: 70,

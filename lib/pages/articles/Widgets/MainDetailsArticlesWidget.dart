@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
+import 'package:squelette_mobile_parcours/controllers/ConversationController.dart';
+import 'package:squelette_mobile_parcours/controllers/UserCtrl.dart';
 import '../../../models/ArticleModel.dart';
 import '../../../utils/Routes.dart';
 
@@ -10,6 +13,8 @@ class MainDetailsArticlesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var conversationCtrl = context.read<ConversationController>();
+    var userCtrl = context.read<UserCtrl>();
     return GridView.builder(
         physics: ClampingScrollPhysics(),
         shrinkWrap: true,
@@ -27,10 +32,8 @@ class MainDetailsArticlesWidget extends StatelessWidget {
             negociationVal = "Non négociable";
           }
 
-          return Container(
-            alignment: Alignment.center,
-            margin: EdgeInsets.symmetric(vertical: 0, horizontal: 4),
-            padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+          return Padding(
+            padding: const EdgeInsets.all(10),
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Column(
@@ -53,7 +56,7 @@ class MainDetailsArticlesWidget extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              "${detailsArticles.categorie}",
+                              "${detailsArticles.categorie_name}",
                               style: TextStyle(
                                 fontSize: 12,
                                 color: Colors.black,
@@ -65,21 +68,31 @@ class MainDetailsArticlesWidget extends StatelessWidget {
                         SizedBox(
                           width: 90,
                         ),
-                        Column(
-                          children: [
-                            Icon(
-                              Icons.favorite,
-                              color: Colors.orange,
-                              size: 24,
-                            ),
-                            Text(
-                              "${detailsArticles.interrese} intéressé(s)",
-                              style: TextStyle(
-                                fontSize: 11,
-                                color: Colors.black,
+                        InkWell(
+                          child: Column(
+                            children: [
+                              detailsArticles.interesse == 0 ?
+                              Icon(
+                                Icons.favorite_border,
+                                color: Colors.orange,
+                                size: 24,
+                              ):Icon(
+                                Icons.favorite,
+                                color: Colors.orange,
+                                size: 24,
                               ),
-                            ),
-                          ],
+                              Text(
+                                "${detailsArticles.interesse} intéressé(s)",
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                          onTap: (){
+
+                          },
                         ),
                         Column(
                           children: [
@@ -215,50 +228,77 @@ class MainDetailsArticlesWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                          "par : ${detailsArticles.user_id}, le 25 mai 2023",
+                          "Par : ${detailsArticles.user_name},\n le ${detailsArticles.createdAt}",
                           overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
+                          maxLines: 2,
                           style: TextStyle(
                             fontSize: 13,
                             color: Colors.black,
                           ),
                         ),
                       SizedBox(width: 50,),
-                      SizedBox(
-                        height: 20,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.black,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5)),
-                          ),
-                          onPressed: () {
-                            Center(child: CircularProgressIndicator());
-                          },
-                          child: InkWell(
-                            child: Text(
-                              'Contactez-moi',
-                              style: TextStyle(
-                                fontSize: 11,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                      Column(
+                        children: [
+                          Row(
+                            children: [
+                              SizedBox(
+                                height: 20,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.black,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5)),
+                                  ),
+                                  onPressed: () {
+                                    Center(child: CircularProgressIndicator());
+                                  },
+                                  child:userCtrl.user?.id != detailsArticles.user_id?
+                                  InkWell(
+                                    child: Text(
+                                      'Contactez-moi',
+                                      style: TextStyle(
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    onTap: (){
+                                      Map data = {"article_id":detailsArticles.id,"user_id":userCtrl.user?.id};
+                                      conversationCtrl.creerConversationApi(data);
+                                      Navigator.pushNamed(context, Routes.DiscussionPageRoutes);
+                                    },
+                                  ):InkWell(
+                                    child: Text(
+                                      'Qui m\'ont écrit ?',
+                                      style: TextStyle(
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    onTap: (){
+                                      showSnackBar(context, "Bientôt disponible !");
+                                    },
+                                  )
+                                ),
                               ),
-                            ),
-                            onTap: (){
-                              Navigator.pushNamed(context, Routes.DiscussionPageRoutes);
-                            },
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
+                              SizedBox(
+                                width: 5,
+                              ),
+                              InkWell(
 
-                        },
-                        child: Icon(
-                          Icons.share,
-                          size: 20,
-                          color: Colors.black,
-                        ),
+                                onTap: () {
+                                  showSnackBar(context, "Bientôt disponible !");
+                                },
+                                child: Icon(
+                                  Icons.share,
+                                  size: 20,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -342,5 +382,15 @@ class MainDetailsArticlesWidget extends StatelessWidget {
           );
         }
         );
+  }
+  showSnackBar(context, String message) {
+    final scaffold = ScaffoldMessenger.of(context);
+    scaffold.showSnackBar(SnackBar(
+      content: Text(message),
+      action:
+      SnackBarAction(label: 'OK',
+          textColor: Colors.orange,
+          onPressed: scaffold.hideCurrentSnackBar),
+    ));
   }
 }

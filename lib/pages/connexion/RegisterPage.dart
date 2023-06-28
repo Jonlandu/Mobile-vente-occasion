@@ -167,48 +167,6 @@ class _RegisterPageState extends State<RegisterPage> {
                         },
                       ),
                     ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Divider(
-                              thickness: 0.5,
-                              color: Colors.grey[400],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                            child: Text(
-                              'Ou connectez-vous avec',
-                              style: TextStyle(color: Colors.grey[700]),
-                            ),
-                          ),
-                          Expanded(
-                            child: Divider(
-                              thickness: 0.5,
-                              color: Colors.grey[400],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 8,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children:  [
-                        // google button
-                        square(imagePath: 'assets/google.png'),
-
-                        SizedBox(width: 25),
-
-                        // apple button
-                        square(imagePath: 'assets/facebook.png')
-                      ],
-                    ),
                     SizedBox(height: 20,)
                   ],
                 ),

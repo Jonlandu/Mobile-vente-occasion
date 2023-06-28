@@ -10,4 +10,5 @@ class StockageKeys{
   static const String EnvoyerMessageKey="ENVOIE MESSAGE";
   static const String RecevoirListeMessagekey="LISTE MESSAGE";
   static const String tokenKey="TOKEN";
+  static const String tags="TAG";
 }
